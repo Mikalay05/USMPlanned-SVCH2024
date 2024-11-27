@@ -19,3 +19,12 @@ Function:
 13.	Управление приоритетами
 14.	Показ task`s на исполнение и в прогрессе
 15.	Фильтрация проектов
+
+Install:
+
+npm init -y
+npm install express pg pg-hstore sequelize cors dotenv
+npm install -D nodemon
+npm i cookie-parser
+npm i jsonwebtoken bcrypt uuid
+npm i express-fileupload
