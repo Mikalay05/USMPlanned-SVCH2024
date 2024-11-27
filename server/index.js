@@ -3,6 +3,7 @@ const port = process.env.PORT || 5002;
 
 const sequelize = require('./db')
 const express = require('express');
+const models = require('./models/model')
 const app = express();
 
 const start = async () => {
