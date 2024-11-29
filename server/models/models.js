@@ -194,47 +194,59 @@ const Action = sequelize.define("Action", {
     }
   }
 });
+Person.hasOne(User, { foreignKey: "person_id" });
+User.belongsTo(Person, { foreignKey: "person_id" });
 
-Person.hasOne(User);
-Role.hasMany(User);
-User.belongsTo(Role);
-User.belongsTo(Person);
-User.hasOne(Token);
-User.hasMany(Action);
-Token.belongsTo(User);
-ProjectStatus.hasMany(Project, {});
-Project.belongsTo(ProjectStatus);
-Project.hasMany(EpicOrder);
-Project.hasMany(StoryOrder);
-Project.hasMany(Epic);
-Project.hasMany(Action);
-Epic.belongsTo(Project);
-Epic.hasOne(EpicOrder);
-Epic.hasMany(StoryOrder);
-Epic.hasMany(Story);
-Epic.hasMany(Action);
-EpicOrder.belongsTo(Epic);
-EpicOrder.belongsTo(Project);
-Story.belongsTo(Epic);
-Story.hasOne(StoryOrder);
-Story.hasMany(TaskOrder);
-Story.hasMany(Task);
-Story.hasMany(Action);
-StoryOrder.belongsTo(Story);
-StoryOrder.belongsTo(Epic);
-TaskStatus.hasMany(Task);
-Task.belongsTo(TaskStatus);
-Task.belongsTo(UrgencyStatus);
-Task.belongsTo(Story);
-Task.hasOne(TaskOrder);
-Task.hasMany(Action);
-TaskOrder.belongsTo(Task);
-TaskOrder.belongsTo(Story);
-Action.belongsTo(User);
-Action.belongsTo(Project);
-Action.belongsTo(Epic);
-Action.belongsTo(Story);
-Action.belongsTo(Task);
+Role.hasMany(User, { foreignKey: "role_id" });
+User.belongsTo(Role, { foreignKey: "role_id" });
+
+User.hasOne(Token, { foreignKey: "user_login" });
+Token.belongsTo(User, { foreignKey: "user_login" });
+
+User.hasMany(Action, { foreignKey: "user_login" });
+Action.belongsTo(User, { foreignKey: "user_login" });
+
+ProjectStatus.hasMany(Project, { foreignKey: "status_id" });
+Project.belongsTo(ProjectStatus, { foreignKey: "status_id" });
+
+Project.hasMany(EpicOrder, { foreignKey: "project_id" });
+EpicOrder.belongsTo(Project, { foreignKey: "project_id" });
+
+Project.hasMany(StoryOrder, { foreignKey: "project_id" });
+Project.hasMany(Epic, { foreignKey: "project_id" });
+Project.hasMany(Action, { foreignKey: "project_id" });
+
+Epic.belongsTo(Project, { foreignKey: "project_id" });
+Epic.hasOne(EpicOrder, { foreignKey: "epic_id" });
+Epic.hasMany(StoryOrder, { foreignKey: "epic_id" });
+Epic.hasMany(Story, { foreignKey: "epic_id" });
+Epic.hasMany(Action, { foreignKey: "epic_id" });
+
+Story.belongsTo(Epic, { foreignKey: "epic_id" });
+Story.hasOne(StoryOrder, { foreignKey: "story_id" });
+Story.hasMany(TaskOrder, { foreignKey: "story_id" });
+Story.hasMany(Task, { foreignKey: "story_id" });
+Story.hasMany(Action, { foreignKey: "story_id" });
+
+StoryOrder.belongsTo(Story, { foreignKey: "story_id" });
+StoryOrder.belongsTo(Epic, { foreignKey: "epic_id" });
+
+TaskStatus.hasMany(Task, { foreignKey: "status_id" });
+Task.belongsTo(TaskStatus, { foreignKey: "status_id" });
+
+Task.belongsTo(UrgencyStatus, { foreignKey: "urgency_status_id" });
+Task.belongsTo(Story, { foreignKey: "story_id" });
+Task.hasOne(TaskOrder, { foreignKey: "task_id" });
+Task.hasMany(Action, { foreignKey: "task_id" });
+
+TaskOrder.belongsTo(Task, { foreignKey: "task_id" });
+TaskOrder.belongsTo(Story, { foreignKey: "story_id" });
+
+Action.belongsTo(Project, { foreignKey: "project_id" });
+Action.belongsTo(Epic, { foreignKey: "epic_id" });
+Action.belongsTo(Story, { foreignKey: "story_id" });
+Action.belongsTo(Task, { foreignKey: "task_id" });
+
 
 module.exports = {
   User,
