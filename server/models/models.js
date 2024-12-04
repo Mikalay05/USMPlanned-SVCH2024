@@ -1,6 +1,19 @@
 const sequelize = require("../db");
 const { DataTypes } = require("sequelize");
 
+// Общие атрибуты
+const perentPerson = "person_id";
+const perentUser = "user_login";
+const perentRole = "role_id";
+const perentProjectStatus = "status_id";
+const perentTaskStatus = "status_id";
+const perentProject = "project_id";
+const perentCustomer = "customer_id";
+const perentEpic = "epic_id";
+const perentStory = "story_id";
+const perentTask = "task_id";
+const perentUrgencyStatus = "urgency_status_id";
+
 const Person = sequelize.define("Person", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   surname: { type: DataTypes.STRING, allowNull: false },
@@ -18,12 +31,12 @@ const Role = sequelize.define("Role", {
 const User = sequelize.define("User", {
   login: { type: DataTypes.STRING, primaryKey: true },
   passwordHash: { type: DataTypes.STRING, allowNull: false },
-  role_id: {
+  [perentRole]: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: { model: Role, key: "id" },
   },
-  person_id: {
+  [perentPerson]: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: { model: Person, key: "id" },
@@ -32,7 +45,7 @@ const User = sequelize.define("User", {
 
 const Token = sequelize.define("Token", {
   value: { type: DataTypes.STRING },
-  user_login: {
+  [perentUser]: {
     type: DataTypes.STRING,
     primaryKey: true,
         references: { model: User, key: "login" },
@@ -48,26 +61,52 @@ const Project = sequelize.define("Project", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, allowNull: false },
   description: { type: DataTypes.STRING },
-  status_id: { type: DataTypes.INTEGER, allowNull: false, references: {model: ProjectStatus, key: "id" } },
+  [perentProjectStatus]: { type: DataTypes.INTEGER, allowNull: false, references: {model: ProjectStatus, key: "id" } },
 });
 
-const Epic = sequelize.define("Epic", {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+const Customer = sequelize.define("Customer", {
+  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
   name: { type: DataTypes.STRING, allowNull: false },
-  project_id: {
+  [perentProject]: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: { model: Project, key: "id" },
   },
-});
+})
 
-const EpicOrder = sequelize.define("EpicOrder", {
-  project_id: {
+const CustomerOrder = sequelize.define("CustomerOrder", {
+  [perentProject]: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     references: { model: Project, key: "id" },
   },
-  epic_id: {
+  [perentCustomer]: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    references: { model: Customer, key: "id" },
+  },
+  display_order: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+  },
+});
+const Epic = sequelize.define("Epic", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, allowNull: false },
+  [perentCustomer]: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: { model: Customer, key: "id" },
+  },
+});
+
+const EpicOrder = sequelize.define("EpicOrder", {
+  [perentCustomer]: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    references: { model: Customer, key: "id" },
+  },
+  [perentEpic]: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     references: { model: Epic, key: "id" },
@@ -82,7 +121,7 @@ const Story = sequelize.define("Story", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, allowNull: false },
   description: { type: DataTypes.STRING },
-  epic_id: {
+  [perentEpic]: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: { model: Epic, key: "id" },
@@ -90,12 +129,12 @@ const Story = sequelize.define("Story", {
 });
 
 const StoryOrder = sequelize.define("StoryOrder", {
-  epic_id: {
+  [perentEpic]: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     references: { model: Epic, key: "id" },
   },
-  story_id: {
+  [perentStory]: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     references: { model: Story, key: "id" },
@@ -121,12 +160,12 @@ const Task = sequelize.define("Task", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, allowNull: false },
   description: { type: DataTypes.STRING },
-  status_id: {
+  [perentTaskStatus]: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: { model: TaskStatus, key: "id" },
   },
-  urgency_status_id: {
+  [perentUrgencyStatus]: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
@@ -137,12 +176,12 @@ const Task = sequelize.define("Task", {
 });
 
 const TaskOrder = sequelize.define("TaskOrder", {
-  story_id: {
+  [perentStory]: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     references: { model: Story, key: "id" },
   },
-  task_id: {
+  [perentTask]: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     references: { model: Task, key: "id" },
@@ -156,7 +195,7 @@ const TaskOrder = sequelize.define("TaskOrder", {
 const Action = sequelize.define("Action", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   description: { type: DataTypes.STRING, allowNull: false },
-  user_login: {
+  [perentUser]: {
     type: DataTypes.STRING,
     allowNull: false,
     references: {
@@ -164,7 +203,7 @@ const Action = sequelize.define("Action", {
         key: 'login'
     }
   },
-  project_id: {
+  [perentProject]: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
@@ -172,21 +211,28 @@ const Action = sequelize.define("Action", {
         key: 'id'
     }
   },
-  epic_id: {
+  [perentCustomer]: {
+    type: DataTypes.INTEGER,
+    references: {
+        model: Customer,
+        key: 'id'
+    }
+  },
+  [perentEpic]: {
     type: DataTypes.INTEGER,
     references: {
         model: Epic,
         key: 'id'
     }
   },
-  story_id: {
+  [perentStory]: {
     type: DataTypes.INTEGER,
     references: {
         model: Story,
         key: 'id'
     }
   },
-  task_id: {
+  [perentTask]: {
     type: DataTypes.INTEGER,
     references: {
         model: Task,
@@ -194,59 +240,99 @@ const Action = sequelize.define("Action", {
     }
   }
 });
-Person.hasOne(User, { foreignKey: "person_id" });
-User.belongsTo(Person, { foreignKey: "person_id" });
 
-Role.hasMany(User, { foreignKey: "role_id" });
-User.belongsTo(Role, { foreignKey: "role_id" });
+/*
+*========== FK ==========
+*/
 
-User.hasOne(Token, { foreignKey: "user_login" });
-Token.belongsTo(User, { foreignKey: "user_login" });
+//========== Person ==========
+Person.hasOne(User, { foreignKey: perentPerson });
 
-User.hasMany(Action, { foreignKey: "user_login" });
-Action.belongsTo(User, { foreignKey: "user_login" });
+//========== Role ==========
+Role.hasMany(User, { foreignKey: perentRole });
 
-ProjectStatus.hasMany(Project, { foreignKey: "status_id" });
-Project.belongsTo(ProjectStatus, { foreignKey: "status_id" });
+//========== User ==========
+User.belongsTo(Person, { foreignKey: perentPerson });
+User.belongsTo(Role, { foreignKey: perentRole });
+User.hasOne(Token, { foreignKey: perentUser });
+User.hasMany(Action, { foreignKey: perentUser });
 
-Project.hasMany(EpicOrder, { foreignKey: "project_id" });
-EpicOrder.belongsTo(Project, { foreignKey: "project_id" });
+//========== Token ==========
+Token.belongsTo(User, { foreignKey: perentUser });
 
-Project.hasMany(StoryOrder, { foreignKey: "project_id" });
-Project.hasMany(Epic, { foreignKey: "project_id" });
-Project.hasMany(Action, { foreignKey: "project_id" });
+//========== Action ==========
+Action.belongsTo(User, { foreignKey: perentUser });
+Action.belongsTo(Project, { foreignKey: perentProject });
+Action.belongsTo(Customer, { foreignKey: perentCustomer });
+Action.belongsTo(Epic, { foreignKey: perentEpic });
+Action.belongsTo(Story, { foreignKey: perentStory });
+Action.belongsTo(Task, { foreignKey: perentTask });
 
-Epic.belongsTo(Project, { foreignKey: "project_id" });
-Epic.hasOne(EpicOrder, { foreignKey: "epic_id" });
-Epic.hasMany(StoryOrder, { foreignKey: "epic_id" });
-Epic.hasMany(Story, { foreignKey: "epic_id" });
-Epic.hasMany(Action, { foreignKey: "epic_id" });
 
-Story.belongsTo(Epic, { foreignKey: "epic_id" });
-Story.hasOne(StoryOrder, { foreignKey: "story_id" });
-Story.hasMany(TaskOrder, { foreignKey: "story_id" });
-Story.hasMany(Task, { foreignKey: "story_id" });
-Story.hasMany(Action, { foreignKey: "story_id" });
+//========== ProjectStatus ==========
+ProjectStatus.hasMany(Project, { foreignKey: perentProjectStatus });
 
-StoryOrder.belongsTo(Story, { foreignKey: "story_id" });
-StoryOrder.belongsTo(Epic, { foreignKey: "epic_id" });
+//========== Project ==========
+Project.belongsTo(ProjectStatus, { foreignKey: perentProjectStatus });
 
-TaskStatus.hasMany(Task, { foreignKey: "status_id" });
-Task.belongsTo(TaskStatus, { foreignKey: "status_id" });
+Project.hasMany(Customer, { foreignKey: perentProject });
+Project.hasMany(CustomerOrder, { foreignKey: perentProject });
+Project.hasMany(Action, { foreignKey: perentProject });
+//========== Customer ==========
+Customer.belongsTo(Project, { foreignKey: perentProject });
 
-Task.belongsTo(UrgencyStatus, { foreignKey: "urgency_status_id" });
-Task.belongsTo(Story, { foreignKey: "story_id" });
-Task.hasOne(TaskOrder, { foreignKey: "task_id" });
-Task.hasMany(Action, { foreignKey: "task_id" });
+Customer.hasOne(CustomerOrder, { foreignKey: perentCustomer });
+Customer.hasMany(EpicOrder, { foreignKey: perentCustomer });
+Customer.hasMany(Epic, { foreignKey: perentCustomer });
+Customer.hasMany(Action, { foreignKey: perentCustomer });
 
-TaskOrder.belongsTo(Task, { foreignKey: "task_id" });
-TaskOrder.belongsTo(Story, { foreignKey: "story_id" });
 
-Action.belongsTo(Project, { foreignKey: "project_id" });
-Action.belongsTo(Epic, { foreignKey: "epic_id" });
-Action.belongsTo(Story, { foreignKey: "story_id" });
-Action.belongsTo(Task, { foreignKey: "task_id" });
+//========== CustomerOrder ==========
+CustomerOrder.belongsTo(Project, { foreignKey: perentProject });
+CustomerOrder.belongsTo(Customer, { foreignKey: perentCustomer });
 
+//========== Epic ==========
+Epic.belongsTo(Customer, { foreignKey: perentCustomer });
+
+Epic.hasOne(EpicOrder, { foreignKey: perentEpic });
+Epic.hasMany(StoryOrder, { foreignKey: perentEpic });
+Epic.hasMany(Story, { foreignKey: perentEpic });
+Epic.hasMany(Action, { foreignKey: perentEpic });
+
+//========== EpicOrder ==========
+EpicOrder.belongsTo(Customer, { foreignKey: perentCustomer });
+EpicOrder.belongsTo(Epic, { foreignKey: perentEpic });
+
+//========== Story ==========
+Story.belongsTo(Epic, { foreignKey: perentEpic });
+
+Story.hasOne(StoryOrder, { foreignKey: perentStory });
+Story.hasMany(TaskOrder, { foreignKey: perentStory });
+Story.hasMany(Task, { foreignKey: perentStory });
+Story.hasMany(Action, { foreignKey: perentStory });
+
+//========== StoryOrder ==========
+StoryOrder.belongsTo(Story, { foreignKey: perentStory });
+StoryOrder.belongsTo(Epic, { foreignKey: perentEpic });
+
+
+//========== UrgencyStatus ==========
+
+//========== TaskStatus ==========
+TaskStatus.hasMany(Task, { foreignKey: perentTaskStatus });
+
+
+//========== Task ==========
+Task.belongsTo(TaskStatus, { foreignKey: perentTaskStatus });
+Task.belongsTo(UrgencyStatus, { foreignKey: perentUrgencyStatus });
+Task.belongsTo(Story, { foreignKey: perentStory });
+
+Task.hasOne(TaskOrder, { foreignKey: perentTask });
+Task.hasMany(Action, { foreignKey: perentTask });
+
+//========== TaskOrder ==========
+TaskOrder.belongsTo(Task, { foreignKey: perentTask });
+TaskOrder.belongsTo(Story, { foreignKey: perentStory });
 
 module.exports = {
   User,
@@ -264,4 +350,5 @@ module.exports = {
   Project,
   Action,
   UrgencyStatus,
+  Customer
 };
