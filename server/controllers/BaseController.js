@@ -4,6 +4,12 @@ class BaseController {
     constructor() {
         this.initializer();
     }
+    logMessage(message) {
+        const debuging = process.env.TESTING === 'true';
+        if (debuging) {
+            console.log(`${message}`);
+        }
+    }
     initializer(){
         const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(this));
         methods.forEach(methodName => {

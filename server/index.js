@@ -1,10 +1,28 @@
+/*
+*========== Env ==========
+*/
 require('dotenv').config();
 const port = process.env.PORT || 5002;
 
+/*
+*========== DB ==========
+*/
+    
 const sequelize = require('./db')
-const express = require('express');
 const models = require('./models/models')
+
+/*
+*========== Express ==========
+*/
+const express = require('express');
 const app = express();
+
+/*
+*========== Middleware ==========
+*/
+
+const route = require('./routes/index')
+app.use('/', route)
 
 const start = async () => {
     try{
@@ -22,6 +40,4 @@ const start = async () => {
     }
 
 }
-
-
 start();
