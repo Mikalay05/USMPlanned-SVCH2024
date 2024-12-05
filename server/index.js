@@ -27,6 +27,13 @@ const apiName = process.env.API_NAME
 const route = require('./routes/index')
 app.use(`/${apiName}`, route)
 
+
+
+const errorHandlingMiddleware = require('./middleware/ErrorHandlingMiddleware')
+app.use(errorHandlingMiddleware)
+/*
+*========== Start project ==========
+*/
 const start = async () => {
     try{
         await sequelize.authenticate();
