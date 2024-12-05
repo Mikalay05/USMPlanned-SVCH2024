@@ -4,7 +4,6 @@ class RoleController {
 
     Settings_PKNameInRequest = 'role_id';
     Settings_ObjectBodyFormat = {
-        id: "id",
         name: "name"
     };
     nameModel = "Role"
