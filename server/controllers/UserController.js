@@ -4,12 +4,18 @@ class UserController {
     /*
     *========== Request ==========
     */
-    userIdNameInRequest = 'userId';
+    userLoginNameInRequest = 'userLogin';
+    userBody = {
+        login: "login",
+        passwordHash: "passwordHash",
+        personId: "personId", 
+        roleId: "roleId"
+    }
 
-    async getDataRequest(req, res) {
-        const { userId } = req.params;
+     getDataRequest = async (req, res)=> {
+        const { [this.userLoginNameInRequest]: userPK } = req.params; 
         try {
-            res.status(200).json({ message: `user ${userId}` });
+            res.status(200).json({ message: `user ${userPK}` });
         } catch (err) {
             throw new ApiError.badRequest(err.message || "An error occurred");
         }
@@ -21,6 +27,23 @@ class UserController {
         } catch (err) {
             throw new ApiError.badRequest(err.message || "An error occurred");
         }
+    }
+    deleteRequest = async(req,res) => {
+        const { [this.userLoginNameInRequest]: userPK } = req.params;
+        try {
+            res.status(200).json({ message: `delete user ${userPK}` });
+        } catch (err) {
+            throw new ApiError.badRequest(err.message || "An error occurred");
+        }
+    }
+    createRequest = async (req,res) => {
+        const { [this.userBody.login]: login
+            , [this.userBody.passwordHash]: passwordHash
+            , [this.userBody.roleId]: roleId
+            , [this.userBody.personId]: personId
+         } = req.body;
+
+        res.status(200).json({ message: `create user ${login} ${passwordHash} ${roleId} ${personId}` });
     }
 }
 

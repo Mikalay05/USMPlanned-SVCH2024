@@ -21,8 +21,11 @@ const app = express();
 *========== Middleware ==========
 */
 
+app.use(express.json())
+
+const apiName = process.env.API_NAME
 const route = require('./routes/index')
-app.use('/', route)
+app.use(`/${apiName}`, route)
 
 const start = async () => {
     try{
