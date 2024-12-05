@@ -1,8 +1,11 @@
 const roleRouter = require('express').Router();
 const roleController = require('../controllers/RoleController');
 
-roleRouter.get("/", (req,res) => {
-    res.status(200).json({message: 'rolehome'})
-})
+const pk =  roleController.Settings_PKNameInRequest;
+roleRouter.get("/", roleController.getAllRequest);
+roleRouter.get(`/:${pk}`, roleController.getDataRequest);
+roleRouter.post("/", roleController.createRequest);
+roleRouter.post(`/:${pk}`, roleController.updateRequest);
+roleRouter.delete(`/:${pk}`, roleController.deleteRequest);
 
 module.exports = roleRouter;

@@ -1,11 +1,13 @@
 const userRouter = require('express').Router();
 const userController = require('../controllers/UserController');
 
+
+const pk =  userController.Settings_PKNameInRequest;
 userRouter.get("/", userController.getAllRequest);
-userRouter.get(`/:${userController.userLoginNameInRequest}`, userController.getDataRequest);
+userRouter.get(`/:${pk}`, userController.getDataRequest);
 userRouter.post("/", userController.createRequest);
-// userRouter.post(`/:${userController.userLoginNameInRequest}`, userController.);
-userRouter.delete(`/:${userController.userLoginNameInRequest}`, userController.deleteRequest);
+userRouter.post(`/:${pk}`, userController.updateRequest);
+userRouter.delete(`/:${pk}`, userController.deleteRequest);
 
 
 
