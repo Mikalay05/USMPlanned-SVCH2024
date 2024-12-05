@@ -1,4 +1,5 @@
 const ApiError = require("../error/ApiError");
+const {Person} = require('../models/models')
 
 class RoleController {
   Settings_PKNameInRequest = "person_id";
@@ -22,6 +23,26 @@ class RoleController {
     const { [this.Settings_PKNameInRequest]: pk } = params;
     return pk;
   }
+  async createObjectInDataBases(object) {
+    try {
+        const resultObject = await Person.create(object);
+        return resultObject;
+    } catch (error) {
+      return null;
+    }
+} 
+async deleteObjectInDataBases(pk) {
+
+}
+async getObjectInDataBases(pk) {
+
+}
+async getAllObjectInDataBases(pk) {
+
+}
+async updateObjectObjectInDataBases(pk) {
+
+}
 
   /*
    *========== Request ==========
@@ -56,7 +77,8 @@ class RoleController {
   createRequest = async (req, res, next) => {
     try {
       const newObject = this.getDataFromBody(req.body);
-      res.status(201).json({ message: `Created ${this.nameModel}`, newObject });
+      const resultObject = await this.createObjectInDataBases(newObject);
+      res.status(201).json({ message: `Created ${this.nameModel}`, resultObject });
     } catch (err) {
         next(ApiError.badRequest("Контроллер RoleController = Исключение в createRequest"));
     }
