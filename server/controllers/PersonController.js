@@ -1,5 +1,5 @@
 const ApiError = require("../error/ApiError");
-const {Person} = require('../models/models')
+const { Person } = require("../models/models");
 
 class RoleController {
   Settings_PKNameInRequest = "person_id";
@@ -25,24 +25,38 @@ class RoleController {
   }
   async createObjectInDataBases(object) {
     try {
-        const resultObject = await Person.create(object);
-        return resultObject;
+      const resultObject = await Person.create(object);
+      return resultObject;
     } catch (error) {
-      return null;
+      throw ApiError.internal("Ошибка при создании объекта в базе данных");
     }
-} 
-async deleteObjectInDataBases(pk) {
-
-}
-async getObjectInDataBases(pk) {
-
-}
-async getAllObjectInDataBases(pk) {
-
-}
-async updateObjectObjectInDataBases(pk) {
-
-}
+  }
+  async deleteObjectInDataBases(pk) {
+    try {
+    } catch (error) {
+      throw ApiError.internal("Ошибка при получении объекта из базы данных");
+    }
+  }
+  async getObjectInDataBases(pk) {
+    try {
+    } catch (error) {
+      throw ApiError.internal("Ошибка при получении объекта из базы данных");
+    }
+  }
+  async getAllObjectInDataBases() {
+    try {
+      const data = await Person.findAll();
+      return data;
+    } catch (error) {
+      throw ApiError.internal("Ошибка при получении объектов из базы данных");
+    }
+  }
+  async updateObjectObjectInDataBases(pk) {
+    try {
+    } catch (error) {
+      throw ApiError.internal("Ошибка при получении объекта из базы данных");
+    }
+  }
 
   /*
    *========== Request ==========
@@ -53,15 +67,16 @@ async updateObjectObjectInDataBases(pk) {
     try {
       res.status(200).json({ message: `${this.nameModel} ${pk}` });
     } catch (err) {
-        next(ApiError.badRequest("Контроллер RoleController = Исключение в getDataRequest"));
+      next(err);
     }
   };
 
   getAllRequest = async (req, res, next) => {
     try {
-      res.status(200).json({ message: `All ${this.nameModel} fetched` });
+      const dataFromDb = await this.getAllObjectInDataBases();
+      res.status(200).json({ message: `All ${this.nameModel} fetched`, dataFromDb });
     } catch (err) {
-        next(ApiError.badRequest("Контроллер RoleController = Исключение в getAllRequest"));
+      next(err);
     }
   };
 
@@ -70,7 +85,7 @@ async updateObjectObjectInDataBases(pk) {
     try {
       res.status(200).json({ message: `Deleted ${this.nameModel} ${pk}` });
     } catch (err) {
-        next(ApiError.badRequest("Контроллер RoleController = Исключение в deleteRequest"));
+      next(err);
     }
   };
 
@@ -78,9 +93,11 @@ async updateObjectObjectInDataBases(pk) {
     try {
       const newObject = this.getDataFromBody(req.body);
       const resultObject = await this.createObjectInDataBases(newObject);
-      res.status(201).json({ message: `Created ${this.nameModel}`, resultObject });
+      res
+        .status(201)
+        .json({ message: `Created ${this.nameModel}`, resultObject });
     } catch (err) {
-        next(ApiError.badRequest("Контроллер RoleController = Исключение в createRequest"));
+      next(err);
     }
   };
 
@@ -92,7 +109,7 @@ async updateObjectObjectInDataBases(pk) {
         .status(200)
         .json({ message: `Updated ${this.nameModel} ${pk}`, newObject });
     } catch (err) {
-      next(ApiError.badRequest("Контроллер RoleController = Исключение в updateRequest"));
+      next(err);
     }
   };
 }
