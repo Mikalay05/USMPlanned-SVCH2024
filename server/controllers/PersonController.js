@@ -20,18 +20,16 @@ class RoleController {
   nameModel = "Person";
   Setting_PKNameInDb = "id";
 
-
-
   async getDataFromBody(body) {
     let result = {};
 
     for (const key of Object.keys(this.Settings_ObjectBodyFormat)) {
       result[key] = body[this.Settings_ObjectBodyFormat[key]];
     }
-    console.log("получили тело", result)
+    console.log("получили тело", result);
 
     await this.checkValidationBody(result);
-    console.log("прошел валидацию")
+    console.log("прошел валидацию");
     return result;
   }
 
@@ -130,21 +128,22 @@ class RoleController {
   async updateObjectInDataBases(pk, body) {
     try {
       const [updatedCount, [updatedObject]] = await Person.update(body, {
-        where: {[this.Setting_PKNameInDb]: pk},
-        returning: true
-      })
-      
-      if(updatedCount ===0) {
-        throw ApiError.notFound(`Объект ${this.nameModel} с ID ${pk} не найден для обновления`);
+        where: { [this.Setting_PKNameInDb]: pk },
+        returning: true,
+      });
+
+      if (updatedCount === 0) {
+        throw ApiError.notFound(
+          `Объект ${this.nameModel} с ID ${pk} не найден для обновления`
+        );
       }
       return updatedObject;
     } catch (error) {
-      
       console.error("Ошибка при обновлении объекта:", error);
       if (error instanceof ApiError) {
         throw error;
       }
-    throw ApiError.internal("Ошибка при обновлении объекта в базе данных");
+      throw ApiError.internal("Ошибка при обновлении объекта в базе данных");
     }
   }
 
@@ -200,14 +199,16 @@ class RoleController {
   updateRequest = async (req, res, next) => {
     try {
       const pk = this.getPKFromParams(req.params);
-      console.log('pk', pk)
+      console.log("pk", pk);
 
       const newObject = await this.getDataFromBody(req.body);
-      console.log('тело запроса', newObject)
+      console.log("тело запроса", newObject);
 
       const resultObject = await this.updateObjectInDataBases(pk, newObject);
-      console.log('новый обьект')
-      res.status(200).json({ message: `Updated ${this.nameModel} ${pk}`, resultObject }); // Исправлено
+      console.log("новый обьект");
+      res
+        .status(200)
+        .json({ message: `Updated ${this.nameModel} ${pk}`, resultObject }); // Исправлено
     } catch (err) {
       next(err);
     }
