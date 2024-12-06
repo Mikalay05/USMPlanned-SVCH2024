@@ -1,7 +1,7 @@
 const ApiError = require("../error/ApiError");
 const { Person } = require("../models/models");
 
-class RoleController {
+class PersonController {
   Settings_PKNameInRequest = "person_id";
   Settings_ObjectBodyFormat = [
     { key: "surname", required: true},
@@ -10,7 +10,6 @@ class RoleController {
     { key: "email", required: true, unique: true, regex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
     { key: "phone", unique: false, regex: /^\+?[0-9\s()-]{7,15}$/ },
   ];
-  
   nameModel = "Person";
   Setting_PKNameInDb = "id";
 
@@ -180,4 +179,4 @@ class RoleController {
   };
 }
 
-module.exports = new RoleController();
+module.exports = new PersonController();
