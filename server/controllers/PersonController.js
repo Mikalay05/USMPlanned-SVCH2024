@@ -1,5 +1,5 @@
 const ApiError = require("../error/ApiError");
-const { Person } = require("../models/models");
+const { Person,  } = require("../models/models");
 
 class RoleController {
   Settings_PKNameInRequest = "person_id";
@@ -11,8 +11,10 @@ class RoleController {
     phone: "phone",
   };
   nameModel = "Person";
+  Setting_PKNameInDb = 'id'
   getDataFromBody(body) {
     let result = {};
+    
     for (const key of Object.keys(this.Settings_ObjectBodyFormat)) {
       result[key] = body[this.Settings_ObjectBodyFormat[key]];
     }
@@ -39,6 +41,7 @@ class RoleController {
   }
   async getObjectInDataBases(pk) {
     try {
+      const data = await Person.findOne({where: {[Setting_PKNameInDb]: pk}})
     } catch (error) {
       throw ApiError.internal("Ошибка при получении объекта из базы данных");
     }
@@ -65,7 +68,8 @@ class RoleController {
   getDataRequest = async (req, res, next) => {
     const pk = this.getPKFromParams(req.params);
     try {
-      res.status(200).json({ message: `${this.nameModel} ${pk}` });
+      const data = await this.getObjectInDataBases(pk);
+      res.status(200).json({ message: `${this.nameModel} ${pk}`, data });
     } catch (err) {
       next(err);
     }
