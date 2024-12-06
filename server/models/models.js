@@ -19,7 +19,7 @@ const Person = sequelize.define("Person", {
   surname: { type: DataTypes.STRING, allowNull: false },
   name: { type: DataTypes.STRING, allowNull: false },
   patronymic: { type: DataTypes.STRING },
-  email: { type: DataTypes.STRING, unique: true },
+  email: { type: DataTypes.STRING,allowNull: false, unique: true },
   phone: { type: DataTypes.STRING },
 });
 
