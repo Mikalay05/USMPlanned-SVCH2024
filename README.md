@@ -21,10 +21,11 @@ Function:
 15.	Фильтрация проектов
 
 Install:
-
+Backend:
 npm init -y
 npm install express pg pg-hstore sequelize cors dotenv
 npm install -D nodemon
 npm i cookie-parser
 npm i jsonwebtoken bcrypt uuid
 npm i express-fileupload
+Frontend:
