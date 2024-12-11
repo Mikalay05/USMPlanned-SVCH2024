@@ -1,6 +1,7 @@
 const ApiError = require("../error/ApiError");
 const { User, Role } = require("../models/models");
 const bcrypt = require("bcrypt");
+const UserDto = require('../DTOs/UserDto')
 
 class UserService {
   COUNT_PASSWORD_HASH = 5;
@@ -122,7 +123,10 @@ class UserService {
 
   async createUser(validDataUser) {
     const user = await User.create(validDataUser);
-    return user;
+    return new UserDto(user);
+  }
+  async loginUser(login, password) {
+
   }
 }
 

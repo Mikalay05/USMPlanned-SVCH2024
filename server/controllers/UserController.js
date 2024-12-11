@@ -14,6 +14,7 @@ class UserController extends BaseCRUDController {
   ) {
     super(model, modelName, pkNameInRequest, pkNameInDb, objectBodyFormat);
     this.NAME_CONRTOLLER_IN_ERROR = "CONTROLLER = UserController";
+    this.NAME_COOKIE_REFRESH_TOKEN = "refreshToken";
   }
   registrationRequire = async (req, res, next) => {
     try {
@@ -33,23 +34,22 @@ class UserController extends BaseCRUDController {
 
       const user = await UserService.createUser(validDataUser);
 
+      console.log(user)
       if (!user) {
         throw ApiError.badRequest("Не удалось создать пользователя");
       }
-      console.log(user)
       const payload = {
         login: user.login,
         roleId: user.role_id,
       };
-      console.log(payload)
       const tokens = TokenService.generateTokens(payload);
 
       const tokenInDb = await TokenController.saveToken(
         user.login,
         tokens.refreshToken
       );
-
-      res.status(200).json({ mess: "created user", user, tokens });
+      res.cookie(this.NAME_COOKIE_REFRESH_TOKEN, tokenInDb.value, {maxAge: 30*24*60*60*1000, httpOnly: true} )
+      return res.status(200).json({ mess: "created user", user, tokens });
     } catch (err) {
       console.log(
         `${this.NAME_CONRTOLLER_IN_ERROR}. Method ==> registrationRequire`,
@@ -58,6 +58,15 @@ class UserController extends BaseCRUDController {
       next(err);
     }
   };
+  loginRequire = async(req,res,next) => {
+    try {
+      const {login, password} = req.body;
+      const user = UserService.loginUser(login, password);
+    }
+    catch(err){
+      next(err);
+    }
+  }
 }
 
 const ApiError = require("../error/ApiError");
