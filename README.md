@@ -32,3 +32,4 @@ Frontend:
 npx create-react-app client
 npm install redux
 npm install @reduxjs/toolkit
+npm install -g sass

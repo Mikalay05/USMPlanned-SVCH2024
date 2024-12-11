@@ -1,0 +1,30 @@
+.input-style-section {
+    display: flex;
+    width: 252px;
+    height: 22px;
+    padding: 14px 24px;
+    align-items: center;
+    gap: 8px;
+
+    border-radius: 10px;
+    background: #F5F5F5;
+}
+.input-style-section > input {
+    width: 100%;
+    background-color:#F5F5F5;
+    outline: none;
+    border: none;
+    background-color: none;
+
+    color: black;
+
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+ 
+.input-style-section > input::placeholder {
+    color: #BBB;
+}
