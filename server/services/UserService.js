@@ -5,7 +5,8 @@ const bcrypt = require("bcrypt");
 class UserService {
   COUNT_PASSWORD_HASH = 5;
   NAME_SERVICE_IN_ERROR = "SERVICE = UserService";
-
+  ROLE_PK_NAME = "id";
+  PERSON_PK_NAME = "id";
   async validationLogin(login) {
     // Наличие значения логина
     if (!login) {
@@ -29,14 +30,14 @@ class UserService {
   }
 
   async validationRole(roleId) {
-    const candidate = await Role.findOne({ where: { roleId } });
+    const candidate = await Role.findOne({ where: { [this.ROLE_PK_NAME]: roleId } });
     if (!candidate) {
       throw ApiError.badRequest("Некорректная роль пользователя.");
     }
   }
 
   async validationPerson(personId) {
-    const candidate = await Person.findOne({ where: { personId } });
+    const candidate = await Person.findOne({ where: {[this.PERSON_PK_NAME]:  personId } });
     if (!candidate) {
       throw ApiError.badRequest("Некорректные информации о персоне.");
     }
@@ -51,8 +52,8 @@ class UserService {
       return {
         login: login,
         passwordHash: passwordHash,
-        roleId: roleId,
-        personId: personId
+        role_id: roleId,
+        person_id: personId
       };
     } catch (err) {
       console.log(`${this.NAME_SERVICE_IN_ERROR}. Method = validation`);
@@ -63,6 +64,12 @@ class UserService {
   async createUser(validDataUser) {
     const user = await User.create(validDataUser);
     return user;
+  }
+  generateRefreshToken() {
+
+  }
+  generateAccessToken() {
+    
   }
 }
 

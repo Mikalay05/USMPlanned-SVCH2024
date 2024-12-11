@@ -51,9 +51,9 @@ class PersonService {
   }
 
   validationPhone(phone) {
-    // masked
+    // masked or null
     const phoneRegex = /^\+?[1-9]\d{1,14}$/;
-    if (!phoneRegex.test(phone)) {
+    if ( phone&& !phoneRegex.test(phone)) {
       throw ApiError.badRequest("Phone number is invalid.");
     }
   }
