@@ -1,12 +1,18 @@
-const BaseCRUDController = require('./BaseCRUDController'); 
+const {Token }= require("../models/models")
 
-class TokenController extends BaseCRUDController {
-  constructor(model, modelName, pkNameInRequest = "id", pkNameInDb = "id", objectBodyFormat = null) {
-    super(model, modelName, pkNameInRequest, pkNameInDb, objectBodyFormat)
-  }
+class TokenController {
+  PERENT_USER = 'user_login'
+  async saveToken(userLogin, refreshToken) {
+    const candidate = await Token.findOne({[this.PERENT_USER]: userLogin})
+    console.log("USERLOGIN")
+    console.log({[this.PERENT_USER]: userLogin})
+    if(candidate) {
+        candidate.value = refreshToken;
+        return candidate.save();
+    }
+    const tokenInDb = await Token.create({[this.PERENT_USER]: userLogin, value: refreshToken})
+    return tokenInDb
+}
 }
 
-const { Token } = require('../models/models');
-module.exports = new TokenController(Token, 'Token', 'id', 'id', [
-      { key: "value", unique: true, require: true}
-]);
+module.exports = new TokenController();

@@ -2,7 +2,7 @@ const userRouter = require('express').Router();
 const userController = require('../controllers/UserController');
 
 
-const pk =  userController.Settings_PKNameInRequest;
+const pk =  'login';
 userRouter.get("/", userController.getAllRequest);
 userRouter.get(`/:${pk}`, userController.getDataRequest);
 userRouter.post("/", userController.registrationRequire);

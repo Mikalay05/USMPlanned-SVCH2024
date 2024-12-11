@@ -29,3 +29,6 @@ npm i cookie-parser
 npm i jsonwebtoken bcrypt uuid
 npm i express-fileupload
 Frontend:
+npx create-react-app client
+npm install redux
+npm install @reduxjs/toolkit

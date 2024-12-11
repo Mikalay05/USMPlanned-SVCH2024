@@ -2,7 +2,6 @@ const sequelize = require("../db");
 const { DataTypes } = require("sequelize");
 
 // Общие атрибуты
-const perentPerson = "person_id";
 const perentUser = "user_login";
 const perentRole = "role_id";
 const perentProjectStatus = "status_id";
@@ -13,15 +12,6 @@ const perentEpic = "epic_id";
 const perentStory = "story_id";
 const perentTask = "task_id";
 const perentUrgencyStatus = "urgency_status_id";
-
-const Person = sequelize.define("Person", {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  surname: { type: DataTypes.STRING, allowNull: false },
-  name: { type: DataTypes.STRING, allowNull: false },
-  patronymic: { type: DataTypes.STRING },
-  email: { type: DataTypes.STRING,allowNull: false, unique: true },
-  phone: { type: DataTypes.STRING },
-});
 
 const Role = sequelize.define("Role", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -36,11 +26,11 @@ const User = sequelize.define("User", {
     allowNull: false,
     references: { model: Role, key: "id" },
   },
-  [perentPerson]: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: { model: Person, key: "id" },
-  },
+  surname: { type: DataTypes.STRING, allowNull: false },
+  name: { type: DataTypes.STRING, allowNull: false },
+  patronymic: { type: DataTypes.STRING },
+  email: { type: DataTypes.STRING,allowNull: false, unique: true },
+  phone: { type: DataTypes.STRING },
 });
 
 const Token = sequelize.define("Token", {
@@ -245,14 +235,10 @@ const Action = sequelize.define("Action", {
 *========== FK ==========
 */
 
-//========== Person ==========
-Person.hasOne(User, { foreignKey: perentPerson });
-
 //========== Role ==========
 Role.hasMany(User, { foreignKey: perentRole });
 
 //========== User ==========
-User.belongsTo(Person, { foreignKey: perentPerson });
 User.belongsTo(Role, { foreignKey: perentRole });
 User.hasOne(Token, { foreignKey: perentUser });
 User.hasMany(Action, { foreignKey: perentUser });
@@ -337,7 +323,6 @@ TaskOrder.belongsTo(Story, { foreignKey: perentStory });
 module.exports = {
   User,
   Role,
-  Person,
   Token,
   ProjectStatus,
   EpicOrder,

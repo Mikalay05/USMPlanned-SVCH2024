@@ -10,7 +10,6 @@ function initializeRoute(route, routeName) {
     const newRouter = require(`./${route}`);
     router.use(`/${routeName}`, newRouter);
 }
-initializeRoute('person', 'person');
 initializeRoute('role', 'role');
 initializeRoute('user', 'user');
 
