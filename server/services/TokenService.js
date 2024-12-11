@@ -6,14 +6,18 @@ class TokenService {
     PERENT_USER = "user_login";
 
     generateRefreshToken(payload) {
+        console.log(payload)
         const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET_KEY, {expiresIn: this.EXPRES_IN_REFRESH})
         return refreshToken;
     }
     generateAccessToken(payload) {
+        console.log(payload)
       const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET_KEY, {expiresIn: this.EXPRES_IN_ASSECC})
       return accessToken;
     }
     generateTokens(payload) {
+        console.log("ГЕНЕРАЦИЯ ТОКЕНА")
+        console.log(payload)
         const accessToken = this.generateAccessToken(payload);
         const refreshToken = this.generateRefreshToken(payload);
         return {
