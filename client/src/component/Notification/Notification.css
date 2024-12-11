@@ -1,0 +1,35 @@
+.notification {
+    position: fixed;
+    bottom: 20px; 
+    right: 20px; 
+    z-index: 1000;
+
+    display: flex;
+    width: 280px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    align-content: center;
+
+
+    border-radius: 15px;
+    background: #B9FF95;    
+}
+
+.notification > h4 {
+    color: #000;
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: 700;
+    height: 58px;
+    flex: 1 0 0;
+}
+.notification > img {
+    width: 20px;
+    height: 20px;
+}   
+
+.close-button {
+    cursor: pointer; /* Курсор в виде указателя */
+}
