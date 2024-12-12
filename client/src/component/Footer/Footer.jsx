@@ -21,7 +21,7 @@ const arrIcon = [
   },
 ];
 
-export default function Footer({ nameMainIcon }) {
+export default function Footer({ nameMainIcon = "MainIcon.svg" }) {
   return (
     <footer>
       <img src={nameMainIcon} alt="Main Icon" />

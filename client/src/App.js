@@ -6,6 +6,7 @@ import Notification from "./component/Notification/Notification";
 import "./App.css"
 import Footer from "./component/Footer/Footer";
 import AuthComponent from "./page/Auth/Auth";
+import ProjectPage from "./page/ProjectPage/ProjectPage";
 
 export default function App() {
     const [notification, setNotification] = useState(true);
@@ -17,7 +18,8 @@ export default function App() {
     }
     return (
         <>
-            <AuthComponent/>
+            {/* <AuthComponent/> */}
+            <ProjectPage/>
         </>
         
     )

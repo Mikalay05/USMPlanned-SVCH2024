@@ -34,7 +34,6 @@ class UserController extends BaseCRUDController {
 
       const user = await UserService.createUser(validDataUser);
 
-      console.log(user)
       if (!user) {
         throw ApiError.badRequest("Не удалось создать пользователя");
       }
@@ -62,6 +61,8 @@ class UserController extends BaseCRUDController {
     try {
       const {login, password} = req.body;
       const user = UserService.loginUser(login, password);
+      res.cookie(this.NAME_COOKIE_REFRESH_TOKEN, tokenInDb.value, {maxAge: 30*24*60*60*1000, httpOnly: true} )
+      return res.status(200).json({ mess: "Sign In", user, tokens });
     }
     catch(err){
       next(err);
