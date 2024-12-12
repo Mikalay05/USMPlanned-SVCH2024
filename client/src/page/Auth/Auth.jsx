@@ -1,4 +1,4 @@
-import InputInFormWithError from "../InputInFormWithError/InputInFormWithError";
+import InputInFormWithError from "../../component/InputInFormWithError/InputInFormWithError";
 
 export default function AuthComponent() {
     return (

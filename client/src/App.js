@@ -5,7 +5,7 @@ import Header from "./component/Header/Header";
 import Notification from "./component/Notification/Notification";
 import "./App.css"
 import Footer from "./component/Footer/Footer";
-import AuthComponent from "./component/AuthComponent/AuthComponent";
+import AuthComponent from "./page/Auth/Auth";
 
 export default function App() {
     const [notification, setNotification] = useState(true);
