@@ -5,6 +5,7 @@ import Header from "./component/Header/Header";
 import Notification from "./component/Notification/Notification";
 import "./App.css"
 import Footer from "./component/Footer/Footer";
+import AuthComponent from "./component/AuthComponent/AuthComponent";
 
 export default function App() {
     const [notification, setNotification] = useState(true);
@@ -21,6 +22,8 @@ export default function App() {
             <Notification open={notification} text="USer created successful" iconName="close.png" timeClose={3000} onClose={closeNotification}/>
             <button onClick={openNotification}>Show notification</button>
             <Footer nameMainIcon="MainIcon.svg"/>
+
+            <AuthComponent/>
         </>
         
     )
