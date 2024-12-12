@@ -9,7 +9,7 @@ export default function InputInFormWithError({
     isPassword,
     passwordIcon = {
         passwordIconClose: "PasswordIcon-EyesClose.svg",
-        passwordIconOpen: "PasswordIcon-EyesOpen.svg" // Исправлено имя иконки для открытого глаза
+        passwordIconOpen: "PasswordIcon-EyesOpen.svg"
     }
 }) {
     const [showPassword, toggleShowPassword] = useState(false);
