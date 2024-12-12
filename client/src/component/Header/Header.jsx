@@ -13,7 +13,7 @@ const rolesAccess = {
   Tasks: [roles.developer],
 };
 
-export default function Header({ nameMainIcon = "MainIcon.svg", nameLoginIcon = "Login-Icon.svg" }) {
+export default function Header({ nameMainIcon = "MainIcon.svg", nameLoginIcon = "LoginIconFull.svg" }) {
   //TODO get user
 
   const user = {

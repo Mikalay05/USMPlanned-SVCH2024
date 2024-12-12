@@ -1,0 +1,17 @@
+.project-section {
+    display: flex;
+    padding: 25px 0px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;;
+}
+.project-section-content {
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    align-self: stretch;
+    background: #F2F2F2;
+}

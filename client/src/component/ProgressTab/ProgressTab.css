@@ -1,0 +1,41 @@
+.progress-tab-section {
+    display: flex;
+    padding: 0px 20px;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+    border-radius: 15px;
+    background: #F5F5F5;
+    transition: opacity 0.3s; /* Добавим плавный переход для изменения прозрачности */
+}
+
+.progress-tab-name {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    align-self: stretch;
+}
+
+.progress-tab-section > p {
+    color: #000;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    align-self: stretch;
+}
+
+.progress-tab-name > p {
+    color: #000;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.inactive {
+    opacity: 0.5; /* Задаем прозрачность для неактивного состояния */
+    pointer-events: none; /* Отключаем взаимодействие с элементом */
+}
