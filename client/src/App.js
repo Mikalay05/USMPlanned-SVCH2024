@@ -17,12 +17,6 @@ export default function App() {
     }
     return (
         <>
-        <Header nameMainIcon="MainIcon.svg" nameLoginIcon="LoginIconFull.svg"/>
-                <InputData placeholderValue="Login" iconName={"Login-Icon.svg"} />
-            <Notification open={notification} text="USer created successful" iconName="close.png" timeClose={3000} onClose={closeNotification}/>
-            <button onClick={openNotification}>Show notification</button>
-            <Footer nameMainIcon="MainIcon.svg"/>
-
             <AuthComponent/>
         </>
         
