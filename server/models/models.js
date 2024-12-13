@@ -150,6 +150,7 @@ const Task = sequelize.define("Task", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, allowNull: false },
   description: { type: DataTypes.STRING },
+  deadline: {type: DataTypes.DATE},
   [perentTaskStatus]: {
     type: DataTypes.INTEGER,
     allowNull: false,

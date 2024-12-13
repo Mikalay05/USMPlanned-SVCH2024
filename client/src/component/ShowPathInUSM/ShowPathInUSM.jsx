@@ -1,6 +1,7 @@
 import "./ShowPathInUSM.css";
 
 import CustomerCard from "../CustomerCard/CustomerCard";
+import TaskCard from "../TaskCard/TaskCard";
 
 export default function ShowPathInUSM({
     customerData,
@@ -19,7 +20,7 @@ export default function ShowPathInUSM({
             <CustomerCard textValue={`${customerData.name}`} isActiveElement={cardIsActiveElement} backgroundColor={RGBAColorForCustomerCards} />
             {epicData && <CustomerCard textValue={`${epicData.name}`} isActiveElement={cardIsActiveElement} backgroundColor={RGBAColorForEpicCards}/>}
             {storyData && <CustomerCard textValue={`${storyData.name}`} isActiveElement={cardIsActiveElement} backgroundColor={RGBAColorForStoryCards}/>}
-            {taskData && <CustomerCard textValue={`${taskData.name}`} isActiveElement={cardIsActiveElement} backgroundColor={RGBAColorForTaskCards}/>}
+            {taskData && <TaskCard taskData={taskData} cardIsActiveElement={true}/>}
         </section>
     );
 }
