@@ -32,9 +32,9 @@ export default function CustomersInformation() {
     ];
 
     const TasksExample = [
-        { id: 1, name: 'Task 1' },
-        { id: 2, name: 'Task 2' },
-        { id: 3, name: 'Task 3' }
+        { id: 1, name: 'Task 1', taskStatusId: 0, taskStatusName: "В ожидании"  },
+        { id: 2, name: 'Task 2', taskStatusId: 1, taskStatusName: "В процессе" },
+        { id: 3, name: 'Task 3',taskStatusId: 2, taskStatusName: "Готов" }
     ];
 
     return (
@@ -46,7 +46,7 @@ export default function CustomersInformation() {
                 customerData={Customer[1]} 
                 epicData={EpicsExample[0]} 
                 storyData={StoriesExample[1]} 
-                taskData={TasksExample[2]} 
+                taskData={TasksExample[1]} 
             />
             <Footer />
         </>

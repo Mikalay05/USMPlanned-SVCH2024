@@ -2,10 +2,10 @@ import "./ColoredCircle.css";
 
 export default function ColoredCircle({
     size = "15px",
-    colorCircle = { r: 0, g: 0, b: 0 }
+    RGBColorCircle = { r: 0, g: 0, b: 0 }
 }) {
     // Функция для преобразования RGB в строку
-    const rgbColor = `rgb(${colorCircle.r}, ${colorCircle.g}, ${colorCircle.b})`;
+    const rgbColor = `rgb(${RGBColorCircle.r}, ${RGBColorCircle.g}, ${RGBColorCircle.b})`;
 
     return (
         <div
