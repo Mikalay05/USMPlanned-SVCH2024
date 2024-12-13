@@ -1,0 +1,71 @@
+.user-select-container {
+    position: relative;
+    display: flex;
+    width: 260px;
+    padding: 0px 20px;
+    align-items: center;
+
+    border-radius: 15px;
+background: #F5F5F5;
+
+}
+.user-select-container > input {
+    color: #000;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    outline: none;
+    border: none;
+    background-color: #F5F5F5;
+    height: 50px;
+}
+
+.clear-button {
+    margin-left: 10px;
+    padding: 5px;
+    border: none;
+    background: #f44336; /* Красный цвет для кнопки очистки */
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.toggle-button {
+    margin-left: 5px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.options-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+    max-height: 150px; /* Ограничиваем высоту списка */
+    overflow-y: auto;   /* Добавляем прокрутку */
+    z-index: 1000;
+}
+
+.option-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.option-item:hover {
+    background-color: #f0f0f0; /* Подсветка при наведении */
+}
+.iconSelected {
+    width: 20px; /* Задайте нужный размер */
+    height: 20px;
+    transition: transform 0.3s ease; /* Плавный переход */
+}
+
+.iconSelected.rotated {
+    transform: rotate(180deg); /* Переворот на 180 градусов */
+}
