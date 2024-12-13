@@ -8,6 +8,7 @@ export default function CustomerCard({
     alphaInactive = 0.2, // Прозрачность для неактивного состояния
     isActiveElement = false,
     descriptionText = "",
+    children // Дочерние элементы
 }) {
     // Функция для преобразования RGB и alpha в rgba строку
     const rgba = ({ r, g, b }, alpha) => `rgba(${r}, ${g}, ${b}, ${alpha})`;
@@ -19,8 +20,14 @@ export default function CustomerCard({
                 background: isActiveElement ? rgba(backgroundColor, alphaActive) : rgba(backgroundColor, alphaInactive)
             }}
         >
-            <div className="title-of-customer-card" style={{ color: styleColor }}>{textValue}</div>
-            {descriptionText && <div className="description-text">{descriptionText}</div>}
+            {children ? (
+                children // Если есть дочерние элементы, рендерим их
+            ) : (
+                <>
+                    <div className="title-of-customer-card" style={{ color: styleColor }}>{textValue}</div>
+                    {descriptionText && <div className="description-text">{descriptionText}</div>}
+                </>
+            )}
         </div>
     );
 }
