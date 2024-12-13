@@ -1,0 +1,44 @@
+.customer-card-style {
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 35px;
+    transition: background 0.3s ease; /* Плавный переход для фона */
+}
+
+.active {
+    width: 380px;
+    height: 130px;
+}
+
+.inactive {
+    width: 280px;
+    height: 130px;
+}
+
+.description-text {
+    font-size: 14px; /* Установите размер шрифта для описания */
+    color: #333; /* Цвет текста для описания */
+}
+
+@media (max-width:500px) {
+    .active {
+        width: 280px;
+        height: 130px;
+    }
+}
+
+.title-of-customer-card {
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    align-self: stretch;
+}

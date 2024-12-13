@@ -3,6 +3,7 @@ import "./CustomersInformation.css"
 import Header from '../../component/Header/Header'
 import Footer from '../../component/Footer/Footer'
 import CustomerSelect from "../../component/CustomerSelect/CustomerSelect"
+import CustomerCard from "../../component/CustomerCard/CustomerCard"
 
 
 export default function CustomersInformation() {
@@ -28,6 +29,7 @@ export default function CustomersInformation() {
         <Header/>
                 <h1>{project.name}</h1>
                 <CustomerSelect options={Customer} filterKey="name" maxItems={5} placeholderValue="Choose User"/>
+                <CustomerCard textValue="test" isActiveElement={true}/>
         <Footer/>
         </>
     
