@@ -3,13 +3,22 @@ import "./CustomerCard.css";
 export default function CustomerCard({
     textValue,
     styleColor = "#000", // Цвет текста, по умолчанию темно-серый
-    backgroundColorActive = "rgba(75, 245, 231, 0.50)", // Цвет фона для активного состояния
-    backgroundColorInactive = "rgba(75, 245, 231, 0.20)", // Цвет фона для неактивного состояния
+    backgroundColor = { r: 75, g: 245, b: 231 }, // Цвет фона (одинаковый для обоих состояний)
+    alphaActive = 0.5, // Прозрачность для активного состояния
+    alphaInactive = 0.2, // Прозрачность для неактивного состояния
     isActiveElement = false,
     descriptionText = "",
 }) {
+    // Функция для преобразования RGB и alpha в rgba строку
+    const rgba = ({ r, g, b }, alpha) => `rgba(${r}, ${g}, ${b}, ${alpha})`;
+
     return (
-        <div className={`customer-card-style ${isActiveElement ? 'active' : 'inactive'}`} style={{ background: isActiveElement ? backgroundColorActive : backgroundColorInactive }}>
+        <div
+            className={`customer-card-style ${isActiveElement ? 'active' : 'inactive'}`}
+            style={{
+                background: isActiveElement ? rgba(backgroundColor, alphaActive) : rgba(backgroundColor, alphaInactive)
+            }}
+        >
             <div className="title-of-customer-card" style={{ color: styleColor }}>{textValue}</div>
             {descriptionText && <div className="description-text">{descriptionText}</div>}
         </div>

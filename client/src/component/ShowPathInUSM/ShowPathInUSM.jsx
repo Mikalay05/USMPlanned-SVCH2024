@@ -1,9 +1,25 @@
-import "./ShowPathInUSM.css"
+import "./ShowPathInUSM.css";
 
-export default function ShowPathInUSM() {
+import CustomerCard from "../CustomerCard/CustomerCard";
+
+export default function ShowPathInUSM({
+    customerData,
+    epicData = null,
+    storyData = null,
+    taskData = null,
+    cardIsActiveElement=true,
+    RGBAColorForCustomerCards = { r: 75, g: 245, b: 231 },
+    RGBAColorForEpicCards = { r: 245, g: 242, b: 75 },
+    RGBAColorForStoryCards = { r: 0, g: 255, b: 38 },
+    RGBAColorForTaskCards = { r: 153, g: 0, b: 255 },    
+
+}) {
     return (
         <section>
-            
+            <CustomerCard textValue={`${customerData.name}`} isActiveElement={cardIsActiveElement} backgroundColor={RGBAColorForCustomerCards} />
+            {epicData && <CustomerCard textValue={`${epicData.name}`} isActiveElement={cardIsActiveElement} backgroundColor={RGBAColorForEpicCards}/>}
+            {storyData && <CustomerCard textValue={`${storyData.name}`} isActiveElement={cardIsActiveElement} backgroundColor={RGBAColorForStoryCards}/>}
+            {taskData && <CustomerCard textValue={`${taskData.name}`} isActiveElement={cardIsActiveElement} backgroundColor={RGBAColorForTaskCards}/>}
         </section>
-    )
+    );
 }
