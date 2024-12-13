@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './CustomerSelect.css';
 
-const CustomerSelect = ({ options, filterKey, maxItems, iconPath = "SelectIcon.svg", iconClosePath = 'IconCloseSelect.svg' }) => {
+const CustomerSelect = ({ options, filterKey, maxItems, placeholderValue, iconPath = "SelectIcon.svg", iconClosePath = 'IconCloseSelect.svg' }) => {
     const [inputValue, setInputValue] = useState("");
     const [filteredOptions, setFilteredOptions] = useState(options);
     const [isOptionsVisible, setIsOptionsVisible] = useState(false); // Для управления видимостью списка
@@ -62,7 +62,7 @@ const CustomerSelect = ({ options, filterKey, maxItems, iconPath = "SelectIcon.s
                 type="text"
                 value={inputValue}
                 onChange={handleInputChange}
-                placeholder="Choose User"
+                placeholder={`${placeholderValue}`}
                 className="user-select-input"
             />
             {inputValue && (
