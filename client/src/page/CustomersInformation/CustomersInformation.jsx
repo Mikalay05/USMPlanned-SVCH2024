@@ -33,7 +33,7 @@ export default function CustomersInformation() {
 
     const TasksExample = [
         { id: 1, name: 'Task 1', taskStatusId: 0, taskStatusName: "В ожидании"  },
-        { id: 2, name: 'Task 2', taskStatusId: 1, taskStatusName: "В процессе" },
+        { id: 2, name: 'Task 2', taskStatusId: 1, deadline: "28.12.2024", taskStatusName: "В процессе" },
         { id: 3, name: 'Task 3',taskStatusId: 2, taskStatusName: "Готов" }
     ];
 
