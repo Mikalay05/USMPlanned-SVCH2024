@@ -5,7 +5,8 @@ const userController = require('../controllers/UserController');
 const pk =  'login';
 userRouter.get("/", userController.getAllRequest);
 userRouter.get(`/:${pk}`, userController.getDataRequest);
-userRouter.post("/", userController.registrationRequire);
+userRouter.post("/registration", userController.registrationRequire);
+userRouter.post("/login", userController.loginRequire);
 userRouter.put(`/:${pk}`, userController.updateRequest);
 userRouter.delete(`/:${pk}`, userController.deleteRequest);
 

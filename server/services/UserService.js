@@ -125,9 +125,27 @@ class UserService {
     const user = await User.create(validDataUser);
     return new UserDto(user);
   }
-  async loginUser(login, password) {
-    
+  async doesUserExist(login) {
+      const userInDB = User.findOne({login})
+      if(!userInDB) {
+        throw ApiError.badRequest("Login not found")
+      }
+      return userInDB
   }
+  async varifyPassword(password, correctPassowrdHash) {
+    const resultCompare = bcrypt.compare(password, correctPassowrdHash);
+    if(!resultCompare) {
+      throw ApiError.badRequest("incorrect password");
+    }
+  }
+  async loginUser(login, password) {
+      const userData =this.doesUserExist(login);
+      await this.varifyPassword(password, userData.passwordHash);
+      
+      const userDtoData = new UserDto(userData)
+      return userDtoData;
+    }
+  
 }
 
 module.exports = new UserService();
