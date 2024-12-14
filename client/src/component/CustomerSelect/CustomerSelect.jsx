@@ -1,57 +1,72 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './CustomerSelect.css';
 
-const CustomerSelect = ({ options, filterKey, maxItems, placeholderValue, iconPath = "SelectIcon.svg", iconClosePath = 'IconCloseSelect.svg' }) => {
-    const [inputValue, setInputValue] = useState("");
+const CustomerSelect = ({ 
+    options,
+    filterKey,
+    maxItems,
+    placeholderValue,
+    onSelect,
+    defaultValue,
+    iconPath = "SelectIcon.svg",
+    iconClosePath = 'IconCloseSelect.svg'
+}) => {
+    const [inputValue, setInputValue] = useState(defaultValue ? defaultValue[filterKey] : "");
     const [filteredOptions, setFilteredOptions] = useState(options);
-    const [isOptionsVisible, setIsOptionsVisible] = useState(false); // Для управления видимостью списка
-    const [isIconRotated, setIsIconRotated] = useState(false); // Для отслеживания состояния иконки
-    const dropdownRef = useRef(null); // Ссылка на выпадающий список
+    const [isOptionsVisible, setIsOptionsVisible] = useState(false);
+    const [isIconRotated, setIsIconRotated] = useState(false);
+    const dropdownRef = useRef(null);
+
+    // Устанавливаем значение по умолчанию при изменении defaultValue
+    useEffect(() => {
+        if (defaultValue) {
+            setInputValue(defaultValue[filterKey]);
+        } else {
+            setInputValue("");
+        }
+    }, [defaultValue]);
 
     const handleInputChange = (event) => {
         const value = event.target.value;
         setInputValue(value);
 
-        // Фильтруем опции на основе введенного текста
         const newFilteredOptions = options.filter(option => 
             option[filterKey]?.toLowerCase().includes(value.toLowerCase())
         );
         setFilteredOptions(newFilteredOptions);
-
-        // Показываем список, если есть хотя бы одна соответствующая опция
         setIsOptionsVisible(newFilteredOptions.length > 0);
     };
 
     const handleOptionClick = (option) => {
-        setInputValue(option[filterKey]); // Устанавливаем значение выбранного поля
-        setIsOptionsVisible(false); // Скрываем список после выбора
-        setIsIconRotated(false); // Сбрасываем состояние иконки
+        setInputValue(option[filterKey]);
+        setIsOptionsVisible(false);
+        setIsIconRotated(false);
+        onSelect(option);
     };
 
     const clearInput = () => {
         setInputValue("");
-        setFilteredOptions(options); // Сбрасываем фильтрацию к полному списку
-        setIsOptionsVisible(false); // Скрываем список
-        setIsIconRotated(false); // Сбрасываем состояние иконки
+        setFilteredOptions(options);
+        setIsOptionsVisible(false);
+        setIsIconRotated(false);
+        onSelect(null);
     };
 
     const toggleOptionsVisibility = () => {
-        setIsOptionsVisible(!isOptionsVisible); // Переключаем видимость списка
-        setIsIconRotated(!isIconRotated); // Переключаем состояние иконки
+        setIsOptionsVisible(!isOptionsVisible);
+        setIsIconRotated(!isIconRotated);
     };
 
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-            setIsOptionsVisible(false); // Скрываем список при клике вне
-            setIsIconRotated(false); // Сбрасываем состояние иконки
+            setIsOptionsVisible(false);
+            setIsIconRotated(false);
         }
     };
 
     useEffect(() => {
-        // Добавляем обработчик события при монтировании компонента
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
-            // Удаляем обработчик события при размонтировании компонента
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
@@ -62,7 +77,7 @@ const CustomerSelect = ({ options, filterKey, maxItems, placeholderValue, iconPa
                 type="text"
                 value={inputValue}
                 onChange={handleInputChange}
-                placeholder={`${placeholderValue}`}
+                placeholder={placeholderValue}
                 className="user-select-input"
             />
             {inputValue && (
@@ -78,17 +93,17 @@ const CustomerSelect = ({ options, filterKey, maxItems, placeholderValue, iconPa
                 onClick={toggleOptionsVisibility} 
                 className={`iconSelected ${isIconRotated ? 'rotated' : ''}`} 
                 alt="Toggle options"
-                style={{ opacity: inputValue ? 0.5 : 1 }} // Устанавливаем прозрачность
+                style={{ opacity: inputValue ? 0.5 : 1 }}
             />
             {isOptionsVisible && filteredOptions.length > 0 && (
                 <ul className="options-list">
                     {filteredOptions.slice(0, maxItems).map((option) => (
                         <li 
-                            key={option.id} // Используем id как ключ
-                            onClick={() => handleOptionClick(option)} // Обновляем input при клике
+                            key={option.id}
+                            onClick={() => handleOptionClick(option)}
                             className="option-item"
                         >
-                            {option[filterKey]} {/* Показываем значение указанного поля */}
+                            {option[filterKey]}
                         </li>
                     ))}
                 </ul>
