@@ -1,7 +1,14 @@
 const ApiError = require("../error/ApiError");
 const { User, Role } = require("../models/models");
 const bcrypt = require("bcrypt");
-const UserDto = require('../DTOs/UserDto')
+const UserDto = require("../DTOs/UserDto");
+
+const TEST_IN_CONSOLE = true;
+function cl(message) {
+  if(TEST_IN_CONSOLE) {
+    console.log(message);
+  }
+}
 
 class UserService {
   COUNT_PASSWORD_HASH = 5;
@@ -13,7 +20,7 @@ class UserService {
       throw ApiError.badRequest("Некорректный логин пользователя.");
     }
     // Уникальность
-    const candidate = await User.findOne({ where: { login } });
+    const candidate = await User.findOne({ where: login });
     if (candidate) {
       throw ApiError.badRequest("Логин уже занят.");
     }
@@ -72,7 +79,6 @@ class UserService {
     }
   }
 
-
   async validationPassword(password) {
     // Наличие
     if (!password) {
@@ -92,9 +98,16 @@ class UserService {
     }
   }
 
-
-
-  async validation(login, password, roleId, surname, name, patronymic, email, phone) {
+  async validation(
+    login,
+    password,
+    roleId,
+    surname,
+    name,
+    patronymic,
+    email,
+    phone
+  ) {
     try {
       await this.validationLogin(login);
       const passwordHash = await this.validationPassword(password);
@@ -126,26 +139,33 @@ class UserService {
     return new UserDto(user);
   }
   async doesUserExist(login) {
-      const userInDB = User.findOne({login})
-      if(!userInDB) {
-        throw ApiError.badRequest("Login not found")
-      }
-      return userInDB
+    const userInDB = await User.findOne({ where: {login} });
+
+    if (!userInDB) {
+      throw ApiError.badRequest("Login not found");
+    }
+    console.log("Login exist");
+    return userInDB;
   }
-  async varifyPassword(password, correctPassowrdHash) {
-    const resultCompare = bcrypt.compare(password, correctPassowrdHash);
-    if(!resultCompare) {
+  async verifyPassword(password, correctPassowrdHash) {
+    if (!password) {
+      throw ApiError.badRequest("The password must be provided");
+    }
+    if (!correctPassowrdHash) {
+      throw ApiError.badRequest("Error in DB with password");
+    }
+    const resultCompare = await bcrypt.compare(password, correctPassowrdHash);
+    if (!resultCompare) {
       throw ApiError.badRequest("incorrect password");
     }
   }
   async loginUser(login, password) {
-      const userData =this.doesUserExist(login);
-      await this.varifyPassword(password, userData.passwordHash);
-      
-      const userDtoData = new UserDto(userData)
-      return userDtoData;
-    }
-  
+    const userData = await this.doesUserExist(login);
+    await this.verifyPassword(password, userData.passwordHash);
+
+    const userDtoData = new UserDto(userData);
+    return userDtoData;
+  }
 }
 
 module.exports = new UserService();

@@ -1,18 +1,24 @@
-const {Token }= require("../models/models")
+const { Token } = require("../models/models");
 
 class TokenController {
-  PERENT_USER = 'user_login'
+  PERENT_USER = 'user_login';
+
   async saveToken(userLogin, refreshToken) {
-    const candidate = await Token.findOne({[this.PERENT_USER]: userLogin})
-    console.log("USERLOGIN")
-    console.log({[this.PERENT_USER]: userLogin})
-    if(candidate) {
+
+      // Использование where для поиска
+      const candidate = await Token.findOne({ where: { [this.PERENT_USER]: userLogin } });
+      console.log({ [this.PERENT_USER]: userLogin });
+
+      if (candidate) {
         candidate.value = refreshToken;
-        return candidate.save();
-    }
-    const tokenInDb = await Token.create({[this.PERENT_USER]: userLogin, value: refreshToken})
-    return tokenInDb
-}
+        await candidate.save(); // Не забывайте использовать await
+        return candidate;
+      }
+
+      // Создание нового токена, если не найден
+      const tokenInDb = await Token.create({ [this.PERENT_USER]: userLogin, value: refreshToken });
+      return tokenInDb;
+  }
 }
 
 module.exports = new TokenController();

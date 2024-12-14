@@ -1,10 +1,14 @@
 const jwt = require("jsonwebtoken");
 const { Token } = require("../models/models");
+const TokenController = require("../controllers/TokenController");
+
 const ApiError = require("../error/ApiError");
+
 class TokenService {
   EXPRES_IN_REFRESH = "30d";
   EXPRES_IN_ASSECC = "30m";
   PERENT_USER = "user_login";
+  NAME_TOKEN_VALUE_COLUME_IN_DB = "value"
 
   generateRefreshToken(payload) {
     console.log(payload);
@@ -29,17 +33,21 @@ class TokenService {
     };
   }
   async getTokenForUser(user) {
+
     const payload = {
       login: user.login,
       roleId: user.role_id,
     };
+
     const tokens = this.generateTokens(payload);
 
-    const tokenInDb = await this.saveToken(login, tokens.refreshToken);
+
+    const tokenInDb = await TokenController.saveToken(user.login, tokens.refreshToken);
+
     if (!tokenInDb) {
       throw ApiError.badRequest("Failed to create the token");
     }
-    return tokenInDb;
+    return tokenInDb[this.NAME_TOKEN_VALUE_COLUME_IN_DB];
   }
 }
 

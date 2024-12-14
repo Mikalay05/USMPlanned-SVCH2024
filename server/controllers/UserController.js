@@ -2,8 +2,13 @@ const BaseCRUDController = require("./BaseCRUDController");
 const { User } = require("../models/models");
 const UserService = require("../services/UserService");
 const TokenService = require("../services/TokenService");
-const TokenController = require("./TokenController");
 
+const TEST_IN_CONSOLE = true;
+function cl(message) {
+  if(TEST_IN_CONSOLE) {
+    console.log(message);
+  }
+}
 class UserController extends BaseCRUDController {
   constructor(
     model,
@@ -41,8 +46,8 @@ class UserController extends BaseCRUDController {
 
       
       const tokenInDb = await TokenService.getTokenForUser(user)
-      res.cookie(this.NAME_COOKIE_REFRESH_TOKEN, tokenInDb.value, {maxAge: MAX_AGE_FOR_REFRESH_TOKEN, httpOnly: true} )
-      return res.status(200).json({ mess: "created user", user, ...tokens });
+      res.cookie(this.NAME_COOKIE_REFRESH_TOKEN, tokenInDb.value, {maxAge: this.MAX_AGE_FOR_REFRESH_TOKEN, httpOnly: true} )
+      return res.status(200).json({ mess: "created user", user, ...tokenInDb });
     } catch (err) {
       console.log(
         `${this.NAME_CONRTOLLER_IN_ERROR}. Method ==> registrationRequire`,
@@ -54,10 +59,13 @@ class UserController extends BaseCRUDController {
   loginRequire = async(req,res,next) => {
     try {
       const {login, password} = req.body;
-      const user = UserService.loginUser(login, password);
-      const tokenInDb = await TokenService.getTokenForUser(payload, user.login)
-      res.cookie(this.NAME_COOKIE_REFRESH_TOKEN, tokenInDb.value, {maxAge: MAX_AGE_FOR_REFRESH_TOKEN, httpOnly: true} )
-      return res.status(200).json({ mess: "created user", user, ...tokens });
+      const user = await UserService.loginUser(login, password);
+
+
+      const tokenInDb = await TokenService.getTokenForUser(user)
+      res.cookie(this.NAME_COOKIE_REFRESH_TOKEN, tokenInDb.value, {maxAge: this.MAX_AGE_FOR_REFRESH_TOKEN, httpOnly: true} )
+
+      return res.status(200).json({ mess: "created user", user, tokenInDb });
     }
     catch(err){
       next(err);
@@ -66,6 +74,7 @@ class UserController extends BaseCRUDController {
 }
 
 const ApiError = require("../error/ApiError");
+const { use } = require("../routes/user");
 module.exports = new UserController(User, "Role", "login", "login", [
   { key: "login", unique: true, require: true },
   { key: "passwordHash", require: true },
