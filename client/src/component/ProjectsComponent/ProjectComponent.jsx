@@ -8,6 +8,7 @@ export default function ProjectComponent({
     iconDelete = "IconDelete.svg",
     iconChange = "IconChange.svg"
 }) {
+    console.log(arrProject)
     return (
         <section className="project-section">
             <InputData placeholderValue="Search..." iconName="IconSearch.svg" />

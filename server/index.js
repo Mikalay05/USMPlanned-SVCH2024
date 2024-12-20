@@ -20,6 +20,13 @@ const app = express();
 /*
 *========== Middleware ==========
 */
+const CLIENT_ORIGIN = 'http://localhost:3000';
+const corsOptions = {
+    origin: CLIENT_ORIGIN, 
+    credentials: true, 
+};
+const cors = require('cors')
+app.use(cors(corsOptions));
 
 app.use(express.json())
 const cookieParser = require('cookie-parser');

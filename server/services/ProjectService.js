@@ -6,8 +6,7 @@ const { dbQuery } = require("../dbUtils");
 class ProjectService {
     async getAllProjects() {
         try {
-            const data = await dbQuery(QUERIES.GET_ALL_PROJECTS);
-            const rows = data[0]
+            const rows = await dbQuery(QUERIES.GET_ALL_PROJECTS);
             const projects = rows.map(row => new ProjectDTO(row));
             return projects; 
         } catch (err) {

@@ -5,7 +5,7 @@ import ProjectComponent from "../../component/ProjectsComponent/ProjectComponent
 
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProjects } from '../slices/projectSlice';
+import { getProjects } from '../../store/slices/projectSlice';
 
 export default function ProjectPage() {
     
@@ -24,11 +24,17 @@ export default function ProjectPage() {
         return <div>Error: {error}</div>;
     }
 
+    console.log("PROJECTS in ProjectPage:", projects);
+    console.log("Type of projects:", typeof projects);
+    console.log("Is projects an array:", Array.isArray(projects));
+
+
     return (
         <>
-        <Header />
-        <ProjectComponent arrProject={data}/>
-        <Footer/>
+        {/* <Header />
+        <ProjectComponent arrProject={projects}/>
+        <Footer/> */}
+        {projects}
         </>
     )
 }

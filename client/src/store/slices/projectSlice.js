@@ -1,19 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import ProjectService from '../../services/ProjectService';
-import { API_URL } from '../../http/';
-import axios from 'axios'
 
-export const getProjects = createAsyncThunk('project/', async () => {
-    
+export const getProjects = createAsyncThunk('project/getProjects', async () => {
+    console.log("GET PROJECTS in PROJECT SLICE");
     const response = await ProjectService.getProjects();
-    return response;
-});
+    console.log("API Response in getProjects:", response);
 
+    return response.data; // Возвращаем массив проектов
+});
 
 const projectSlice = createSlice({
     name: 'project', 
     initialState: {
-        projects: {},
+        projects: [], // projects по умолчанию массив
         isLoading: false,
     },
     reducers: {
@@ -26,14 +25,14 @@ const projectSlice = createSlice({
     },
     extraReducers: (builder) => { 
         builder
-            .addCase(getProjects.pending, (state, action) => {
+            .addCase(getProjects.pending, (state) => {
                 state.isLoading = true;
             })
             .addCase(getProjects.fulfilled, (state, action) => {
-                state.projects = action.payload; // Сохраняем пользователя
+                state.projects = Array.isArray(action.payload) ? action.payload : []; // Убедитесь, что это массив
                 state.isLoading = false;
             })
-            .addCase(getProjects.rejected, (state, action) => {
+            .addCase(getProjects.rejected, (state) => {
                 state.isLoading = false;
             });
     },
