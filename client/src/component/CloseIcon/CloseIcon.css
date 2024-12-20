@@ -1,0 +1,9 @@
+.close-icon-component {
+    cursor: pointer;
+    position: absolute;
+}
+
+.line {
+    position: absolute;
+    content: "";
+}
