@@ -49,6 +49,7 @@ export default function CustomersInformation() {
         const epicId = params.get('epicId');
         const storyId = params.get('storyId');
         const taskId = params.get('taskId');
+        fetch('')
 
         if (customerId) {
             const customer = customers.find(c => c.id === parseInt(customerId));
