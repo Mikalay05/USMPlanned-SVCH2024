@@ -13,7 +13,7 @@ export default function ProjectPage() {
     const { projects, isLoading, error } = useSelector((state) => state.project);
 
     useEffect(() => {
-        dispatch(getProjects()); // Загрузка проектов
+        dispatch(getProjects()); 
     }, [dispatch]);
 
     if (isLoading) {
@@ -31,10 +31,9 @@ export default function ProjectPage() {
 
     return (
         <>
-        {/* <Header />
+        <Header />
         <ProjectComponent arrProject={projects}/>
-        <Footer/> */}
-        {projects}
+        <Footer/>
         </>
     )
 }

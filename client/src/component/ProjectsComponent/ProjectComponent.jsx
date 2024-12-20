@@ -3,7 +3,7 @@ import InputData from "../InputData/InputData";
 import "./ProjectComponent.css";
 
 export default function ProjectComponent({
-    arrProject,
+    arrProject = [],
     iconAdd = "IconAdd.svg",
     iconDelete = "IconDelete.svg",
     iconChange = "IconChange.svg"
@@ -23,10 +23,8 @@ export default function ProjectComponent({
                 {arrProject.map((project, index) => (
                     <CardProject 
                         key={index} 
-                        projectName={project.projectName} 
-                        mustProgress={project.mustProgress} 
-                        shouldProgress={project.shouldProgress}
-                        couldProgress={project.couldProgress}
+                        projectName={project.name} 
+                        statusName = {project.status}
                     />
                 ))}
             </div>
