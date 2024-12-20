@@ -270,7 +270,7 @@ Token.belongsTo(User, { foreignKey: perentUser });
 
 //========== Action ==========
 Action.belongsTo(User, { foreignKey: perentUser });
-Action.belongsTo(Project, { foreignKey: perentProject });
+Action.belongsTo(Project, { foreignKey: perentProject, onDelete: "CASCADE" });
 Action.belongsTo(Customer, { foreignKey: perentCustomer });
 Action.belongsTo(Epic, { foreignKey: perentEpic });
 Action.belongsTo(Story, { foreignKey: perentStory });
@@ -283,11 +283,11 @@ ProjectStatus.hasMany(Project, { foreignKey: perentProjectStatus });
 //========== Project ==========
 Project.belongsTo(ProjectStatus, { foreignKey: perentProjectStatus });
 
-Project.hasMany(Customer, { foreignKey: perentProject });
-Project.hasMany(CustomerOrder, { foreignKey: perentProject });
-Project.hasMany(Action, { foreignKey: perentProject });
+Project.hasMany(Customer, { foreignKey: perentProject, onDelete: "CASCADE" });
+Project.hasMany(CustomerOrder, { foreignKey: perentProject, onDelete: "CASCADE" });
+Project.hasMany(Action, { foreignKey: perentProject, onDelete: "CASCADE" });
 //========== Customer ==========
-Customer.belongsTo(Project, { foreignKey: perentProject });
+Customer.belongsTo(Project, { foreignKey: perentProject, onDelete: "CASCADE" });
 
 Customer.hasOne(CustomerOrder, { foreignKey: perentCustomer });
 Customer.hasMany(EpicOrder, { foreignKey: perentCustomer });
@@ -296,7 +296,7 @@ Customer.hasMany(Action, { foreignKey: perentCustomer });
 
 
 //========== CustomerOrder ==========
-CustomerOrder.belongsTo(Project, { foreignKey: perentProject });
+CustomerOrder.belongsTo(Project, { foreignKey: perentProject, onDelete: "CASCADE" });
 CustomerOrder.belongsTo(Customer, { foreignKey: perentCustomer });
 CustomerOrder.belongsTo(Customer, { foreignKey: namePreviousId, as: 'PreviousCustomer' });
 CustomerOrder.belongsTo(Customer, { foreignKey: nameNextId, as: 'NextCustomer' });

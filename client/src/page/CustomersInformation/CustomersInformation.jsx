@@ -83,6 +83,7 @@ export default function CustomersInformation() {
 
     return (
         <>
+            <div className="closeIcon"></div>
             <Header />
             <h1>{project.name}</h1>
             <CustomerSelect 
