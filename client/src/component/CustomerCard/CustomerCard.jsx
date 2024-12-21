@@ -4,8 +4,8 @@ export default function CustomerCard({
     textValue,
     styleColor = "#000", // Цвет текста, по умолчанию темно-серый
     backgroundColor = { r: 75, g: 245, b: 231 }, // Цвет фона (одинаковый для обоих состояний)
-    alphaActive = 0.5, // Прозрачность для активного состояния
-    alphaInactive = 0.2, // Прозрачность для неактивного состояния
+    alphaActive = "0.5", // Прозрачность для активного состояния
+    alphaInactive = "0.3", // Прозрачность для неактивного состояния
     isActiveElement = false,
     descriptionText = "",
     children // Дочерние элементы
@@ -15,7 +15,7 @@ export default function CustomerCard({
 
     return (
         <div
-            className={`customer-card-style ${isActiveElement ? 'active' : 'inactive'}`}
+            className={`customer-card-style ${isActiveElement ? 'active-customer-card' : 'inactive-customer-card'}`}
             style={{
                 background: isActiveElement ? rgba(backgroundColor, alphaActive) : rgba(backgroundColor, alphaInactive)
             }}

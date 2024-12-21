@@ -9,12 +9,12 @@
     transition: background 0.3s ease; /* Плавный переход для фона */
 }
 
-.active {
+.active-customer-card {
     width: 380px;
     height: 130px;
 }
 
-.inactive {
+.inactive-customer-card {
     width: 280px;
     height: 130px;
 }
