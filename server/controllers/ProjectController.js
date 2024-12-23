@@ -30,11 +30,12 @@ class ProjectController {
     async createRequest(req, res, next) {
         try {
             const projectForm = req.body;
+
+
             //TODO сделать получение ID пользователя из запроса
             const userId = 1;
             const projectFormDto = new ProjectForCreationDTO(projectForm);
-
-            const newProject = await ProjectService.createProject(projectFormDto);
+            const newProject = await ProjectService.createProject(projectFormDto, userId);
             
             //Вернуть обьект
             return res.status(200).json(newProject);  

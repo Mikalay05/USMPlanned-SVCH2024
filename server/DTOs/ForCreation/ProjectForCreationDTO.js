@@ -1,11 +1,11 @@
 class ProjectForCreationDTO {
     constructor({ 
-        project_name, 
-        project_description, 
+        name, 
+        description, 
         status_id
     }) {
-        this.name = project_name;
-        this.description = project_description;
+        this.name = name;
+        this.description = description;
         this.status_id = status_id;
     }
 }

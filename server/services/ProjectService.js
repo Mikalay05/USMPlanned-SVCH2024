@@ -19,7 +19,7 @@ class ProjectService {
   async getProjectById(projectId) {
     try {
       const rows = await dbQuery(QUERIES.GET_PROJECT_BY_ID, [projectId]);
-
+      console.log()
       if (rows.length === 0) {
         throw ApiError.notFound("Проект не найден");
       }
@@ -46,6 +46,7 @@ class ProjectService {
     }
   }
 
+
   async checkExistStatucProjectId(status_id) {
     const result = await ProjectStatus.findOne({ where: { id: status_id } });
     if (!result) {
@@ -53,10 +54,11 @@ class ProjectService {
     }
     return result;
   }
-
+  validateRespoe
   // Валидация ID статуса проекта с проверкой наличия статуса в базе
   async validateStatusProjectId(status_id) {
     try {
+      ApiError.validateNotEmptyObject(status_id, "Статус проекта обязательный к заполнению")
       await this.checkExistStatucProjectId(status_id);
     } catch (err) {
       console.error("Error executing validateStatusProjectId:", err);
@@ -66,21 +68,33 @@ class ProjectService {
 
   // Общая валидация для всех полей проекта
   async validate(projectFormDto) {
+    console.log("================")
+
     this.validateName(projectFormDto.name);
+    console.log("Прошел валидацию имени")
     this.validateDescription(projectFormDto.description);
-    await this.validateStatusProjectId(projectFormDto.status_id); // Асинхронная проверка статуса
+    console.log("Прошел валидацию описания")
+    console.log("============")
+    console.log("TEst", projectFormDto)
+    console.log("============")
+    await this.validateStatusProjectId(projectFormDto.status_id);
+
+    console.log("Прошел валидацию айди статуса")
+
   }
 
   // Запрос на создание проекта в базе данных
   async dbQueryCreateProject(projectForm, whoCreateProject) {
     try {
-      const result = await dbQuery(QUERIES.CREATE_PROJECT, [
+      const params = [
         projectForm.name,
         projectForm.description,
         projectForm.status_id,
         'Created project',
         whoCreateProject,
-      ]);
+      ];
+
+      const result = await dbQuery(QUERIES.CREATE_PROJECT, params);
 
       return result;
     } catch (err) {
@@ -98,10 +112,8 @@ class ProjectService {
       // Создать проект в базе данных
       const result = await this.dbQueryCreateProject(projectForm, whoCreateProject);
 
-      // Получить созданный проект (например, с его ID)
-      const createdProject = await this.getProjectById(result.insertId);
 
-      return createdProject;
+      return result;
     } catch (err) {
       console.error("Error executing createProject:", err);
       throw err; // Пробрасываем оригинальную ошибку
