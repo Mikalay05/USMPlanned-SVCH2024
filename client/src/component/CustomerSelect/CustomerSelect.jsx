@@ -5,7 +5,7 @@ const CustomerSelect = ({
     options = [],
     filterKey,
     maxItems,
-    placeholderValue,
+    placeholderValue = "",
     onSelect,
     defaultValue,
     iconPath = "SelectIcon.svg",
@@ -18,6 +18,9 @@ const CustomerSelect = ({
     const dropdownRef = useRef(null);
 
     useEffect(() => {
+        console.log("============================")
+        console.log("filterKey",defaultValue);
+        console.log("============================")
         if (defaultValue) {
             setInputValue(defaultValue[filterKey]);
         } else {
@@ -32,6 +35,7 @@ const CustomerSelect = ({
         const newFilteredOptions = options.filter(option => 
             option[filterKey]?.toLowerCase().includes(value.toLowerCase())
         );
+
         setFilteredOptions(newFilteredOptions);
         setIsOptionsVisible(newFilteredOptions.length > 0);
     };

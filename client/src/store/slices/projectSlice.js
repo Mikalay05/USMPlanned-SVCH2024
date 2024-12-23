@@ -5,17 +5,13 @@ import ProjectDTO from '../../DTOs/ProjectDTO'
 export const getProjects = createAsyncThunk('project/getProjects', async () => {
     const response = await ProjectService.getProjects();
 
-    return response.map(project => new ProjectDTO(project));; // Возвращаем массив проектов
+    return response.map(project => new ProjectDTO(project));;
 });
-export const getProjectStatuses = createAsyncThunk('project/getProjectStatuses', async()=> {
-    const response = await ProjectService.getProjects();
-    return response; // Возвращаем массив проектов
-})
 
 const projectSlice = createSlice({
     name: 'project', 
     initialState: {
-        projects: [], // projects по умолчанию массив
+        projects: [],
         isLoading: false,
     },
     reducers: {

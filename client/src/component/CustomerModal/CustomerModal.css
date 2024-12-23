@@ -26,7 +26,7 @@
 background: #FFF;
 
     animation: fadeIn 0.3s ease-out;
-    overflow: hidden;
+    overflow: visible;
   }
   
   /* Заголовок модального окна */
