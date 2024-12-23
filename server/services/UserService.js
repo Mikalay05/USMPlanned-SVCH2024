@@ -1,7 +1,7 @@
 const ApiError = require("../error/ApiError");
 const { User, Role } = require("../models/models");
 const bcrypt = require("bcrypt");
-const UserDto = require("../DTOs/UserDto");
+const UserDto = require("../DTOs/Data/UserDto");
 const TokenService = require("./TokenService");
 
 const TEST_IN_CONSOLE = true;

@@ -1,5 +1,5 @@
 const ApiError = require("../error/ApiError");
-const ProjectDTO = require("../DTOs/ProjectDTO"); 
+const ProjectDTO = require("../DTOs/Data/ProjectDTO"); 
 const QUERIES = require("../queries/queries"); 
 const { dbQuery } = require("../dbUtils"); 
 
@@ -17,7 +17,6 @@ class ProjectService {
 
     async getProjectById(projectId) {
         try {
-            console.log("Полученный projectId:", projectId);
 
             const rows = await dbQuery(QUERIES.GET_PROJECT_BY_ID, [projectId]);
 
