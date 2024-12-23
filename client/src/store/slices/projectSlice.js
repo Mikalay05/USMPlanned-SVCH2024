@@ -3,12 +3,14 @@ import ProjectService from '../../services/ProjectService';
 import ProjectDTO from '../../DTOs/ProjectDTO'
 
 export const getProjects = createAsyncThunk('project/getProjects', async () => {
-    console.log("GET PROJECTS in PROJECT SLICE");
     const response = await ProjectService.getProjects();
-    console.log("API Response in getProjects:", response);
 
     return response.map(project => new ProjectDTO(project));; // Возвращаем массив проектов
 });
+export const getProjectStatuses = createAsyncThunk('project/getProjectStatuses', async()=> {
+    const response = await ProjectService.getProjects();
+    return response; // Возвращаем массив проектов
+})
 
 const projectSlice = createSlice({
     name: 'project', 

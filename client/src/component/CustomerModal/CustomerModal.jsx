@@ -25,9 +25,8 @@ export default function CustomerModal({
           />
         </div>
         <div className="customer-modal-body">{children}</div>
-        <div className="customer-modal-footer">
-          <CustomerButton textValue={buttonTextContent} onClick={clickOnButton} />
-        </div>
+        <CustomerButton textValue={buttonTextContent} onClick={clickOnButton} />
+
       </div>
     </div>
   );

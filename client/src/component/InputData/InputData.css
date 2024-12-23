@@ -1,6 +1,6 @@
 .input-style-section {
     display: flex;
-    width: 252px;
+    min-width: 232px;
     height: 22px;
     padding: 14px 24px;
     align-items: center;

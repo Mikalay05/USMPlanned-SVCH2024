@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './CustomerSelect.css';
 
 const CustomerSelect = ({ 
-    options,
+    options = [],
     filterKey,
     maxItems,
     placeholderValue,
@@ -17,7 +17,6 @@ const CustomerSelect = ({
     const [isIconRotated, setIsIconRotated] = useState(false);
     const dropdownRef = useRef(null);
 
-    // Устанавливаем значение по умолчанию при изменении defaultValue
     useEffect(() => {
         if (defaultValue) {
             setInputValue(defaultValue[filterKey]);
@@ -41,7 +40,9 @@ const CustomerSelect = ({
         setInputValue(option[filterKey]);
         setIsOptionsVisible(false);
         setIsIconRotated(false);
-        onSelect(option);
+        if (typeof onSelect === "function") { // Проверка на функцию
+            onSelect(option);
+        }
     };
 
     const clearInput = () => {
@@ -49,7 +50,9 @@ const CustomerSelect = ({
         setFilteredOptions(options);
         setIsOptionsVisible(false);
         setIsIconRotated(false);
-        onSelect(null);
+        if (typeof onSelect === "function") { // Проверка на функцию
+            onSelect(null);
+        }
     };
 
     const toggleOptionsVisibility = () => {
