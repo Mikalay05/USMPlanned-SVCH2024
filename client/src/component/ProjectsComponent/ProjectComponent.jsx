@@ -1,4 +1,5 @@
 import CardProject from "../CardProject/CardProject";
+import CustomerModal from "../CustomerModal/CustomerModal";
 import CustomerSlider from "../CustomerSlider/CustomerSlider";
 import InputData from "../InputData/InputData";
 import "./ProjectComponent.css";
@@ -13,6 +14,7 @@ export default function ProjectComponent({
 
   return (
     <section className="project-section">
+      <CustomerModal textTitle="Create project"/>
       <InputData placeholderValue="Search..." iconName="IconSearch.svg" />
 
       <div className="icon-container">
