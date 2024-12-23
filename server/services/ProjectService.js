@@ -12,7 +12,7 @@ class ProjectService {
       return projects;
     } catch (err) {
       console.error("Error executing query:", err);
-      throw ApiError.internal("Ошибка при получении списка проектов");
+      throw err; // Пробрасываем оригинальную ошибку
     }
   }
 
@@ -28,7 +28,7 @@ class ProjectService {
       return project;
     } catch (err) {
       console.error("Error executing query:", err);
-      throw ApiError.internal("Ошибка при получении проекта");
+      throw err; // Пробрасываем оригинальную ошибку
     }
   }
 
@@ -45,21 +45,22 @@ class ProjectService {
       throw ApiError.badRequest("Описание проекта не может быть пустым");
     }
   }
+
   async checkExistStatucProjectId(status_id) {
-    const result = await ProjectStatus.findOne({where: {id: status_id}})
-    if (result.length === 0) {
-        throw ApiError.badRequest("Статус проекта с таким ID не существует");
-      }
-      return result;
+    const result = await ProjectStatus.findOne({ where: { id: status_id } });
+    if (!result) {
+      throw ApiError.badRequest("Статус проекта с таким ID не существует");
+    }
+    return result;
   }
+
   // Валидация ID статуса проекта с проверкой наличия статуса в базе
   async validateStatusProjectId(status_id) {
     try {
-        await this.checkExistStatucProjectId(status_id);
-
+      await this.checkExistStatucProjectId(status_id);
     } catch (err) {
       console.error("Error executing validateStatusProjectId:", err);
-      throw ApiError.internal("Ошибка при проверке статуса проекта");
+      throw err; // Пробрасываем оригинальную ошибку
     }
   }
 
@@ -67,7 +68,7 @@ class ProjectService {
   async validate(projectFormDto) {
     this.validateName(projectFormDto.name);
     this.validateDescription(projectFormDto.description);
-    await this.validateStatusProjectId(projectFormDto.status_id);  // Асинхронная проверка статуса
+    await this.validateStatusProjectId(projectFormDto.status_id); // Асинхронная проверка статуса
   }
 
   // Запрос на создание проекта в базе данных
@@ -78,13 +79,13 @@ class ProjectService {
         projectForm.description,
         projectForm.status_id,
         'Created project',
-        whoCreateProject
+        whoCreateProject,
       ]);
 
-      return result; 
+      return result;
     } catch (err) {
       console.error("Error executing dbQueryCreateProject:", err);
-      throw ApiError.internal("Ошибка при создании проекта");
+      throw err; // Пробрасываем оригинальную ошибку
     }
   }
 
@@ -103,7 +104,7 @@ class ProjectService {
       return createdProject;
     } catch (err) {
       console.error("Error executing createProject:", err);
-      throw ApiError.internal("Ошибка при создании проекта");
+      throw err; // Пробрасываем оригинальную ошибку
     }
   }
 }
