@@ -86,15 +86,17 @@ export default function ProjectComponent({
     }));
   };
   //Открытие уведомления
-  const showNotification = (textValue, duration) => {
-    //меняй данные для уведомления
+  const showNotification = (textValue, duration = 3000, colorStyle = "#F5F24B") => {
+    // Меняем данные для уведомления
     setNotification((prevState) => ({
       ...prevState,
       text: textValue,
       open: true,
+      duration: duration, 
+      colorStyle: colorStyle,
     }));
   };
-
+  
   //Отправки запросы на создание проекта
   const handleCreateProject = () => {
     //TODO Валидация формы
@@ -115,12 +117,12 @@ export default function ProjectComponent({
 
     onCreateProject(projectDtoForCreation)
       .then(() => {
-        showNotification("Project created successfully.");
+        showNotification("Project created successfully.", "#00FF26");
         handleCloseModal(); // Закрываем модальное окно при успешном создании
       })
       .catch((error) => {
         showNotification(
-          "Failed to create project. Please try again."
+          "Failed to create project. Please try again.", "#FF0004"
         );
       });
   };
@@ -132,6 +134,7 @@ export default function ProjectComponent({
         text={notification.text}
         iconName={notification.iconName}
         timeClose={notification.duration}
+        bgColor={notification.colorStyle}
         onClose={handleCloseNotification}
       />
       {isModalOpen && !isLoadingProject > 0 && (

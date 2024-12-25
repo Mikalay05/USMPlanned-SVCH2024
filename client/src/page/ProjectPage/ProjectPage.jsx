@@ -22,7 +22,7 @@ export default function ProjectPage() {
 
   }, [dispatch]);
   const onCreateProject = (dataDto) => {
-    dispatch(createProject(dataDto));
+    return dispatch(createProject(dataDto));
   }
   return (
     <>
