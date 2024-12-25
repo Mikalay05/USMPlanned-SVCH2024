@@ -8,7 +8,6 @@ import InputData from "../InputData/InputData";
 
 import "./ProjectComponent.css";
 
-
 export default function ProjectComponent({
   arrProject = [],
   isLoadingProject,
@@ -24,15 +23,15 @@ export default function ProjectComponent({
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  //Для формы создание проекта
+  // Для формы создания проекта
   const projectNameField = "projectName";
   const projectDescriptionField = "projectDescription";
   const projectStatusIdField = "projectStatusId";
   const [projectCreationFormData, setProjectCreationFormData] = useState({});
+  
 
-  //Изменять стейт для создания формы
+  // Изменять стейт для создания формы
   const handleFormData = (fieldName, value) => {
-    //Если свойство не указано, возращаю ошибку
     if (!fieldName) {
       console.error("Field name from input not found.");
       return;
@@ -42,22 +41,20 @@ export default function ProjectComponent({
       ...prevState,
       [fieldName]: value,
     }));
-    console.log("ИЗМЕНЕНИЕ ЗНАЧЕНИЕ ФОРМЫ", projectCreationFormData)
+    console.log("ИЗМЕНЕНИЕ ЗНАЧЕНИЕ ФОРМЫ", projectCreationFormData);
   };
 
-  //Изменяет ввода данных для текстовых полей
+  // Изменяет ввод данных для текстовых полей
   const handleInputData = (e) => {
-    //Получаю какое свойство поменялось и какое значение
     const { name, value } = e.target;
-
-    //Устанавливаю новое значение данных
     handleFormData(name, value);
   };
-  //Очистка значения введенных данных
+
+  // Очистка значения введенных данных
   const handleClear = (nameOfInput) => {
-    //Устанавливаю новое пустое значние для поля
     handleFormData(nameOfInput, "");
   };
+
   const emptyCardComponent = CardProject;
 
   const handleOpenModal = () => {
@@ -67,9 +64,11 @@ export default function ProjectComponent({
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-  const handleSelecteStatusProject = () => {
 
-  }
+  const handleSelecteStatusProject = (selectedOption) => {
+    handleFormData(projectStatusIdField, selectedOption.id);
+  };
+
   return (
     <section className="project-section">
       {isModalOpen && !isLoadingProject > 0 && (
@@ -102,7 +101,7 @@ export default function ProjectComponent({
               options={arrProjectStatus}
               placeholderValue={"Status of project"}
               filterKey={"name"}
-              onSelect={handleSelecteStatusProject}
+              onSelect={handleSelecteStatusProject} // Подключаем обработчик выбора статуса
             />
           )}
         </CustomerModal>
@@ -112,8 +111,6 @@ export default function ProjectComponent({
 
       <div className="icon-container">
         <img src={`/${iconAdd}`} alt="Add Project" onClick={handleOpenModal} />
-        {/* <img src={`/${iconDelete}`} alt="Delete Project" />
-        <img src={`/${iconChange}`} alt="Change Project" /> */}
       </div>
 
       <CustomerSlider emptyCardComponent={emptyCardComponent}>

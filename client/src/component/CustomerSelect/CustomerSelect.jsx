@@ -1,18 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './CustomerSelect.css';
-
 const CustomerSelect = ({ 
     options = [],
     filterKey,
     maxItems,
     placeholderValue = "",
-    onSelect,
+    onSelect,  // Оставим основной обработчик без изменений
     defaultValue,
     iconPath = "SelectIcon.svg",
     iconClosePath = 'IconCloseSelect.svg',
     
-     //Обработчик при выборе
-    onSelectElement,
+    // Обработчик при выборе элемента
+    onSelectItem, 
 }) => {
     const [inputValue, setInputValue] = useState(defaultValue ? defaultValue[filterKey] : "");
     const [filteredOptions, setFilteredOptions] = useState(options);
@@ -38,8 +37,15 @@ const CustomerSelect = ({
         setInputValue(option[filterKey]);
         setIsOptionsVisible(false);
         setIsIconRotated(false);
+        
+        // Вызываем основной обработчик, если он передан
         if (typeof onSelect === "function") {
             onSelect(option);
+        }
+
+        // Вызываем обработчик выбора элемента, если он передан
+        if (typeof onSelectItem === "function") {
+            onSelectItem(option);  // Вызываем переименованный обработчик
         }
     };
 
