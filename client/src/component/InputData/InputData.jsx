@@ -2,46 +2,43 @@ import "./InputData.css";
 import { useState, useEffect } from "react";
 
 export default function InputData({
-  value = "",
+  textValue = "",
   typeOfData = 'text',
+  onInput, //обработчик изменения данных input
+  nameOfInput = '',
+
+  withIcon = true, //Будет отображаться иконка
+  iconName = 'IconSearch.svg', //Базовая иконка, если текст не введен
+  onClickIcon, // обработчик на очистку значения
+
+  withClearIcon = true, //Будет отображаться иконка при введенои тексте
+  closeIconPath = "CloseIconInInput.svg", //Иконка, когда введен текст
+  onClear, //обработчик собития при нажати на кнопку очищения
+
   placeholderValue = '',
-  iconName,
-  onClickIcon,
   widthIcon = "15px",
   heightIcon = "15px",
   type = "text-with-icon", 
-  nameOfInput,
-  onInput,
-  closeIconPath = "CloseIconInInput.svg",
+  
 }) {
-  const [inputValue, setInputValue] = useState(value);
-
-  const handleClear = () => {
-    setInputValue(""); 
-  };
-  //Обработчик изменения значения inputa
-  const handleInput = (e) => {
-    //Получаю новое значение
-    const newValue= e.target.value;
-    //Устанавливаю новое значение
-    setInputValue(newValue);
-
-    //Если есть обработчик ввода, то вызываем его передовая событие
-    if(onInput)
-    {
-      onInput(e);
+  //Обработчик очистки
+  const handleClearClick = () => {
+    //Если есть обработчик от родители и значения свойство для очистки -
+    if(onClear&& nameOfInput) {
+      onClear(nameOfInput)
     }
   }
   return (
     <div className="input-style-section">
-      {type !== "text" && ( 
-        inputValue ? (
+      {withIcon && ( 
+        (textValue && withClearIcon )? (
           <img
             width={widthIcon}
             height={heightIcon}
             src={`/${closeIconPath}`}
             alt="Close"
-            onClick={handleClear}
+            onClick={handleClearClick}
+            
           />
         ) : (
           <img
@@ -54,10 +51,10 @@ export default function InputData({
         )
       )}
       <input
-        type={type === "text" ? "text" : "text"}
+        type={typeOfData}
         placeholder={placeholderValue}
-        value={inputValue}
-        onInput={handleInput}
+        defaultValue={textValue}
+        onInput={onInput}
         name={nameOfInput}
         className={type === "text" ? "input-no-icon" : "input-with-icon"}
       />

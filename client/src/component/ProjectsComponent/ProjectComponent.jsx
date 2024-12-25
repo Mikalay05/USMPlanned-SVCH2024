@@ -7,7 +7,7 @@ import CustomerSlider from "../CustomerSlider/CustomerSlider";
 import CustomerSelect from "../CustomerSelect/CustomerSelect";
 import InputData from "../InputData/InputData";
 import "./ProjectComponent.css";
-import ProjectForCreationDTO from '../../DTOs/ForCreation/ProjectForCreationDTO';
+import ProjectForCreationDTO from "../../DTOs/ForCreation/ProjectForCreationDTO";
 import { createProject } from "../../store/slices/projectSlice";
 
 export default function ProjectComponent({
@@ -20,47 +20,50 @@ export default function ProjectComponent({
   const dispatch = useDispatch();
 
   // Получаем из Redux состояние загрузки и данные статусов
-  const { projectStatuses, isLoading } = useSelector((state) => state.projectStatus);
+  const { projectStatuses, isLoading } = useSelector(
+    (state) => state.projectStatus
+  );
   //Для формы создание проекта
   const projectNameField = "projectName";
   const projectDescriptionField = "projectDescription";
   const projectStatusIdField = "projectStatusId";
   const [projectCreationFormData, setProjectCreationFormData] = useState({});
-  
+
   //Изменять стейт для создания формы
   const handleFormData = (fieldName, value) => {
-    setProjectCreationFormData(prevState => ({
-      ...prevState,
-      [fieldName]: value,
-    }));
-    console.log("UPDATE FORM DATA", projectCreationFormData)
-  };
-  //Изменяет ввода данных для текстовых полей
-  const handleInputData = (e) => {
-    //Получаю какое свойство поменялось и какое значение
-    const {name, value} = e.target;
     //Если свойство не указано, возращаю ошибку
-    if(!name)
-    {
+    if (!fieldName) {
       console.error("Field name from input not found.");
       return;
     }
-    
+
+    setProjectCreationFormData((prevState) => ({
+      ...prevState,
+      [fieldName]: value,
+    }));
+    console.log("ФОРМА ИЗМЕНЕНА", projectCreationFormData)
+  };
+
+  //Изменяет ввода данных для текстовых полей
+  const handleInputData = (e) => {
+    //Получаю какое свойство поменялось и какое значение
+    const { name, value } = e.target;
+
     //Устанавливаю новое значение данных
     handleFormData(name, value);
-  }
-  
-  
-
-
+  };
+  //Очистка значения введенных данных
+  const handleClear = (nameOfInput) => {
+    //Устанавливаю новое пустое значние для поля
+    handleFormData(nameOfInput, "");
+  };
   const emptyCardComponent = CardProject;
 
   // Функция для загрузки статусов при открытии модального окна
+  //Статусы проекта является справочной информацией, достатчно загрузить один раз для корректной работы.
   useEffect(() => {
-    if (isModalOpen) {
-      dispatch(getProjectStatuses());
-    }
-  }, [isModalOpen, dispatch]);
+    dispatch(getProjectStatuses());
+  }, [dispatch]);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -69,7 +72,6 @@ export default function ProjectComponent({
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-
   return (
     <section className="project-section">
       {isModalOpen && !isLoading && projectStatuses.length > 0 && (
@@ -77,18 +79,23 @@ export default function ProjectComponent({
           textTitle="Create project"
           clickOnClose={handleCloseModal}
         >
-          <InputData 
-            type="text" 
-            placeholderValue={"Project name..."} 
-            nameOfInput="projectName"
+          <InputData
+            textValue={projectCreationFormData[projectNameField]}
+            type="text"
+            placeholderValue={"Project name..."}
+            nameOfInput={projectNameField}
+            closeIconPath="CloseIconInInput.svg"
             onInput={handleInputData}
+            onClear={handleClear}
           />
-          <InputData 
-            type="text" 
-            placeholderValue={"Project description..."} 
-            nameOfInput="projectDescription" 
+          <InputData
+            textValue={projectCreationFormData[projectDescriptionField]}
+            type="text"
+            placeholderValue={"Project description..."}
+            nameOfInput={projectDescriptionField}
+            closeIconPath="CloseIconInInput.svg"
             onInput={handleInputData}
-
+            onClear={handleClear}
           />
           {isLoading ? (
             <p>Loading statuses...</p>
@@ -97,7 +104,6 @@ export default function ProjectComponent({
               options={projectStatuses}
               placeholderValue={"Status of project"}
               filterKey={"name"}
-              
             />
           )}
         </CustomerModal>
@@ -106,11 +112,7 @@ export default function ProjectComponent({
       <InputData placeholderValue="Search..." iconName="IconSearch.svg" />
 
       <div className="icon-container">
-        <img
-          src={`/${iconAdd}`}
-          alt="Add Project"
-          onClick={handleOpenModal}
-        />
+        <img src={`/${iconAdd}`} alt="Add Project" onClick={handleOpenModal} />
         <img src={`/${iconDelete}`} alt="Delete Project" />
         <img src={`/${iconChange}`} alt="Change Project" />
       </div>

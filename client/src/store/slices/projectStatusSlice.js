@@ -6,6 +6,7 @@ import ProjectStatusDto from '../../DTOs/Data/ProjectStatusDto';
 export const getProjectStatuses = createAsyncThunk(
   'projectStatus/getProjectStatuses',
   async () => {
+    console.log("загружается статуса проектов")
     const response = await ProjectStatusService.getProjectStatuses();
 
     const result = response.map((status) => new ProjectStatusDto(status));
