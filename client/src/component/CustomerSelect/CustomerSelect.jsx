@@ -15,18 +15,8 @@ const CustomerSelect = ({
     const [filteredOptions, setFilteredOptions] = useState(options);
     const [isOptionsVisible, setIsOptionsVisible] = useState(false);
     const [isIconRotated, setIsIconRotated] = useState(false);
+    const [selectedIndex, setSelectedIndex] = useState(-1);  // Для выделения элемента
     const dropdownRef = useRef(null);
-
-    useEffect(() => {
-        console.log("============================")
-        console.log("filterKey",defaultValue);
-        console.log("============================")
-        if (defaultValue) {
-            setInputValue(defaultValue[filterKey]);
-        } else {
-            setInputValue("");
-        }
-    }, [defaultValue]);
 
     const handleInputChange = (event) => {
         const value = event.target.value;
@@ -38,13 +28,14 @@ const CustomerSelect = ({
 
         setFilteredOptions(newFilteredOptions);
         setIsOptionsVisible(newFilteredOptions.length > 0);
+        setSelectedIndex(-1); // Сброс выделения при изменении ввода
     };
 
     const handleOptionClick = (option) => {
         setInputValue(option[filterKey]);
         setIsOptionsVisible(false);
         setIsIconRotated(false);
-        if (typeof onSelect === "function") { // Проверка на функцию
+        if (typeof onSelect === "function") {
             onSelect(option);
         }
     };
@@ -54,7 +45,7 @@ const CustomerSelect = ({
         setFilteredOptions(options);
         setIsOptionsVisible(false);
         setIsIconRotated(false);
-        if (typeof onSelect === "function") { // Проверка на функцию
+        if (typeof onSelect === "function") {
             onSelect(null);
         }
     };
@@ -71,12 +62,25 @@ const CustomerSelect = ({
         }
     };
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'ArrowDown') {
+            setSelectedIndex((prevIndex) => Math.min(prevIndex + 1, filteredOptions.length - 1));
+        } else if (event.key === 'ArrowUp') {
+            setSelectedIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+        } else if (event.key === 'Enter' && selectedIndex >= 0) {
+            const selectedOption = filteredOptions[selectedIndex];
+            handleOptionClick(selectedOption);
+        }
+    };
+
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('keydown', handleKeyDown); // Добавляем обработчик клавиш
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('keydown', handleKeyDown);
         };
-    }, []);
+    }, [filteredOptions, selectedIndex]);
 
     return (
         <div className="user-select-container" style={{ position: 'relative' }} ref={dropdownRef}>
@@ -84,6 +88,7 @@ const CustomerSelect = ({
                 type="text"
                 value={inputValue}
                 onChange={handleInputChange}
+                onFocus={toggleOptionsVisibility}  // Показываем список при фокусе на поле
                 placeholder={placeholderValue}
                 className="user-select-input"
             />
@@ -104,11 +109,11 @@ const CustomerSelect = ({
             />
             {isOptionsVisible && filteredOptions.length > 0 && (
                 <ul className="options-list">
-                    {filteredOptions.slice(0, maxItems).map((option) => (
+                    {filteredOptions.slice(0, maxItems).map((option, index) => (
                         <li 
                             key={option.id}
                             onClick={() => handleOptionClick(option)}
-                            className="option-item"
+                            className={`option-item ${selectedIndex === index ? 'selected' : ''}`} // Добавляем стиль для выбранного элемента
                         >
                             {option[filterKey]}
                         </li>

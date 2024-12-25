@@ -24,9 +24,7 @@ export default function ProjectPage() {
         return <div>Error: {error}</div>;
     }
 
-    console.log("PROJECTS in ProjectPage:", projects);
-    console.log("Type of projects:", typeof projects);
-    console.log("Is projects an array:", Array.isArray(projects));
+
 
 
     return (

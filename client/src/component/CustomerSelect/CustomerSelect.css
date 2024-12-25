@@ -70,3 +70,8 @@
 .iconSelected.rotated {
     transform: rotate(180deg); /* Переворот на 180 градусов */
 }
+
+.option-item.selected {
+    background-color: #f0f0f0; /* Цвет фона для выбранного элемента */
+    color: #000; /* Цвет текста для выбранного элемента */
+}
