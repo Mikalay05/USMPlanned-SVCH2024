@@ -1,5 +1,5 @@
 import "./InputData.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function InputData({
   value = "",
@@ -10,12 +10,21 @@ export default function InputData({
   widthIcon = "15px",
   heightIcon = "15px",
   type = "text-with-icon", 
-  closeIconPath = "CloseIconInInput.svg", 
+  closeIconPath = "CloseIconInInput.svg",
+  onChange, // Новый пропс для передачи изменений родительскому компоненту
 }) {
   const [inputValue, setInputValue] = useState(value);
 
+  // Эффект для обновления локального состояния, если значение изменяется в родительском компоненте
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
+
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
+    if (onChange) {
+      onChange(event.target.value); // Отправляем изменения в родительский компонент
+    }
   };
 
   const handleClear = () => {

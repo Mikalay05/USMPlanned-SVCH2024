@@ -5,7 +5,13 @@ import ProjectDTO from '../../DTOs/ProjectDTO'
 export const getProjects = createAsyncThunk('project/getProjects', async () => {
     const response = await ProjectService.getProjects();
 
-    return response.map(project => new ProjectDTO(project));;
+    return response.map(project => new ProjectDTO(project));
+});
+
+export const createProject = createAsyncThunk('project/createProject', async (data) => {
+    const response = await ProjectService.createProject(data);
+
+    return  ProjectDTO(response);
 });
 
 const projectSlice = createSlice({

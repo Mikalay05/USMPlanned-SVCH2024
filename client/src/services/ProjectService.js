@@ -8,8 +8,10 @@ class ProjectService extends BaseService {
 
         return response;
     }
-    async getProjectStatuses() {
-        const response = await BaseService.request("get",API_ENDPOINTS.PROJECT_STATUS.GET_ALL_PROJECT_STATUSES);
+
+    
+    async createProject(data) {
+        const response = await BaseService.request("post",API_ENDPOINTS.PROJECT.CREATE_PROJECT, data);
         return response;
     }
 }
