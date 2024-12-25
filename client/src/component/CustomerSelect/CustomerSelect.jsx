@@ -9,7 +9,9 @@ const CustomerSelect = ({
     onSelect,
     defaultValue,
     iconPath = "SelectIcon.svg",
-    iconClosePath = 'IconCloseSelect.svg'
+    iconClosePath = 'IconCloseSelect.svg',
+
+     //Обработчик при выборе
 }) => {
     const [inputValue, setInputValue] = useState(defaultValue ? defaultValue[filterKey] : "");
     const [filteredOptions, setFilteredOptions] = useState(options);

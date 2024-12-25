@@ -1,28 +1,29 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getProjectStatuses } from "../../store/slices/projectStatusSlice";
+import { useState } from "react";
+
 import CardProject from "../CardProject/CardProject";
 import CustomerModal from "../CustomerModal/CustomerModal";
 import CustomerSlider from "../CustomerSlider/CustomerSlider";
 import CustomerSelect from "../CustomerSelect/CustomerSelect";
 import InputData from "../InputData/InputData";
+
 import "./ProjectComponent.css";
-import ProjectForCreationDTO from "../../DTOs/ForCreation/ProjectForCreationDTO";
-import { createProject } from "../../store/slices/projectSlice";
+
 
 export default function ProjectComponent({
   arrProject = [],
+  isLoadingProject,
+  errorProject,
+
+  arrProjectStatus = [],
+  isLoadingProjectStatus,
+  errorProjectStatus,
+
   iconAdd = "IconAdd.svg",
   iconDelete = "IconDelete.svg",
   iconChange = "IconChange.svg",
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const dispatch = useDispatch();
 
-  // Получаем из Redux состояние загрузки и данные статусов
-  const { projectStatuses, isLoading } = useSelector(
-    (state) => state.projectStatus
-  );
   //Для формы создание проекта
   const projectNameField = "projectName";
   const projectDescriptionField = "projectDescription";
@@ -41,7 +42,6 @@ export default function ProjectComponent({
       ...prevState,
       [fieldName]: value,
     }));
-    console.log("ФОРМА ИЗМЕНЕНА", projectCreationFormData)
   };
 
   //Изменяет ввода данных для текстовых полей
@@ -59,12 +59,6 @@ export default function ProjectComponent({
   };
   const emptyCardComponent = CardProject;
 
-  // Функция для загрузки статусов при открытии модального окна
-  //Статусы проекта является справочной информацией, достатчно загрузить один раз для корректной работы.
-  useEffect(() => {
-    dispatch(getProjectStatuses());
-  }, [dispatch]);
-
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -72,9 +66,12 @@ export default function ProjectComponent({
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+  const handleSelecteStatusProject = () => {
+
+  }
   return (
     <section className="project-section">
-      {isModalOpen && !isLoading && projectStatuses.length > 0 && (
+      {isModalOpen && !isLoadingProject > 0 && (
         <CustomerModal
           textTitle="Create project"
           clickOnClose={handleCloseModal}
@@ -97,13 +94,14 @@ export default function ProjectComponent({
             onInput={handleInputData}
             onClear={handleClear}
           />
-          {isLoading ? (
+          {isLoadingProjectStatus ? (
             <p>Loading statuses...</p>
           ) : (
             <CustomerSelect
-              options={projectStatuses}
+              options={arrProjectStatus}
               placeholderValue={"Status of project"}
               filterKey={"name"}
+              onSelect={handleSelecteStatusProject}
             />
           )}
         </CustomerModal>
