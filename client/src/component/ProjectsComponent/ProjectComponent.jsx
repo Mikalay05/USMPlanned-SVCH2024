@@ -21,6 +21,30 @@ export default function ProjectComponent({
 
   // Получаем из Redux состояние загрузки и данные статусов
   const { projectStatuses, isLoading } = useSelector((state) => state.projectStatus);
+  //Для формы создание проекта
+  const projectNameField = "projectName";
+  const projectDescriptionField = "projectDescription";
+  const projectStatusIdField = "projectStatusId";
+  const [projectCreationFormData, setProjectCreationFormData] = useState({});
+  
+  //Изменять стейт для создания формы
+  const handleFormData = (fieldName, value) => {
+    setProjectCreationFormData(prevState => ({
+      ...prevState,
+      [fieldName]: value,
+    }));
+  };
+  //Изменяет ввода данных для текстовых полей
+  const handleInputData = (e) => {
+    //Получаю какое свойство поменялось и какое значение
+    const {nameField, value} = e.target;
+    setProjectCreationFormData((prevState)=> ({
+      ...prevState,
+      [nameField]:value
+    }))
+  }
+  
+
 
   const emptyCardComponent = CardProject;
 
@@ -49,12 +73,15 @@ export default function ProjectComponent({
           <InputData 
             type="text" 
             placeholderValue={"Project name..."} 
-            name="projectName" 
+            name="projectName"
+            onChange={handleInputData}
           />
           <InputData 
             type="text" 
             placeholderValue={"Project description..."} 
             name="projectDescription" 
+            onChange={handleInputData}
+
           />
           {isLoading ? (
             <p>Loading statuses...</p>
@@ -63,6 +90,7 @@ export default function ProjectComponent({
               options={projectStatuses}
               placeholderValue={"Status of project"}
               filterKey={"name"}
+              
             />
           )}
         </CustomerModal>
