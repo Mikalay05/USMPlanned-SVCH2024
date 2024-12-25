@@ -1,8 +1,8 @@
 .notification {
     position: fixed;
-    bottom: 20px; 
-    right: 20px; 
-    z-index: 1000;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1005;
 
     display: flex;
     width: 280px;
@@ -11,10 +11,8 @@
     gap: 10px;
     padding: 10px;
     align-content: center;
-
-
     border-radius: 15px;
-    background: #B9FF95;    
+    transition: background-color 0.3s ease; /* Плавное изменение фона */
 }
 
 .notification > h4 {
@@ -25,10 +23,12 @@
     height: 58px;
     flex: 1 0 0;
 }
+
 .notification > img {
     width: 20px;
     height: 20px;
-}   
+    cursor: pointer;
+}
 
 .close-button {
     cursor: pointer; /* Курсор в виде указателя */

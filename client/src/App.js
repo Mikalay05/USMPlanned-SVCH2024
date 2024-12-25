@@ -10,14 +10,6 @@ import ProjectPage from "./page/ProjectPage/ProjectPage";
 import CustomersInformation from "./page/CustomersInformation/CustomersInformation";
 
 export default function App() {
-    const [notification, setNotification] = useState(true);
-    function closeNotification() {
-        setNotification(false);
-    }
-    function openNotification() {
-        setNotification(true);
-    }
-    
     return (
         <>
         

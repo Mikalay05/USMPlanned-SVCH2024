@@ -5,7 +5,7 @@ import ProjectComponent from "../../component/ProjectsComponent/ProjectComponent
 
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProjects } from "../../store/slices/projectSlice";
+import { getProjects, createProject } from "../../store/slices/projectSlice";
 import { getProjectStatuses } from "../../store/slices/projectStatusSlice";
 
 export default function ProjectPage() {
@@ -21,7 +21,9 @@ export default function ProjectPage() {
     dispatch(getProjectStatuses());
 
   }, [dispatch]);
-
+  const onCreateProject = (dataDto) => {
+    dispatch(createProject(dataDto));
+  }
   return (
     <>
       <Header />
@@ -29,6 +31,8 @@ export default function ProjectPage() {
         arrProject={projects}
         isLoadingProject={isLoadingProject}
         errorProject={errorProject}
+        onCreateProject={onCreateProject}
+
         arrProjectStatus={projectStatuses}
         isLoadingProjectStatus={isLoadingProjectStatus}
         errorProjectStatus={errorProjectStatus}

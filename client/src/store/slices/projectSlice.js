@@ -12,7 +12,7 @@ export const getProjects = createAsyncThunk('project/getProjects', async () => {
 export const createProject = createAsyncThunk('project/createProject', async (data) => {
     const response = await ProjectService.createProject(data);
 
-    return  ProjectDTO(response);
+    return new ProjectDTO(response);
 });
 
 const projectSlice = createSlice({
