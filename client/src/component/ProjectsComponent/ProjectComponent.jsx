@@ -33,16 +33,23 @@ export default function ProjectComponent({
       ...prevState,
       [fieldName]: value,
     }));
+    console.log("UPDATE FORM DATA", projectCreationFormData)
   };
   //Изменяет ввода данных для текстовых полей
   const handleInputData = (e) => {
     //Получаю какое свойство поменялось и какое значение
-    const {nameField, value} = e.target;
-    setProjectCreationFormData((prevState)=> ({
-      ...prevState,
-      [nameField]:value
-    }))
+    const {name, value} = e.target;
+    //Если свойство не указано, возращаю ошибку
+    if(!name)
+    {
+      console.error("Field name from input not found.");
+      return;
+    }
+    
+    //Устанавливаю новое значение данных
+    handleFormData(name, value);
   }
+  
   
 
 
@@ -73,14 +80,14 @@ export default function ProjectComponent({
           <InputData 
             type="text" 
             placeholderValue={"Project name..."} 
-            name="projectName"
-            onChange={handleInputData}
+            nameOfInput="projectName"
+            onInput={handleInputData}
           />
           <InputData 
             type="text" 
             placeholderValue={"Project description..."} 
-            name="projectDescription" 
-            onChange={handleInputData}
+            nameOfInput="projectDescription" 
+            onInput={handleInputData}
 
           />
           {isLoading ? (

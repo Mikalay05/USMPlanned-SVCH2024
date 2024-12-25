@@ -3,12 +3,15 @@ import { useState, useEffect } from "react";
 
 export default function InputData({
   value = "",
-  placeholderValue,
+  typeOfData = 'text',
+  placeholderValue = '',
   iconName,
   onClickIcon,
   widthIcon = "15px",
   heightIcon = "15px",
   type = "text-with-icon", 
+  nameOfInput,
+  onInput,
   closeIconPath = "CloseIconInInput.svg",
 }) {
   const [inputValue, setInputValue] = useState(value);
@@ -21,7 +24,13 @@ export default function InputData({
     //Получаю новое значение
     const newValue= e.target.value;
     //Устанавливаю новое значение
-    setInputValue(newValue)
+    setInputValue(newValue);
+
+    //Если есть обработчик ввода, то вызываем его передовая событие
+    if(onInput)
+    {
+      onInput(e);
+    }
   }
   return (
     <div className="input-style-section">
@@ -49,6 +58,7 @@ export default function InputData({
         placeholder={placeholderValue}
         value={inputValue}
         onInput={handleInput}
+        name={nameOfInput}
         className={type === "text" ? "input-no-icon" : "input-with-icon"}
       />
     </div>
