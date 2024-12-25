@@ -42,6 +42,7 @@ export default function ProjectComponent({
       ...prevState,
       [fieldName]: value,
     }));
+    console.log("ИЗМЕНЕНИЕ ЗНАЧЕНИЕ ФОРМЫ", projectCreationFormData)
   };
 
   //Изменяет ввода данных для текстовых полей
@@ -111,8 +112,8 @@ export default function ProjectComponent({
 
       <div className="icon-container">
         <img src={`/${iconAdd}`} alt="Add Project" onClick={handleOpenModal} />
-        <img src={`/${iconDelete}`} alt="Delete Project" />
-        <img src={`/${iconChange}`} alt="Change Project" />
+        {/* <img src={`/${iconDelete}`} alt="Delete Project" />
+        <img src={`/${iconChange}`} alt="Change Project" /> */}
       </div>
 
       <CustomerSlider emptyCardComponent={emptyCardComponent}>

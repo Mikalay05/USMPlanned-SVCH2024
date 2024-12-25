@@ -18,9 +18,7 @@ export default function ProjectPage() {
 
   useEffect(() => {
     dispatch(getProjects());
-    console.log("1")
     dispatch(getProjectStatuses());
-    console.log("2")
 
   }, [dispatch]);
 

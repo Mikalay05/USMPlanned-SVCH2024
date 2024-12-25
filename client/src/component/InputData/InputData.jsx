@@ -28,6 +28,17 @@ export default function InputData({
       onClear(nameOfInput)
     }
   }
+
+  //FIXME
+  /*hook.js:608 Warning: You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`. Error Component Stack
+    at input (<anonymous>)
+    at div (<anonymous>)
+    at InputData (InputData.jsx:5:1)
+    at section (<anonymous>)
+    at ProjectComponent (ProjectComponent.jsx:13:1)
+    at ProjectPage (ProjectPage.jsx:12:1)
+    at App (App.js:13:1)
+*/
   return (
     <div className="input-style-section">
       {withIcon && ( 
@@ -53,7 +64,7 @@ export default function InputData({
       <input
         type={typeOfData}
         placeholder={placeholderValue}
-        defaultValue={textValue}
+        value={textValue}
         onInput={onInput}
         name={nameOfInput}
         className={type === "text" ? "input-no-icon" : "input-with-icon"}
