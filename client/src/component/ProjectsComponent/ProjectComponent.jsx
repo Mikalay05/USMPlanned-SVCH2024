@@ -27,7 +27,7 @@ export default function ProjectComponent({
   iconChange = "IconChange.svg",
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  console.log(arrProjectStatus);
   // Для формы создания проекта
   const projectNameField = "projectName";
   const projectDescriptionField = "projectDescription";
@@ -108,25 +108,25 @@ export default function ProjectComponent({
       showNotification("Please fill in all the fields.");
       return;
     }
-    //Получаем данные с формы
+    // Получаем данные с формы
     const projectDtoForCreation = new ProjectForCreationDTO({
       name: projectCreationFormData[projectNameField],
       description: projectCreationFormData[projectDescriptionField],
       status_id: projectCreationFormData[projectStatusIdField],
     });
 
+
     onCreateProject(projectDtoForCreation)
       .then(() => {
         showNotification("Project created successfully.", "#00FF26");
         handleCloseModal(); // Закрываем модальное окно при успешном создании
+        setProjectCreationFormData({}); // Очищаем форму после успешного создания проекта
       })
       .catch((error) => {
-        showNotification(
-          "Failed to create project. Please try again.", "#FF0004"
-        );
+        showNotification("Failed to create project. Please try again.", "#FF0004");
       });
   };
-
+  console.log("TESTING", arrProject);
   return (
     <section className="project-section">
       <Notification
@@ -185,7 +185,7 @@ export default function ProjectComponent({
           <CardProject
             key={index}
             projectName={project.name}
-            statusName={project.status}
+            statusName={ arrProjectStatus.find(status => status.id === project.status_id)?.name}
           />
         ))}
       </CustomerSlider>

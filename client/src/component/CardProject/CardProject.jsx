@@ -16,15 +16,15 @@ export default function CardProject({
         <ProgressTab isEmpty={true} />
         <ProgressTab isEmpty={true} />
         <ProgressTab isEmpty={true} />
-        <CustomerButton textValue="Next" isEmpty ={true}/>
+        <CustomerButton textValue="Next" isEmpty={true} />
       </div>
     );
   }
 
   return (
     <div className="projectCard-section">
-      <h4>{projectName}</h4>
       <p>{statusName}</p>
+      <h4>{projectName}</h4>
       <ProgressTab
         iconName="Icon-Must.svg"
         nameOfType="Must"

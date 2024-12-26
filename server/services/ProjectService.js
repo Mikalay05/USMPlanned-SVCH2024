@@ -9,6 +9,8 @@ class ProjectService {
     try {
       const rows = await dbQuery(QUERIES.GET_ALL_PROJECTS);
       const projects = rows.map((row) => new ProjectDTO(row));
+      console.log(projects)
+      console.log(rows)
       return projects;
     } catch (err) {
       console.error("Error executing query:", err);
@@ -110,9 +112,30 @@ class ProjectService {
       await this.validate(projectForm);
 
       // Создать проект в базе данных
-      const result = await this.dbQueryCreateProject(projectForm, whoCreateProject);
+      const resultFromDb = await this.dbQueryCreateProject(projectForm, whoCreateProject);
+      console.log("====================")
+      console.log("ОТВЕТ НА СОЗДАНИЕ ПРОЕКТА ПО ХП");
+      console.log(resultFromDb);
+      console.log("====================")
 
+      const extractedData = Object.values(resultFromDb[0])[0];
+      console.log("====================")
+      console.log("ПРЕОБРАЗОВАНИЯ ОБЬЕКТА С ХП В ОБЬЕКТ");
+      console.log(extractedData);
 
+      console.log("====================")
+
+      const result = new ProjectDTO({
+        project_id: extractedData.id,
+        project_name: extractedData.name,
+        project_description: extractedData.description,
+        status_id: extractedData.status_id,
+      });
+    
+      console.log("====================")
+      console.log("ОТВЕТ НА СОЗДАНИЕ ПРОЕКТА ОТ СЕРВЕРА");
+      console.log(result);
+      console.log("====================")
       return result;
     } catch (err) {
       console.error("Error executing createProject:", err);

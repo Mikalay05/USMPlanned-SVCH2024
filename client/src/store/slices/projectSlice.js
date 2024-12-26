@@ -1,17 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import ProjectService from '../../services/ProjectService';
-import ProjectDTO from '../../DTOs/ProjectDTO'
+import ProjectDTO from '../../DTOs/Data/ProjectDTO'
 
 export const getProjects = createAsyncThunk('project/getProjects', async () => {
     const response = await ProjectService.getProjects();
     const result = response.map(project => new ProjectDTO(project))
-
+    console.log("result")
+    console.log(result)
+    console.log("response")
+    console.log(response)
     return result;
 });
 
 export const createProject = createAsyncThunk('project/createProject', async (data) => {
     const response = await ProjectService.createProject(data);
-
     return new ProjectDTO(response);
 });
 
@@ -40,6 +42,9 @@ const projectSlice = createSlice({
             })
             .addCase(getProjects.rejected, (state) => {
                 state.isLoading = false;
+            })
+            .addCase(createProject.fulfilled, (state, action) => {
+                state.projects.push(action.payload);
             });
     },
 });

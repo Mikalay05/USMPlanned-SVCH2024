@@ -1,14 +1,14 @@
 class ProjectDTO {
     constructor({ 
-        project_id, 
-        project_name, 
-        project_description, 
-        status_name 
+        id, 
+        name, 
+        description, 
+        status_id
     }) {
-        this.id = project_id;
-        this.name = project_name;
-        this.description = project_description;
-        this.status = status_name;
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status_id = status_id;
     }
 }
 

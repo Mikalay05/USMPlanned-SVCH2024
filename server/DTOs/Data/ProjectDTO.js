@@ -3,12 +3,12 @@ class ProjectDTO {
         project_id, 
         project_name, 
         project_description, 
-        status_name 
+        status_id
     }) {
         this.id = project_id;
         this.name = project_name;
         this.description = project_description;
-        this.status = status_name;
+        this.status_id = status_id;
     }
 }
 
