@@ -2,7 +2,7 @@ import "./InputData.css";
 import { useState, useEffect } from "react";
 
 export default function InputData({
-  textValue = "",
+  value = "",
   typeOfData = 'text',
   onInput, //обработчик изменения данных input
   nameOfInput = '',
@@ -24,7 +24,7 @@ export default function InputData({
   //Обработчик очистки
   const handleClearClick = () => {
     //Если есть обработчик от родители и значения свойство для очистки -
-    if(onClear&& nameOfInput) {
+    if(onClear) {
       onClear(nameOfInput)
     }
   }
@@ -42,7 +42,7 @@ export default function InputData({
   return (
     <div className="input-style-section">
       {withIcon && ( 
-        (textValue && withClearIcon )? (
+        (value && withClearIcon )? (
           <img
             width={widthIcon}
             height={heightIcon}
@@ -64,7 +64,7 @@ export default function InputData({
       <input
         type={typeOfData}
         placeholder={placeholderValue}
-        value={textValue}
+        value={value}
         onInput={onInput}
         name={nameOfInput}
         className={type === "text" ? "input-no-icon" : "input-with-icon"}

@@ -15,3 +15,8 @@
     align-self: stretch;
     background: #F2F2F2;
 }
+
+.input-filter-section-projects {
+    display: flex;
+    align-items: center;
+}

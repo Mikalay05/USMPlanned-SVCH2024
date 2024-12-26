@@ -8,7 +8,8 @@ export default function CustomerCard({
     alphaInactive = "0.3", // Прозрачность для неактивного состояния
     isActiveElement = false,
     descriptionText = "",
-    children // Дочерние элементы
+    children, // Дочерние элементы
+    onClickElement, //Обработчик на нажатие на карточку
 }) {
     // Функция для преобразования RGB и alpha в rgba строку
     const rgba = ({ r, g, b }, alpha) => `rgba(${r}, ${g}, ${b}, ${alpha})`;
@@ -19,6 +20,7 @@ export default function CustomerCard({
             style={{
                 background: isActiveElement ? rgba(backgroundColor, alphaActive) : rgba(backgroundColor, alphaInactive)
             }}
+            onClick={onClickElement}
         >
             {children ? (
                 children // Если есть дочерние элементы, рендерим их

@@ -61,6 +61,9 @@ export default function ProjectComponent({
   const emptyCardComponent = CardProject;
 
   const handleOpenModal = () => {
+    console.log("======================")
+    console.log("ОТКРТИЕ МОДАЛЬНОГО ОКНА")
+    console.log("======================")
     setIsModalOpen(true);
   };
 
@@ -125,8 +128,25 @@ export default function ProjectComponent({
       .catch((error) => {
         showNotification("Failed to create project. Please try again.", "#FF0004");
       });
-  };
-  console.log("TESTING", arrProject);
+  }; 
+  //Стейт для ввода фильтрации
+  const [searchValue, setSearchValue] = useState("");
+  //Изменение ввода фильтрации
+  const handleSearchValue = (e) => {
+    //получает введеное значение
+    const {value} = e.target;
+    //устананавливаем в стейт
+    setSearchValue(value);
+  }
+  //Обработчик очистки ввода фильтрации
+  const handleOnClearSearchValue = () => {
+    setSearchValue("");
+  }
+
+  //Обработчик при нажатии на пустой элемент
+  const handleOnClickEmptyElement = () => {
+    handleOpenModal();
+  }
   return (
     <section className="project-section">
       <Notification
@@ -144,7 +164,7 @@ export default function ProjectComponent({
           clickOnButton={handleCreateProject}
         >
           <InputData
-            textValue={projectCreationFormData[projectNameField]}
+            value={projectCreationFormData[projectNameField]}
             type="text"
             placeholderValue={"Project name..."}
             nameOfInput={projectNameField}
@@ -153,7 +173,7 @@ export default function ProjectComponent({
             onClear={handleClear}
           />
           <InputData
-            textValue={projectCreationFormData[projectDescriptionField]}
+            value={projectCreationFormData[projectDescriptionField]}
             type="text"
             placeholderValue={"Project description..."}
             nameOfInput={projectDescriptionField}
@@ -173,14 +193,19 @@ export default function ProjectComponent({
           )}
         </CustomerModal>
       )}
-
-      <InputData placeholderValue="Search..." iconName="IconSearch.svg" />
+      <div className="input-filter-section-projects">
+      <InputData placeholderValue="Search..." iconName="IconSearch.svg"
+      value={searchValue} onInput={handleSearchValue} 
+      onClear={handleOnClearSearchValue}/>
 
       <div className="icon-container">
         <img src={`/${iconAdd}`} alt="Add Project" onClick={handleOpenModal} />
       </div>
+      </div>
 
-      <CustomerSlider emptyCardComponent={emptyCardComponent}>
+
+      <CustomerSlider emptyCardComponent={emptyCardComponent}
+      onClickOnEmptyElement={handleOpenModal}>
         {arrProject.map((project, index) => (
           <CardProject
             key={index}

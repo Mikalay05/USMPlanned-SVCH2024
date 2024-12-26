@@ -6,6 +6,7 @@ export default function CustomerSlider({
   children, // Дочерние элементы (массив)
   alphaInactiveOnEmtyElement = "0.1",
   emptyCardComponent = CustomerCard, // Дефолтный компонент пустой карточки
+  onClickOnEmptyElement,
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -27,7 +28,7 @@ export default function CustomerSlider({
 
   // Создание пустого слайда
   const createEmptyCard = () => {
-    return React.createElement(emptyCardComponent, { alphaInactive: alphaInactiveOnEmtyElement, isEmpty: true });
+    return React.createElement(emptyCardComponent, { alphaInactive: alphaInactiveOnEmtyElement, isEmpty: true, onClickElement: onClickOnEmptyElement });
   };
 
   // Получение данных слайда по индексу

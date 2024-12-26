@@ -12,7 +12,8 @@ export default function CardProject({
   if (isEmpty) {
     return (
       <div className="projectCard-section">
-        <div></div>
+        <div className="empty-line-project-card"/>
+        <div className="empty-line-project-card"/>
         <ProgressTab isEmpty={true} />
         <ProgressTab isEmpty={true} />
         <ProgressTab isEmpty={true} />
