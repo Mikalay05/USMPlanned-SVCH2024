@@ -25,14 +25,14 @@ export default function Header({ nameMainIcon = "MainIcon.svg", nameLoginIcon = 
 
   return (
     <header>
-      <img src={nameMainIcon} alt="Main Icon" />
+      <img src={`/${nameMainIcon}`} alt="Main Icon" />
       <BurgerMenu/>
       <div className="links-in-header">
         {hasAccess(rolesAccess.Users) && <p>Users</p>}
         {hasAccess(rolesAccess.Tasks) && <p>Tasks</p>}
         {hasAccess(rolesAccess.Projects) && <p>Projects</p>}
         <p>{user.login}</p>
-        <img src={nameLoginIcon} alt="Login Icon" />
+        <img src={`/${nameLoginIcon}`}  alt="Login Icon" />
       </div>
     </header>
   );

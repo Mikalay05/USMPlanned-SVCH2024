@@ -24,7 +24,7 @@ const arrIcon = [
 export default function Footer({ nameMainIcon = "MainIcon.svg" }) {
   return (
     <footer>
-      <img src={nameMainIcon} alt="Main Icon" />
+      <img src={`/${nameMainIcon}`} alt="Main Icon" />
       <div className="footer-content">
         <div className="text-content-in-footer">
           <p>© 2024 Кислюк Николай Александрович</p>

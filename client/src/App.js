@@ -1,10 +1,14 @@
 import React from "react";
-import {BrowserRouter,} from 'react-router-dom'
+import {BrowserRouter} from 'react-router-dom'
+import RouteComponent from './component/sys_RouteComponent/sys_RouteComponent'
 export default function App() {
   try {
     return (
       <>
-      <BrowserRouter/>
+      <BrowserRouter>
+      <RouteComponent/>
+      
+      </BrowserRouter>
       </>
     );
   } catch (error) {
