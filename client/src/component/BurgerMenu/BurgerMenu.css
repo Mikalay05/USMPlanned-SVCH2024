@@ -23,7 +23,7 @@
 
 
 /* Медиа-запрос для отображения бургер-меню */
-@media (max-width: 900px) {
+@media (max-width: 750px) {
     .burger-menu {
         display: flex; /* Скрыто по умолчанию */
     }

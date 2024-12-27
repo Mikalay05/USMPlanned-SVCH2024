@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./CustomerSlider.css";
 import CustomerCard from "../CustomerCard/CustomerCard";
-
+//TODO сделать если нажатие на карточку - открывается детализация
 export default function CustomerSlider({
   children, // Дочерние элементы (массив)
   alphaInactiveOnEmtyElement = "0.1",

@@ -39,3 +39,15 @@ cursor: pointer;
     background: #d3d3d3; /* Цвет фона для неактивной кнопки */
     cursor: not-allowed; /* Изменение курсора на "запрещено" */
   }
+
+  @media (max-width: 1250px) {
+    .slider {
+        flex-direction: column;
+    }
+    .left-slider-index {
+        rotate: 180deg;
+    }
+    .right-slider-index {
+        rotate: 0deg;
+    }
+  }
