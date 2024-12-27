@@ -1,21 +1,14 @@
-
-import React, { useState } from "react";
-import InputData from "./component/InputData/InputData";
-import Header from "./component/Header/Header";
-import Notification from "./component/Notification/Notification";
-import "./App.css"
-import Footer from "./component/Footer/Footer";
-import AuthComponent from "./page/Auth/Auth";
-import ProjectPage from "./page/ProjectPage/ProjectPage";
-import CustomersInformation from "./page/CustomersInformation/CustomersInformation";
-
+import React from "react";
+import {BrowserRouter,} from 'react-router-dom'
 export default function App() {
+  try {
     return (
-        <>
-        
-            {/* <AuthComponent/> */}
-            <ProjectPage/>
-        </>
-        
-    )
+      <>
+      <BrowserRouter/>
+      </>
+    );
+  } catch (error) {
+    console.error("Error in App:", error);
+    return <p>Ошибка загрузки маршрута.</p>;
+  }
 }

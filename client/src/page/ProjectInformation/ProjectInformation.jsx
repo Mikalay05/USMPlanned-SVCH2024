@@ -1,4 +1,4 @@
-import "./CustomersInformation.css";
+import "./ProjectInformation.css";
 
 import Header from '../../component/Header/Header';
 import Footer from '../../component/Footer/Footer';
@@ -6,7 +6,7 @@ import CustomerSelect from "../../component/CustomerSelect/CustomerSelect";
 import ShowPathInUSM from "../../component/ShowPathInUSM/ShowPathInUSM";
 import { useState, useEffect } from 'react';
 
-export default function CustomersInformation() {
+export default function ProjectInformation() {
     const project = {
         id: 0,
         name: "ProjectName"
