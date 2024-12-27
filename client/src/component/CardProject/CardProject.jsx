@@ -8,7 +8,8 @@ export default function CardProject({
   shouldProgress = "no data",
   couldProgress = "no data",
   isEmpty = false,
-  onClickOnEmptyElement
+  onClickOnEmptyElement,
+  hiddenProgressTab = false,
 }) {
   const handleOnClickElement = () => {
     if(onClickOnEmptyElement) {

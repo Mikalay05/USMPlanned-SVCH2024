@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./CustomerSlider.css";
 import CustomerCard from "../CustomerCard/CustomerCard";
+import SliderButton from '../SliderButton/SliderButton'
+
 //TODO сделать если нажатие на карточку - открывается детализация
 export default function CustomerSlider({
   children, // Дочерние элементы (массив)
@@ -54,39 +56,27 @@ export default function CustomerSlider({
 
   return (
     <div className="slider-container">
-      {/* Кнопка назад (дезактивирована, если currentIndex === 0) */}
-      <button
-        className="slider-button prev"
+      <SliderButton
+        direction="prev"
         onClick={handlePrev}
-        disabled={isPrevDisabled} // Отключаем кнопку, если это первый элемент
-      >
-        <img
-          className="left-slider-index"
-          src={`/${nameOfSliderIndexFile}`}
-          alt="Left"
-        />
-      </button>
+        isDisabled={isPrevDisabled}
+        icon={`/${nameOfSliderIndexFile}`}
+        rotation={90}
+      />
 
       <div className="slider">
         {getDataByIndex(currentIndex - 1, false)}{" "}
-        {/* Пассивный элемент слева */}
         {getDataByIndex(currentIndex, true)} {/* Активный элемент в центре */}
         {getDataByIndex(currentIndex + 1, false)}{" "}
-        {/* Пассивный элемент справа */}
       </div>
 
-      {/* Кнопка вперед (дезактивирована, если currentIndex === последний элемент) */}
-      <button
-        className="slider-button next"
+      <SliderButton
+        direction="next"
         onClick={handleNext}
-        disabled={isNextDisabled} // Отключаем кнопку, если это последний элемент
-      >
-        <img
-          className="right-slider-index"
-          src={`/${nameOfSliderIndexFile}`}
-          alt="Right"
-        />
-      </button>
+        isDisabled={isNextDisabled}
+        icon={`/${nameOfSliderIndexFile}`}
+        rotation={-90}
+      />
     </div>
   );
 }

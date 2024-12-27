@@ -41,3 +41,8 @@
     opacity: 0.5; /* Задаем прозрачность для неактивного состояния */
     pointer-events: none; /* Отключаем взаимодействие с элементом */
 }
+@media (max-width: 1250px) {
+    .empty-progress-tab {
+        display: none;
+    }
+}
