@@ -145,6 +145,7 @@ export default function ProjectComponent({
 
   //Обработчик при нажатии на пустой элемент
   const handleOnClickEmptyElement = () => {
+    console.log("НАЖАТИЕ НА ОБАРБОЧТИК В PROJECT COMPONENT")
     handleOpenModal();
   }
   return (
@@ -205,12 +206,13 @@ export default function ProjectComponent({
 
 
       <CustomerSlider emptyCardComponent={emptyCardComponent}
-      onClickOnEmptyElement={handleOpenModal}>
+                 onClickOnEmptyElementInSlider={handleOnClickEmptyElement}>
         {arrProject.map((project, index) => (
           <CardProject
             key={index}
             projectName={project.name}
             statusName={ arrProjectStatus.find(status => status.id === project.status_id)?.name}
+ 
           />
         ))}
       </CustomerSlider>

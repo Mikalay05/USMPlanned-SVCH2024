@@ -8,10 +8,20 @@ export default function CardProject({
   shouldProgress = "no data",
   couldProgress = "no data",
   isEmpty = false,
+  onClickOnEmptyElement
 }) {
+  const handleOnClickElement = () => {
+    if(onClickOnEmptyElement) {
+      onClickOnEmptyElement();
+      return;
+    }
+    console.log("НЕТУ НАЖАТИЯ НА ОБРАБОТЧИК")
+
+  }
   if (isEmpty) {
     return (
-      <div className="projectCard-section">
+      <div className="projectCard-section"
+      onClick={handleOnClickElement}>
         <div className="empty-line-project-card"/>
         <div className="empty-line-project-card"/>
         <ProgressTab isEmpty={true} />
