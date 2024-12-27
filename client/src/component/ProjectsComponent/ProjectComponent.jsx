@@ -152,7 +152,25 @@ export default function ProjectComponent({
   const handleOnClearSearchValue = () => {
     setSearchValue("");
   };
-
+  //Фильрация массива на основании Search value
+  const filteredProjects  = arrProject.filter((project)=> {
+    const projectName = project.name.toLowerCase();
+    const searchQuery = searchValue.toLowerCase();
+    const result = projectName.includes(searchQuery)
+    return result;
+})
+const arrProjectForShow = filteredProjects.map((project, index) => (
+  <CardProject
+    key={index}
+    projectName={project.name}
+    statusName={
+      arrProjectStatus.find((status) => status.id === project.status_id)
+        ?.name
+    }
+  />
+))
+console.log("FILTEREDPROJECTS",filteredProjects)
+console.log("ARRPROJCET FOR SHOW", arrProjectForShow)
   //Обработчик при нажатии на пустой элемент
   const handleOnClickEmptyElement = () => {
     console.log("НАЖАТИЕ НА ОБАРБОЧТИК В PROJECT COMPONENT");
@@ -226,16 +244,7 @@ export default function ProjectComponent({
         emptyCardComponent={emptyCardComponent}
         onClickOnEmptyElementInSlider={handleOnClickEmptyElement}
       >
-        {arrProject.map((project, index) => (
-          <CardProject
-            key={index}
-            projectName={project.name}
-            statusName={
-              arrProjectStatus.find((status) => status.id === project.status_id)
-                ?.name
-            }
-          />
-        ))}
+        {arrProjectForShow}
       </CustomerSlider>
     </section>
   );
