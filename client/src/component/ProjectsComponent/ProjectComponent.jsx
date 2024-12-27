@@ -61,9 +61,9 @@ export default function ProjectComponent({
   const emptyCardComponent = CardProject;
 
   const handleOpenModal = () => {
-    console.log("======================")
-    console.log("ОТКРТИЕ МОДАЛЬНОГО ОКНА")
-    console.log("======================")
+    console.log("======================");
+    console.log("ОТКРТИЕ МОДАЛЬНОГО ОКНА");
+    console.log("======================");
     setIsModalOpen(true);
   };
 
@@ -89,65 +89,75 @@ export default function ProjectComponent({
     }));
   };
   //Открытие уведомления
-  const showNotification = (textValue, duration = 3000, colorStyle = "#F5F24B") => {
+  const showNotification = (
+    textValue,
+    colorStyle = "#F5F24B",
+    duration = 3000,
+  ) => {
     // Меняем данные для уведомления
     setNotification((prevState) => ({
       ...prevState,
       text: textValue,
       open: true,
-      duration: duration, 
+      duration: duration,
       colorStyle: colorStyle,
     }));
   };
-  
+
   //Отправки запросы на создание проекта
   const handleCreateProject = () => {
-    //TODO Валидация формы
-    if (
-      !projectCreationFormData[projectNameField] ||
-      !projectCreationFormData[projectDescriptionField] ||
-      !projectCreationFormData[projectStatusIdField]
-    ) {
-      showNotification("Please fill in all the fields.");
-      return;
-    }
-    // Получаем данные с формы
-    const projectDtoForCreation = new ProjectForCreationDTO({
-      name: projectCreationFormData[projectNameField],
-      description: projectCreationFormData[projectDescriptionField],
-      status_id: projectCreationFormData[projectStatusIdField],
-    });
+    try {
 
-
-    onCreateProject(projectDtoForCreation)
-      .then(() => {
-        showNotification("Project created successfully.", "#00FF26");
-        handleCloseModal(); // Закрываем модальное окно при успешном создании
-        setProjectCreationFormData({}); // Очищаем форму после успешного создания проекта
-      })
-      .catch((error) => {
-        showNotification("Failed to create project. Please try again.", "#FF0004");
+      //TODO Валидация формы
+      if (
+        !projectCreationFormData[projectNameField] ||
+        !projectCreationFormData[projectDescriptionField] ||
+        !projectCreationFormData[projectStatusIdField]
+      ) {
+        showNotification("Please fill in all the fields.");
+        return;
+      }
+      // Получаем данные с формы
+      const projectDtoForCreation = new ProjectForCreationDTO({
+        name: projectCreationFormData[projectNameField],
+        description: projectCreationFormData[projectDescriptionField],
+        status_id: projectCreationFormData[projectStatusIdField],
       });
-  }; 
+      onCreateProject(projectDtoForCreation)
+        .then(() => {
+          showNotification("Project created successfully.", "#00FF26");
+          handleCloseModal(); // Закрываем модальное окно при успешном создании
+          setProjectCreationFormData({}); // Очищаем форму после успешного создания проекта
+        })
+        .catch((error) => {
+          showNotification(
+            "Failed to create project. Please try again.",
+            "#FF0004"
+          );
+        });
+    } catch (e) {
+      
+    }
+  };
   //Стейт для ввода фильтрации
   const [searchValue, setSearchValue] = useState("");
   //Изменение ввода фильтрации
   const handleSearchValue = (e) => {
     //получает введеное значение
-    const {value} = e.target;
+    const { value } = e.target;
     //устананавливаем в стейт
     setSearchValue(value);
-  }
+  };
   //Обработчик очистки ввода фильтрации
   const handleOnClearSearchValue = () => {
     setSearchValue("");
-  }
+  };
 
   //Обработчик при нажатии на пустой элемент
   const handleOnClickEmptyElement = () => {
-    console.log("НАЖАТИЕ НА ОБАРБОЧТИК В PROJECT COMPONENT")
+    console.log("НАЖАТИЕ НА ОБАРБОЧТИК В PROJECT COMPONENT");
     handleOpenModal();
-  }
+  };
   return (
     <section className="project-section">
       <Notification
@@ -195,24 +205,35 @@ export default function ProjectComponent({
         </CustomerModal>
       )}
       <div className="input-filter-section-projects">
-      <InputData placeholderValue="Search..." iconName="IconSearch.svg"
-      value={searchValue} onInput={handleSearchValue} 
-      onClear={handleOnClearSearchValue}/>
+        <InputData
+          placeholderValue="Search..."
+          iconName="IconSearch.svg"
+          value={searchValue}
+          onInput={handleSearchValue}
+          onClear={handleOnClearSearchValue}
+        />
 
-      <div className="icon-container">
-        <img src={`/${iconAdd}`} alt="Add Project" onClick={handleOpenModal} />
+        <div className="icon-container">
+          <img
+            src={`/${iconAdd}`}
+            alt="Add Project"
+            onClick={handleOpenModal}
+          />
+        </div>
       </div>
-      </div>
 
-
-      <CustomerSlider emptyCardComponent={emptyCardComponent}
-                 onClickOnEmptyElementInSlider={handleOnClickEmptyElement}>
+      <CustomerSlider
+        emptyCardComponent={emptyCardComponent}
+        onClickOnEmptyElementInSlider={handleOnClickEmptyElement}
+      >
         {arrProject.map((project, index) => (
           <CardProject
             key={index}
             projectName={project.name}
-            statusName={ arrProjectStatus.find(status => status.id === project.status_id)?.name}
- 
+            statusName={
+              arrProjectStatus.find((status) => status.id === project.status_id)
+                ?.name
+            }
           />
         ))}
       </CustomerSlider>
