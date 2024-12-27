@@ -5,10 +5,9 @@ import CustomerModal from "../CustomerModal/CustomerModal";
 import CustomerSlider from "../CustomerSlider/CustomerSlider";
 import CustomerSelect from "../CustomerSelect/CustomerSelect";
 import InputData from "../InputData/InputData";
+import ProjectCreationModal from "../ProjectCreationModal/ProjectCreationModal";
 
 import Notification from "../Notification/Notification";
-
-import ProjectForCreationDTO from "../../DTOs/ForCreation/ProjectForCreationDTO";
 
 import "./ProjectComponent.css";
 
@@ -26,54 +25,16 @@ export default function ProjectComponent({
   iconDelete = "IconDelete.svg",
   iconChange = "IconChange.svg",
 }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(arrProjectStatus);
-  // Для формы создания проекта
-  const projectNameField = "projectName";
-  const projectDescriptionField = "projectDescription";
-  const projectStatusIdField = "projectStatusId";
-  const [projectCreationFormData, setProjectCreationFormData] = useState({});
-
-  // Изменять стейт для создания формы
-  const handleFormData = (fieldName, value) => {
-    if (!fieldName) {
-      console.error("Field name from input not found.");
-      return;
-    }
-
-    setProjectCreationFormData((prevState) => ({
-      ...prevState,
-      [fieldName]: value,
-    }));
-  };
-
-  // Изменяет ввод данных для текстовых полей
-  const handleInputData = (e) => {
-    const { name, value } = e.target;
-    handleFormData(name, value);
-  };
-
-  // Очистка значения введенных данных
-  const handleClear = (nameOfInput) => {
-    handleFormData(nameOfInput, "");
-  };
-
   const emptyCardComponent = CardProject;
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const handleOpenModal = () => {
-    console.log("======================");
-    console.log("ОТКРТИЕ МОДАЛЬНОГО ОКНА");
-    console.log("======================");
     setIsModalOpen(true);
   };
-
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
-  const handleSelecteStatusProject = (selectedOption) => {
-    handleFormData(projectStatusIdField, selectedOption.id);
-  };
   //Cтейт для хранения данных уведомления
   const [notification, setNotification] = useState({
     open: false, //откртие уведомления
@@ -92,7 +53,7 @@ export default function ProjectComponent({
   const showNotification = (
     textValue,
     colorStyle = "#F5F24B",
-    duration = 3000,
+    duration = 3000
   ) => {
     // Меняем данные для уведомления
     setNotification((prevState) => ({
@@ -104,41 +65,6 @@ export default function ProjectComponent({
     }));
   };
 
-  //Отправки запросы на создание проекта
-  const handleCreateProject = () => {
-    try {
-
-      //TODO Валидация формы
-      if (
-        !projectCreationFormData[projectNameField] ||
-        !projectCreationFormData[projectDescriptionField] ||
-        !projectCreationFormData[projectStatusIdField]
-      ) {
-        showNotification("Please fill in all the fields.");
-        return;
-      }
-      // Получаем данные с формы
-      const projectDtoForCreation = new ProjectForCreationDTO({
-        name: projectCreationFormData[projectNameField],
-        description: projectCreationFormData[projectDescriptionField],
-        status_id: projectCreationFormData[projectStatusIdField],
-      });
-      onCreateProject(projectDtoForCreation)
-        .then(() => {
-          showNotification("Project created successfully.", "#00FF26");
-          handleCloseModal(); // Закрываем модальное окно при успешном создании
-          setProjectCreationFormData({}); // Очищаем форму после успешного создания проекта
-        })
-        .catch((error) => {
-          showNotification(
-            "Failed to create project. Please try again.",
-            "#FF0004"
-          );
-        });
-    } catch (e) {
-      
-    }
-  };
   //Стейт для ввода фильтрации
   const [searchValue, setSearchValue] = useState("");
   //Изменение ввода фильтрации
@@ -153,24 +79,22 @@ export default function ProjectComponent({
     setSearchValue("");
   };
   //Фильрация массива на основании Search value
-  const filteredProjects  = arrProject.filter((project)=> {
+  const filteredProjects = arrProject.filter((project) => {
     const projectName = project.name.toLowerCase();
     const searchQuery = searchValue.toLowerCase();
-    const result = projectName.includes(searchQuery)
+    const result = projectName.includes(searchQuery);
     return result;
-})
-const arrProjectForShow = filteredProjects.map((project, index) => (
-  <CardProject
-    key={index}
-    projectName={project.name}
-    statusName={
-      arrProjectStatus.find((status) => status.id === project.status_id)
-        ?.name
-    }
-  />
-))
-console.log("FILTEREDPROJECTS",filteredProjects)
-console.log("ARRPROJCET FOR SHOW", arrProjectForShow)
+  });
+  const arrProjectForShow = filteredProjects.map((project, index) => (
+    <CardProject
+      key={index}
+      projectName={project.name}
+      statusName={
+        arrProjectStatus.find((status) => status.id === project.status_id)?.name
+      }
+    />
+  ));
+
   //Обработчик при нажатии на пустой элемент
   const handleOnClickEmptyElement = () => {
     console.log("НАЖАТИЕ НА ОБАРБОЧТИК В PROJECT COMPONENT");
@@ -178,6 +102,14 @@ console.log("ARRPROJCET FOR SHOW", arrProjectForShow)
   };
   return (
     <section className="project-section">
+      <ProjectCreationModal
+        handleCloseModal={handleCloseModal}
+        isLoadingProjectStatus={isLoadingProjectStatus}
+        arrProjectStatus={arrProjectStatus}
+        showNotification={showNotification}
+        onCreateProject={onCreateProject}
+        isModalOpen={isModalOpen}
+      />
       <Notification
         open={notification.open}
         text={notification.text}
@@ -186,42 +118,7 @@ console.log("ARRPROJCET FOR SHOW", arrProjectForShow)
         bgColor={notification.colorStyle}
         onClose={handleCloseNotification}
       />
-      {isModalOpen && !isLoadingProject > 0 && (
-        <CustomerModal
-          textTitle="Create project"
-          clickOnClose={handleCloseModal}
-          clickOnButton={handleCreateProject}
-        >
-          <InputData
-            value={projectCreationFormData[projectNameField]}
-            type="text"
-            placeholderValue={"Project name..."}
-            nameOfInput={projectNameField}
-            closeIconPath="CloseIconInInput.svg"
-            onInput={handleInputData}
-            onClear={handleClear}
-          />
-          <InputData
-            value={projectCreationFormData[projectDescriptionField]}
-            type="text"
-            placeholderValue={"Project description..."}
-            nameOfInput={projectDescriptionField}
-            closeIconPath="CloseIconInInput.svg"
-            onInput={handleInputData}
-            onClear={handleClear}
-          />
-          {isLoadingProjectStatus ? (
-            <p>Loading statuses...</p>
-          ) : (
-            <CustomerSelect
-              options={arrProjectStatus}
-              placeholderValue={"Status of project"}
-              filterKey={"name"}
-              onSelect={handleSelecteStatusProject} // Подключаем обработчик выбора статуса
-            />
-          )}
-        </CustomerModal>
-      )}
+
       <div className="input-filter-section-projects">
         <InputData
           placeholderValue="Search..."
