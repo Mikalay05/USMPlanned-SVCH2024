@@ -7,7 +7,7 @@ export default function SliderButton({
   direction,
   onClick,
   isDisabled,
-  icon,
+  icon = "Icon-SliderIndex.svg",
   rotation = 0, // Угол поворота по умолчанию
 }) {
   return (

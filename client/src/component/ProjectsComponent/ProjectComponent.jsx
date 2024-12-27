@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import CardProject from "../CardProject/CardProject";
 import CustomerModal from "../CustomerModal/CustomerModal";
-import CustomerSlider from "../CustomerSlider/CustomerSlider";
+import CommonSliderWithButton from "../CommonSliderWithButton/CommonSliderWithButton";
 import CustomerSelect from "../CustomerSelect/CustomerSelect";
 import InputData from "../InputData/InputData";
 import ProjectCreationModal from "../ProjectCreationModal/ProjectCreationModal";
@@ -137,12 +137,9 @@ export default function ProjectComponent({
         </div>
       </div>
 
-      <CustomerSlider
-        emptyCardComponent={emptyCardComponent}
-        onClickOnEmptyElementInSlider={handleOnClickEmptyElement}
-      >
+      <CommonSliderWithButton      >
         {arrProjectForShow}
-      </CustomerSlider>
+      </CommonSliderWithButton>
     </section>
   );
 }

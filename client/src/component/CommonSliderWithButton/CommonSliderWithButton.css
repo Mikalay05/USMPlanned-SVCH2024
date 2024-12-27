@@ -1,0 +1,48 @@
+.slider-container-common-slider-with-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .slider {
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+  }
+
+  .slider-item {
+    flex: 0 0 calc(33.33% - 15px); /* На больших экранах — 3 карточки */
+    max-width: calc(33.33% - 15px);
+    height: 300px; /* Устанавливаем фиксированную высоту */
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  
+  /* Для экранов меньше 768px — 2 карточки */
+  @media (max-width: 1320px) {
+    .slider-item-third {
+      display: none;
+    }
+  }
+  
+  /* Для экранов меньше 480px — 1 карточка */
+  @media (max-width: 1030px) {
+    .slider-item-second {
+      display: none;
+
+    }
+  }
+
+  @media (max-width: 620px) {
+    .slider-container-common-slider-with-button {
+      flex-direction: column;
+    }      
+  }
