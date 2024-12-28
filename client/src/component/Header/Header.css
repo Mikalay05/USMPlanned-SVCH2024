@@ -17,6 +17,15 @@ header {
     font-size: 24px;
     font-weight: 400;
 }
+.link-style-in-header {
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: 400;
+    align-self: auto;
+    text-decoration: none;
+}
 @media (max-width:750px) {
     .links-in-header {
         display: none;

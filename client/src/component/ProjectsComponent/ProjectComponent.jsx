@@ -6,6 +6,7 @@ import CommonSliderWithButton from "../CommonSliderWithButton/CommonSliderWithBu
 import CustomerSelect from "../CustomerSelect/CustomerSelect";
 import InputData from "../InputData/InputData";
 import ProjectCreationModal from "../ProjectCreationModal/ProjectCreationModal";
+import { useNavigate } from "react-router-dom";
 
 import Notification from "../Notification/Notification";
 
@@ -25,8 +26,6 @@ export default function ProjectComponent({
   iconDelete = "IconDelete.svg",
   iconChange = "IconChange.svg",
 }) {
-  const emptyCardComponent = CardProject;
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -85,6 +84,18 @@ export default function ProjectComponent({
     const result = projectName.includes(searchQuery);
     return result;
   });
+  const navigate = useNavigate();
+  const PATH_TO_PROJECT_INFORMATION = "/project/information";
+  const PROPERTY_NAME_PROJECT_ID = "projectId";
+  const handleButtonClick = (projectId) => {
+    console.log(
+      `${PATH_TO_PROJECT_INFORMATION}/?${PROPERTY_NAME_PROJECT_ID}=${projectId}`
+    );
+
+    navigate(
+      `${PATH_TO_PROJECT_INFORMATION}/?${PROPERTY_NAME_PROJECT_ID}=${projectId}`
+    );
+  };
   const arrProjectForShow = filteredProjects.map((project, index) => (
     <CardProject
       key={index}
@@ -92,14 +103,13 @@ export default function ProjectComponent({
       statusName={
         arrProjectStatus.find((status) => status.id === project.status_id)?.name
       }
+      onClickButton={() => {
+        handleButtonClick(project.id);
+      }}
     />
   ));
+  //TODO Create filter based project status
 
-  //Обработчик при нажатии на пустой элемент
-  const handleOnClickEmptyElement = () => {
-    console.log("НАЖАТИЕ НА ОБАРБОЧТИК В PROJECT COMPONENT");
-    handleOpenModal();
-  };
   return (
     <section className="project-section">
       <ProjectCreationModal
@@ -137,9 +147,7 @@ export default function ProjectComponent({
         </div>
       </div>
 
-      <CommonSliderWithButton      >
-        {arrProjectForShow}
-      </CommonSliderWithButton>
+      <CommonSliderWithButton>{arrProjectForShow}</CommonSliderWithButton>
     </section>
   );
 }

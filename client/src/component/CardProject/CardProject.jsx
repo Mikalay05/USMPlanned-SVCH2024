@@ -9,14 +9,13 @@ export default function CardProject({
   couldProgress = "no data",
   isEmpty = false,
   onClickOnEmptyElement,
-  hiddenProgressTab = false,
+  onClickButton,
 }) {
   const handleOnClickElement = () => {
     if(onClickOnEmptyElement) {
       onClickOnEmptyElement();
       return;
     }
-    console.log("НЕТУ НАЖАТИЯ НА ОБРАБОТЧИК")
 
   }
   if (isEmpty) {
@@ -52,7 +51,7 @@ export default function CardProject({
         nameOfType="Could"
         procentProgress={couldProgress}
       />
-      <CustomerButton textValue="Next" />
+      <CustomerButton onClick={onClickButton} textValue="Next" />
     </div>
   );
 }

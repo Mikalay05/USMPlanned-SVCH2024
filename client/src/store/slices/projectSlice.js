@@ -17,6 +17,7 @@ export const createProject = createAsyncThunk('project/createProject', async (da
     return new ProjectDTO(response);
 });
 
+
 const projectSlice = createSlice({
     name: 'project', 
     initialState: {

@@ -12,37 +12,32 @@ export default function CommonSliderWithButton({ children }) {
   };
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      (prevIndex + 1) % children.length
-    );
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % children.length);
   };
-  
+
   const getVisibleCards = () => {
     const totalItems = children.length;
 
     const firstIndex = currentIndex;
-    const secondIndex = (currentIndex+1)% totalItems;
+    const secondIndex = (currentIndex + 1) % totalItems;
     const thirdIndex = (currentIndex + 2) % totalItems;
-    console.log("============")
-    console.log("children", children)
-    console.log("totalItems", totalItems)
-    console.log("firstIndex", firstIndex)
-    console.log("secondIndex", secondIndex)
-    console.log("thirdIndex", thirdIndex)
-    console.log("============")
+
     return [
-      <div key={firstIndex} className="slider-item-first">
-        {children[firstIndex]}
-      </div>,
-      <div key={secondIndex} className="slider-item-second">
-        {children[secondIndex]}
-      </div>,
-      <div key={thirdIndex} className="slider-item-third">
-        {children[thirdIndex]}
-      </div>,
+      React.cloneElement(children[firstIndex], {
+        key: firstIndex,
+        className: "slider-item-first",
+      }),
+      React.cloneElement(children[secondIndex], {
+        key: secondIndex,
+        className: "slider-item-second",
+      }),
+      React.cloneElement(children[thirdIndex], {
+        key: thirdIndex,
+        className: "slider-item-third",
+      }),
     ];
-    
   };
+
   if (!children || children.length < 3) {
     return (
       <div className="slider-error">
@@ -50,12 +45,11 @@ export default function CommonSliderWithButton({ children }) {
       </div>
     );
   }
-  
+
   return (
     <div className="slider-container-common-slider-with-button">
-      <SliderButton direction="prev" onClick={handlePrev} rotation={90}/>
+      <SliderButton direction="prev" onClick={handlePrev} rotation={90} />
       <div className="slider">{getVisibleCards()}</div>
-      
       <SliderButton direction="next" onClick={handleNext} rotation={-90} />
     </div>
   );
