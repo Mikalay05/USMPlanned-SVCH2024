@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom"; // Импортируем useParam
 import { getProjectById } from '../../store/slices/projectSlice';
 
 import Header from "../../component/Header/Header";
+import MainProjectInformation from '../../component/MainProjectInformation/MainProjectInformation'
 import Footer from "../../component/Footer/Footer";
 
 export default function ProjectInformation() {
@@ -43,8 +44,9 @@ export default function ProjectInformation() {
     console.log("projectData",projectData)
     return (
         <>
-            <div className="closeIcon"></div>
-            <Header />
+        <Header/>
+        <MainProjectInformation projectData={projectData}/>
+        <Footer/>
             <div className="project-information">
                 <h1>Информация о проекте</h1>
                 <p><strong>ID:</strong> {projectData.projectId}</p>
@@ -78,7 +80,7 @@ export default function ProjectInformation() {
                     )}
                 </div>
             </div>
-            <Footer />
+
         </>
     );
 }

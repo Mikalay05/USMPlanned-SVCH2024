@@ -1,79 +1,88 @@
 import React, { useState } from "react";
 import "./CustomerSlider.css";
-import CustomerCard from "../CustomerCard/CustomerCard";
-import SliderButton from '../SliderButton/SliderButton'
+import SliderButton from "../SliderButton/SliderButton";
+import CustomerCard from '../CustomerCard/CustomerCard'
 
-//TODO сделать если нажатие на карточку - открывается детализация
 export default function CustomerSlider({
-  children, // Дочерние элементы (массив)
-  alphaInactiveOnEmtyElement = "0.1",
-  emptyCardComponent = CustomerCard, // Дефолтный компонент пустой карточки
-  onClickOnEmptyElementInSlider,
-  nameOfSliderIndexFile = "Icon-SliderIndex.svg",
+  children = [], // Массив карточек (дочерние элементы)
+  alphaInactiveOnEmptyElement = 0.1, // Прозрачность для пустого элемента
+  emptyCardComponent = CustomerCard, // Компонент для пустых карточек
+  onClickOnElement = () => {}, // Callback на клик по карточке
+  onClickOnEmptyElement = () => {}, // Callback на клик по пустому элементу
+  nameOfSliderIndexFile = "Icon-SliderIndex.svg", // Иконка для кнопок
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Функция для переключения на предыдущий элемент
+  // Переключение на предыдущий слайд
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? children.length - 1 : prevIndex - 1
     );
   };
 
-  // Функция для переключения на следующий элемент
+  // Переключение на следующий слайд
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === children.length - 1 ? 0 : prevIndex + 1
     );
   };
 
-  // Проверка, активна ли кнопка назад
-  const isPrevDisabled = currentIndex === 0;
-
-  // Проверка, активна ли кнопка вперед
-  const isNextDisabled = currentIndex === children.length - 1;
-
-  // Создание пустого слайда
+  // Функция для создания пустой карточки
   const createEmptyCard = () => {
-    return React.createElement(emptyCardComponent, {
-      alphaInactive: alphaInactiveOnEmtyElement,
-      isEmpty: true,
-      onClickOnEmptyElement: onClickOnEmptyElementInSlider,
+    const EmptyCard = emptyCardComponent;
+    return (
+      <EmptyCard
+        alphaInactive={alphaInactiveOnEmptyElement}
+        isEmpty={true}
+        onClick={onClickOnEmptyElement}
+      />
+    );
+  };
+
+  // Генерация карточки по индексу
+  const getCardByIndex = (index, isActive) => {
+    if (index < 0 || index >= children.length) {
+      return createEmptyCard();
+    }
+    return React.cloneElement(children[index], {
+      isActive, // Передаем информацию, что это активный элемент
+      onClick: () => onClickOnElement(index), // Передаем callback для обработки клика
     });
   };
 
-  // Получение данных слайда по индексу
-  const getDataByIndex = (index, active) => {
-    if (index < 0 || index >= children.length) {
-      return createEmptyCard(); // Возвращаем пустой слайд, если индекс выходит за пределы
-    }
-    return React.cloneElement(children[index], { isActiveElement: active }); // Передаем active в дочерний элемент
-  };
+  // Проверка, является ли кнопка "Назад" неактивной
+  const isPrevDisabled = currentIndex === 0;
+
+  // Проверка, является ли кнопка "Вперед" неактивной
+  const isNextDisabled = currentIndex === children.length - 1;
 
   if (children.length === 0) {
-    return <p>Array is empty</p>;
+    return <p>Слайдер пуст</p>;
   }
 
   return (
     <div className="slider-container">
+      {/* Кнопка назад */}
       <SliderButton
         direction="prev"
         onClick={handlePrev}
-        isDisabled={isPrevDisabled}
+        isDisabled={isPrevDisabled} // Дизейбл кнопки "Назад"
         icon={`/${nameOfSliderIndexFile}`}
         rotation={90}
       />
 
+      {/* Контейнер с карточками */}
       <div className="slider">
-        {getDataByIndex(currentIndex - 1, false)}{" "}
-        {getDataByIndex(currentIndex, true)} {/* Активный элемент в центре */}
-        {getDataByIndex(currentIndex + 1, false)}{" "}
+        {getCardByIndex(currentIndex - 1, false)} {/* Левая карточка */}
+        {getCardByIndex(currentIndex, true)} {/* Активная карточка */}
+        {getCardByIndex(currentIndex + 1, false)} {/* Правая карточка */}
       </div>
 
+      {/* Кнопка вперед */}
       <SliderButton
         direction="next"
         onClick={handleNext}
-        isDisabled={isNextDisabled}
+        isDisabled={isNextDisabled} // Дизейбл кнопки "Вперед"
         icon={`/${nameOfSliderIndexFile}`}
         rotation={-90}
       />
