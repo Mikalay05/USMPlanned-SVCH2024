@@ -40,17 +40,43 @@ export default function ProjectInformation() {
     if (!projectData) {
         return <p>Проект не найден</p>; // Отображаем сообщение, если данных нет
     }
-
+    console.log("projectData",projectData)
     return (
         <>
             <div className="closeIcon"></div>
             <Header />
             <div className="project-information">
                 <h1>Информация о проекте</h1>
-                <p><strong>ID:</strong> {projectData.id}</p>
-                <p><strong>Название:</strong> {projectData.name}</p>
+                <p><strong>ID:</strong> {projectData.projectId}</p>
+                <p><strong>Название:</strong> {projectData.projectName}</p>
                 <p><strong>Описание:</strong> {projectData.description}</p>
-                {/* Добавьте другие поля проекта по необходимости */}
+                <p><strong>Статус:</strong> {projectData.status.status_id} {projectData.status.status_name}</p>
+
+                {/* Выводим список действий */}
+                <div>
+                    <strong>Действия:</strong>
+                    {projectData.actions.length > 0 ? (
+                        projectData.actions.map((action) => (
+                            <p key={action.actionId}>
+                                {action.actionId} === {action.createdAt} === {action.actionName}
+                            </p>
+                        ))
+                    ) : (
+                        <p>Действий нет</p>
+                    )}
+                </div>
+
+                {/* Выводим дочерние элементы */}
+                <div>
+                    <strong>Дочерние элементы:</strong>
+                    {projectData.dataForSelect.length > 0 ? (
+                        projectData.dataForSelect.map((item, index) => (
+                            <p key={index}>{item.customerName}</p> // Можно использовать любой нужный элемент из item
+                        ))
+                    ) : (
+                        <p>Дочерние элементы отсутствуют</p>
+                    )}
+                </div>
             </div>
             <Footer />
         </>

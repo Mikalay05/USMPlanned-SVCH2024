@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import ProjectService from '../../services/ProjectService';
 import ProjectDTO from '../../DTOs/Data/ProjectDTO';
+import InformationProjectDto from '../../DTOs/Data/InformationProjectDto';
 
 // Получение всех проектов
 export const getProjects = createAsyncThunk('project/getProjects', async () => {
@@ -18,7 +19,7 @@ export const createProject = createAsyncThunk('project/createProject', async (da
 // Получение проекта по ID
 export const getProjectById = createAsyncThunk('project/getProjectById', async (id) => {
     const response = await ProjectService.getProjectById(id); // Метод для получения данных проекта по ID
-    return new ProjectDTO(response);
+    return new InformationProjectDto(response);
 });
 
 // Срез проекта
