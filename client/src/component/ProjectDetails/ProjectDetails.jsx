@@ -1,27 +1,40 @@
 import "./ProjectDetails.css";
-
 import CustomerButton from "../CustomerButton/CustomerButton";
+
+// Функция для форматирования даты
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+
+  return `${day}.${month}.${year} ${hours}:${minutes}`;
+};
 
 export default function ProjectDetails({ projectData }) {
   return (
-    <div>
-      <h3>Description of Project:</h3>
-      <p>{projectData.description}</p>
-      <div>
+    <div className="project-details-container">
+      <div className="project-description">
+        <h3 className="project-description-title">Description of Project:</h3>
+        <p className="project-description-text">{projectData.description}</p>
+      </div>
+      <div className="project-actions-buttons">
         <CustomerButton textValue="Change project" />
         <CustomerButton textValue="Delete project" />
       </div>
-      <div>
-        <h3>Actions of Project:</h3>
-        <div>
+      <div className="project-actions-section">
+        <h3 className="project-actions-title">Actions of Project:</h3>
+        <div className="project-actions-list">
           {projectData.actions.length > 0 ? (
             projectData.actions.map((action) => (
-              <p key={action.actionId}>
-                {action.createdAt} | {action.actionName}
+              <p key={action.actionId} className="project-action-item">
+                {formatDate(action.createdAt)} | {action.actionName}
               </p>
             ))
           ) : (
-            <p>Action not found</p>
+            <p className="no-actions-found">Action not found</p>
           )}
         </div>
       </div>
