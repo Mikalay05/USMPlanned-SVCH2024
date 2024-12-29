@@ -3,23 +3,26 @@ import "./MainProjectInformation.css";
 import CustomerSlider from "../CustomerSlider/CustomerSlider";
 import ShowPathInUSM from "../ShowPathInUSM/ShowPathInUSM";
 import CardForCustomers from "../CardForCustomers/CardForCustomers";
+import ProjectDetails from "../ProjectDetails/ProjectDetails";
 
 export default function MainProjectInformation({ projectData }) {
   //TODO заголовок
   //TODO Детализация по проекту
   return (
     <>
-      <CustomerSlider>
-      {projectData.dataForSelect.length > 0 ? (
-        projectData.dataForSelect.map((item, ) => (
-          <CardForCustomers customerId={item.customerId} customerName={item.customerName}></CardForCustomers> // Можно использовать любой нужный элемент из item
-        ))
-      ) : (
-        <p>Customer not found</p>
-      )}
+      <TitleForProjectInformation/>
+      <CustomerSlider
+      notFoundMessage="Not found Customers in this project"
+      >
+        {projectData.dataForSelect.map((item) => (
+          <CardForCustomers
+            key={item.customerId} // Обязательно указываем уникальный key
+            customerId={item.customerId}
+            customerName={item.customerName}
+          />
+        ))}
       </CustomerSlider>
-       
-
+      <ProjectDetails projectData={projectData} />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./CustomerSlider.css";
 import SliderButton from "../SliderButton/SliderButton";
-import CustomerCard from '../CustomerCard/CustomerCard'
+import CustomerCard from "../CustomerCard/CustomerCard";
 
 export default function CustomerSlider({
   children = [], // Массив карточек (дочерние элементы)
@@ -10,6 +10,7 @@ export default function CustomerSlider({
   onClickOnElement = () => {}, // Callback на клик по карточке
   onClickOnEmptyElement = () => {}, // Callback на клик по пустому элементу
   nameOfSliderIndexFile = "Icon-SliderIndex.svg", // Иконка для кнопок
+  notFoundMessage = "Not found elements", // Сообщение, если элементов нет
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -41,7 +42,7 @@ export default function CustomerSlider({
 
   // Генерация карточки по индексу
   const getCardByIndex = (index, isActive) => {
-    if (index < 0 || index >= children.length) {
+    if (index < 0 || index >= children.length || !React.isValidElement(children[index])) {
       return createEmptyCard();
     }
     return React.cloneElement(children[index], {
@@ -55,9 +56,10 @@ export default function CustomerSlider({
 
   // Проверка, является ли кнопка "Вперед" неактивной
   const isNextDisabled = currentIndex === children.length - 1;
-
+  console.log("children",children)
+  // Если массив детей пустой, отображаем сообщение
   if (children.length === 0) {
-    return <p>Слайдер пуст</p>;
+    return <p className="not-found-message">{notFoundMessage}</p>;
   }
 
   return (
