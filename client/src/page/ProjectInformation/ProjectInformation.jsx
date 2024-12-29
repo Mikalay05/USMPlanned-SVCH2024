@@ -1,92 +1,57 @@
 import "./ProjectInformation.css";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom"; // Импортируем useParams
+import { getProjectById } from '../../store/slices/projectSlice';
 
-import Header from '../../component/Header/Header';
-import Footer from '../../component/Footer/Footer';
-
-
-
-import { useState, useEffect } from 'react';
+import Header from "../../component/Header/Header";
+import Footer from "../../component/Footer/Footer";
 
 export default function ProjectInformation() {
-    const project = {
-        id: 0,
-        name: "ProjectName"
-    };
+    const { projectId } = useParams(); // Получаем projectId из URL
+    const dispatch = useDispatch();
 
-    const customers = [
-        { id: 1, name: 'Common user' },
-        { id: 2, name: 'Developer' },
-        { id: 3, name: 'Team lead' },
-        { id: 4, name: 'Admin' }
-    ];
+    // Локальное состояние для хранения данных проекта
+    const [projectData, setProjectData] = useState(null);
 
-    const epics = [
-        { id: 1, name: 'Epic 1' },
-        { id: 2, name: 'Epic 2' },
-        { id: 3, name: 'Epic 3' }
-    ];
+    // Данные из Redux
+    const selectedProject = useSelector((state) => state.project.selectedProject);
+    const isLoading = useSelector((state) => state.project.isLoading);
 
-    const stories = [
-        { id: 1, name: 'Story 1' },
-        { id: 2, name: 'Story 2' },
-        { id: 3, name: 'Story 3' }
-    ];
-
-    const tasks = [
-        { id: 1, name: 'Task 1', taskStatusId: 0, taskStatusName: "В ожидании" },
-        { id: 2, name: 'Task 2', taskStatusId: 1, deadline: "28.12.2024", taskStatusName: "В процессе" },
-        { id: 3, name: 'Task 3', taskStatusId: 2, taskStatusName: "Готов" }
-    ];
-
-    const [selectedCustomer, setSelectedCustomer] = useState(null);
-    const [selectedEpic, setSelectedEpic] = useState(null);
-    const [selectedStory, setSelectedStory] = useState(null);
-    const [selectedTask, setSelectedTask] = useState(null);
-
-    // Эффект для синхронизации состояния с параметрами URL
+    // Загружаем проект при изменении projectId
     useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const customerId = params.get('customerId');
-        const epicId = params.get('epicId');
-        const storyId = params.get('storyId');
-        const taskId = params.get('taskId');
+        console.log(projectId)
+        if (projectId) {
+            dispatch(getProjectById(projectId));
+        }
+    }, [dispatch, projectId]);
 
-        if (customerId) {
-            const customer = customers.find(c => c.id === parseInt(customerId));
-            if (customer) setSelectedCustomer(customer);
-        }
-        if (epicId) {
-            const epic = epics.find(e => e.id === parseInt(epicId));
-            if (epic) setSelectedEpic(epic);
-        }
-        if (storyId) {
-            const story = stories.find(s => s.id === parseInt(storyId));
-            if (story) setSelectedStory(story);
-        }
-        if (taskId) {
-            const task = tasks.find(t => t.id === parseInt(taskId));
-            if (task) setSelectedTask(task);
-        }
-    }, []);
-
-    // Обновление URL при изменении состояния
+    // Обновляем локальное состояние, когда данные из Redux обновляются
     useEffect(() => {
-        const updateUrlParams = () => {
-            const params = new URLSearchParams();
-            if (selectedCustomer) params.set('customerId', selectedCustomer.id);
-            if (selectedEpic) params.set('epicId', selectedEpic.id);
-            if (selectedStory) params.set('storyId', selectedStory.id);
-            if (selectedTask) params.set('taskId', selectedTask.id);
-            window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
-        };
-        updateUrlParams();
-    }, [selectedCustomer, selectedEpic, selectedStory, selectedTask]);
+        if (selectedProject) {
+            setProjectData(selectedProject);
+        }
+    }, [selectedProject]);
+
+    if (isLoading) {
+        return <p>Загрузка...</p>; // Отображаем сообщение о загрузке
+    }
+
+    if (!projectData) {
+        return <p>Проект не найден</p>; // Отображаем сообщение, если данных нет
+    }
 
     return (
         <>
             <div className="closeIcon"></div>
             <Header />
-
+            <div className="project-information">
+                <h1>Информация о проекте</h1>
+                <p><strong>ID:</strong> {projectData.id}</p>
+                <p><strong>Название:</strong> {projectData.name}</p>
+                <p><strong>Описание:</strong> {projectData.description}</p>
+                {/* Добавьте другие поля проекта по необходимости */}
+            </div>
             <Footer />
         </>
     );

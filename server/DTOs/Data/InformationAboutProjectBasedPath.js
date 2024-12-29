@@ -1,15 +1,20 @@
 class InformationAboutProjectBasedPath {
-    constructor({ 
-        project_id, 
-        project_name, 
-        project_description, 
-        status_id
-    }) {
-        this.id = project_id;
-        this.name = project_name;
-        this.description = project_description;
-        this.status_id = status_id;
+    constructor(
+      projectId,
+      projectName,
+      description,
+      status,  // статус теперь передается как объект
+      dataForSelect,
+      actions
+    ) {
+      this.projectId = projectId;
+      this.projectName = projectName;
+      this.description = description;
+      this.status = status || {};  // если статус не передан, по умолчанию пустой объект
+      this.dataForSelect = dataForSelect || [];
+      this.actions = actions || [];
     }
-}
-
-module.exports = InformationAboutProjectBasedPath;
+  }
+  
+  module.exports = InformationAboutProjectBasedPath;
+  

@@ -18,7 +18,10 @@ export default function ProjectPage() {
 
   useEffect(() => {
     dispatch(getProjects());
+
+
     dispatch(getProjectStatuses());
+
 
   }, [dispatch]);
   const onCreateProject = (dataDto) => {

@@ -7,16 +7,15 @@ import ProjectInformation from '../../page/ProjectInformation/ProjectInformation
 
 
   
-  export const ROUTES = [
-    {
-      path: '/project',
-      nameOfPage: 'Project',
-      component: ProjectPage, 
-    },
-    {
-      path: '/project/information',
-      nameOfPage: 'ProjectInformation',
-      component: ProjectInformation,
-    },
-  ];
-  
+export const ROUTES = [
+  {
+    path: '/project',
+    nameOfPage: 'Project',
+    component: ProjectPage, 
+  },
+  {
+    path: '/information/:projectId', // Обновленный маршрут для информации о проекте
+    nameOfPage: 'ProjectInformation',
+    component: ProjectInformation,
+  },
+];

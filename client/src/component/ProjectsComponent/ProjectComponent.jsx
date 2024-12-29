@@ -85,17 +85,14 @@ export default function ProjectComponent({
     return result;
   });
   const navigate = useNavigate();
-  const PATH_TO_PROJECT_INFORMATION = "/project/information";
+  const PATH_TO_PROJECT_INFORMATION = "information";
   const PROPERTY_NAME_PROJECT_ID = "projectId";
   const handleButtonClick = (projectId) => {
-    console.log(
-      `${PATH_TO_PROJECT_INFORMATION}/?${PROPERTY_NAME_PROJECT_ID}=${projectId}`
-    );
+    const absolutePath = `/${PATH_TO_PROJECT_INFORMATION}/${projectId}`; // Убедитесь, что путь начинается с "/"
+    console.log(absolutePath); // Для отладки
+    navigate(absolutePath); // Абсолютный путь
+};
 
-    navigate(
-      `${PATH_TO_PROJECT_INFORMATION}/?${PROPERTY_NAME_PROJECT_ID}=${projectId}`
-    );
-  };
   const arrProjectForShow = filteredProjects.map((project, index) => (
     <CardProject
       key={index}
