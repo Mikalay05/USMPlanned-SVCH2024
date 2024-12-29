@@ -1,12 +1,11 @@
 .customer-button {
     display: flex;
-    align-self: stretch;
     height: 50px;
     padding: 14px 24px;
     align-items: center;
     gap: 8px;
     border: none;
-
+    width: 300px;
     border-radius: 10px;
     justify-content: center;
     text-align: center;

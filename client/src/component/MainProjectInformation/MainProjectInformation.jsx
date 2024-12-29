@@ -3,14 +3,14 @@ import "./MainProjectInformation.css";
 import CustomerSlider from "../CustomerSlider/CustomerSlider";
 import ShowPathInUSM from "../ShowPathInUSM/ShowPathInUSM";
 import CardForCustomers from "../CardForCustomers/CardForCustomers";
+import TitleForProjectInformation from "../TitleForProjectInformation/TitleForProjectInformation";
 import ProjectDetails from "../ProjectDetails/ProjectDetails";
 
 export default function MainProjectInformation({ projectData }) {
   //TODO заголовок
-  //TODO Детализация по проекту
   return (
     <>
-      <TitleForProjectInformation/>
+      <TitleForProjectInformation projectData={projectData}/>
       <CustomerSlider
       notFoundMessage="Not found Customers in this project"
       >
