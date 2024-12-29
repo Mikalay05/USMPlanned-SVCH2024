@@ -7,10 +7,7 @@ import CustomerButton from '../CustomerButton/CustomerButton';
 export default function TitleForProjectInformation({
     projectData,
     filterKey = 'customerName',
-    nameOButtonToExportUSM = 'Export USM',
-    iconPathToMove = 'Icon-MoveElement.svg',
-    iconPathToAdd = 'Icon-AddElement.svg',
-    iconPathToDecomposition = 'Icon-Decomposition.svg'
+    onSelectItem,
 }) {
     const navigate = useNavigate(); // Хук для навигации
 
@@ -33,14 +30,7 @@ export default function TitleForProjectInformation({
                     onSelectItem={handleSelectItem} // Передаем обработчик выбора элемента
                 />
             </div>
-            <CustomerButton textValue={nameOButtonToExportUSM} />
-            <div className="icons-box-TitleForProjectInformation">
-                <div className="icons-changed-box-TitleForProjectInformation">
-                    <img src={`/${iconPathToMove}`} alt="move" />
-                    <img src={`/${iconPathToAdd}`} alt="add" />
-                </div>
-                <img src={`/${iconPathToDecomposition}`} alt="Decomposition" />
-            </div>
+            <CustomerButton textValue="Export USM" />
         </div>
     );
 }

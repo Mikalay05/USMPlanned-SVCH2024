@@ -7,6 +7,7 @@ export default function CardForCustomers({
   customerName,
   onClick, // Обработчик клика на карточку
   isActive = false, // Флаг активности карточки
+  
 }) {
   return (
     <CustomerCard

@@ -11,21 +11,35 @@ export default function CustomerSlider({
   onClickOnEmptyElement = () => {}, // Callback на клик по пустому элементу
   nameOfSliderIndexFile = "Icon-SliderIndex.svg", // Иконка для кнопок
   notFoundMessage = "Not found elements", // Сообщение, если элементов нет
+  onHandleNextId, // Callback для обновления next_id
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // Функция для обновления индекса и next_id
+  const updateIndex = (newIndex) => {
+    const nextCustomerId = children[newIndex+1]?.props.customerId || null;
+
+    setCurrentIndex(newIndex);
+
+    console.log("=============")
+    console.log("newIndex",newIndex)
+    console.log("children",children)
+    console.log("nextCustomerId", nextCustomerId)
+    console.log("=============")
+    onHandleNextId(nextCustomerId); // Передаем next_id в родительский компонент
+  };
+
   // Переключение на предыдущий слайд
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? children.length - 1 : prevIndex - 1
-    );
+    const newIndex = currentIndex === 0 ? children.length - 1 : currentIndex - 1;
+    updateIndex(newIndex); // Обновляем индекс и передаем next_id
   };
 
   // Переключение на следующий слайд
   const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === children.length - 1 ? 0 : prevIndex + 1
-    );
+
+    const newIndex = currentIndex === children.length - 1 ? 0 : currentIndex + 1;
+    updateIndex(newIndex); // Обновляем индекс и передаем next_id
   };
 
   // Функция для создания пустой карточки
@@ -56,35 +70,29 @@ export default function CustomerSlider({
 
   // Проверка, является ли кнопка "Вперед" неактивной
   const isNextDisabled = currentIndex === children.length - 1;
-  console.log("children",children)
-  // Если массив детей пустой, отображаем сообщение
+
   if (children.length === 0) {
     return <p className="not-found-message">{notFoundMessage}</p>;
   }
 
   return (
     <div className="slider-container">
-      {/* Кнопка назад */}
       <SliderButton
         direction="prev"
         onClick={handlePrev}
-        isDisabled={isPrevDisabled} // Дизейбл кнопки "Назад"
+        isDisabled={isPrevDisabled}
         icon={`/${nameOfSliderIndexFile}`}
         rotation={90}
       />
-
-      {/* Контейнер с карточками */}
       <div className="slider">
         {getCardByIndex(currentIndex - 1, false)} {/* Левая карточка */}
         {getCardByIndex(currentIndex, true)} {/* Активная карточка */}
         {getCardByIndex(currentIndex + 1, false)} {/* Правая карточка */}
       </div>
-
-      {/* Кнопка вперед */}
       <SliderButton
         direction="next"
         onClick={handleNext}
-        isDisabled={isNextDisabled} // Дизейбл кнопки "Вперед"
+        isDisabled={isNextDisabled}
         icon={`/${nameOfSliderIndexFile}`}
         rotation={-90}
       />
