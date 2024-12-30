@@ -12,7 +12,6 @@ function initializeRoute(route, routeName) {
 }
 initializeRoute('role', 'role');
 initializeRoute('user', 'user');
-initializeRoute('project', 'project');
 initializeRoute('projectStatus', 'projectStatus');
 initializeRoute('information', 'information');
 

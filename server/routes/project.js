@@ -2,10 +2,9 @@ const projectRouter = require('express').Router();
 const projectController = require('../controllers/ProjectController');
 
 const pk = "projectId";
+//Получает все проекты, возращает его данные и проценты по существующий статусам заданий
 projectRouter.get("/", projectController.getAllProjects);
-projectRouter.get(`/:${pk}`, projectController.getByIdProject);
+//Создает новый проект
 projectRouter.post("/", projectController.createRequest);
-projectRouter.put(`/:${pk}`, projectController.updateRequest);
-projectRouter.delete(`/:${pk}`, projectController.deleteRequest);
 
 module.exports = projectRouter;
