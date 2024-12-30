@@ -5,6 +5,6 @@ const pk = "projectId";
 //Получает все проекты, возращает его данные и проценты по существующий статусам заданий
 projectRouter.get("/", projectController.getAllProjects);
 //Создает новый проект
-projectRouter.post("/", projectController.createRequest);
+projectRouter.post("/", projectController.createProject);
 
 module.exports = projectRouter;

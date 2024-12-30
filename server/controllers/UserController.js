@@ -1,15 +1,8 @@
-const BaseCRUDController = require("./BaseCRUDController");
 const { User } = require("../models/models");
 const UserService = require("../services/UserService");
 const TokenService = require("../services/TokenService");
 
-const TEST_IN_CONSOLE = true;
-function cl(message) {
-  if(TEST_IN_CONSOLE) {
-    console.log(message);
-  }
-}
-class UserController extends BaseCRUDController {
+class UserController {
   constructor(
     model,
     modelName,
@@ -106,20 +99,4 @@ class UserController extends BaseCRUDController {
 }
 }
 
-const ApiError = require("../error/ApiError");
-const { use } = require("../routes/user");
-module.exports = new UserController(User, "Role", "login", "login", [
-  { key: "login", unique: true, require: true },
-  { key: "passwordHash", require: true },
-  { key: "roleId", require: true },
-  { key: "surname", require: true },
-  { key: "name", require: true },
-  { key: "patronymic" },
-  {
-    key: "email",
-    unique: true,
-    require: true,
-    regex: "/^[^s@]+@[^s@]+.[^s@]+$/",
-  },
-  { key: "phone", regex: "/^+?[1-9]d{1,14}$/" },
-]);
+module.exports = new UserController();

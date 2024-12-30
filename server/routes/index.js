@@ -14,5 +14,6 @@ initializeRoute('role', 'role');
 initializeRoute('user', 'user');
 initializeRoute('projectStatus', 'projectStatus');
 initializeRoute('information', 'information');
+initializeRoute('project', 'project');
 
 module.exports = router;

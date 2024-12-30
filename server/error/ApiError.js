@@ -1,95 +1,95 @@
 class ApiError extends Error {
-  constructor(status, message, body = null) {
-    super(message); // Передаем сообщение в родительский класс
-    this.message = message;
-    this.status = status;
-    this.body = body; // Добавляем тело ошибки
+  constructor(status, message, details = null) {
+    super(message); // Сообщение об ошибке
+    this.status = status; // HTTP-статус ошибки
+    this.details = details; // Дополнительная информация об ошибке
   }
 
   /**
    * Создает ошибку 400 (Bad Request).
    * @param {string} message - Сообщение об ошибке.
-   * @param {any} body - Дополнительное тело ошибки.
-   * @returns {ApiError} - Экземпляр ApiError с кодом 400.
+   * @param {object | null} details - Детали ошибки.
+   * @returns {ApiError}
    */
-  static badRequest(message, body = null) {
-    return new ApiError(400, message, body);
+  static badRequest(message, details = null) {
+    return new ApiError(400, message, details);
   }
 
   /**
    * Создает ошибку 401 (Unauthorized).
    * @param {string} message - Сообщение об ошибке.
-   * @param {any} body - Дополнительное тело ошибки.
-   * @returns {ApiError} - Экземпляр ApiError с кодом 401.
+   * @param {object | null} details - Детали ошибки.
+   * @returns {ApiError}
    */
-  static unauthorized(message, body = null) {
-    return new ApiError(401, message, body);
+  static unauthorized(message, details = null) {
+    return new ApiError(401, message, details);
   }
 
   /**
    * Создает ошибку 403 (Forbidden).
    * @param {string} message - Сообщение об ошибке.
-   * @param {any} body - Дополнительное тело ошибки.
-   * @returns {ApiError} - Экземпляр ApiError с кодом 403.
+   * @param {object | null} details - Детали ошибки.
+   * @returns {ApiError}
    */
-  static forbidden(message, body = null) {
-    return new ApiError(403, message, body);
+  static forbidden(message, details = null) {
+    return new ApiError(403, message, details);
   }
 
   /**
    * Создает ошибку 404 (Not Found).
    * @param {string} message - Сообщение об ошибке.
-   * @param {any} body - Дополнительное тело ошибки.
-   * @returns {ApiError} - Экземпляр ApiError с кодом 404.
+   * @param {object | null} details - Детали ошибки.
+   * @returns {ApiError}
    */
-  static notFound(message, body = null) {
-    return new ApiError(404, message, body);
+  static notFound(message, details = null) {
+    return new ApiError(404, message, details);
   }
 
   /**
    * Создает ошибку 409 (Conflict).
    * @param {string} message - Сообщение об ошибке.
-   * @param {any} body - Дополнительное тело ошибки.
-   * @returns {ApiError} - Экземпляр ApiError с кодом 409.
+   * @param {object | null} details - Детали ошибки.
+   * @returns {ApiError}
    */
-  static conflict(message, body = null) {
-    return new ApiError(409, message, body);
+  static conflict(message, details = null) {
+    return new ApiError(409, message, details);
   }
 
   /**
    * Создает ошибку 500 (Internal Server Error).
    * @param {string} message - Сообщение об ошибке.
-   * @param {any} body - Дополнительное тело ошибки.
-   * @returns {ApiError} - Экземпляр ApiError с кодом 500.
+   * @param {object | null} details - Детали ошибки.
+   * @returns {ApiError}
    */
-  static internal(message, body = null) {
-    return new ApiError(500, message, body);
+  static internal(message, details = null) {
+    return new ApiError(500, message, details);
   }
 
   /**
    * Создает ошибку 501 (Not Implemented).
    * @param {string} message - Сообщение об ошибке.
-   * @param {any} body - Дополнительное тело ошибки.
-   * @returns {ApiError} - Экземпляр ApiError с кодом 501.
+   * @param {object | null} details - Детали ошибки.
+   * @returns {ApiError}
    */
-  static notImplemented(message, body = null) {
-    return new ApiError(501, message, body);
+  static notImplemented(message, details = null) {
+    return new ApiError(501, message, details);
   }
 
   /**
    * Создает ошибку 503 (Service Unavailable).
    * @param {string} message - Сообщение об ошибке.
-   * @param {any} body - Дополнительное тело ошибки.
-   * @returns {ApiError} - Экземпляр ApiError с кодом 503.
+   * @param {object | null} details - Детали ошибки.
+   * @returns {ApiError}
    */
-  static serviceUnavailable(message, body = null) {
-    return new ApiError(503, message, body);
+  static serviceUnavailable(message, details = null) {
+    return new ApiError(503, message, details);
   }
 
-  // Метод для проверки, что объект не пустой
-  static validateNotEmptyObject(obj, errorMessage) {
+  static validateNotEmptyObject(obj, errorMessage = "Object request", details = {}) {
     if (!obj || (typeof obj === "object" && Object.keys(obj).length === 0)) {
-      throw ApiError.badRequest(errorMessage || "Объект не может быть пустым");
+      console.log("TEST TEST TEST TEST TEST TEST TEST TEST")
+      console.log(errorMessage, details)
+      throw ApiError.badRequest(errorMessage, details);
     }
   }
 }
