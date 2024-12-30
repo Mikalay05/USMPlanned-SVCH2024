@@ -1,0 +1,53 @@
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import RoleService from '../../services/RoleService'
+
+// Асинхронное действие для получения статусов проектов
+export const getRoles = createAsyncThunk(
+  'role/getRoles',
+  async () => {
+    const response = await RoleService.getAllRoles();
+
+    const result = response.map((status) => new ProjectStatusDto(status));
+    return result;
+  }
+);
+
+// Создаём слайс для ProjectStatus
+const projectStatusSlice = createSlice({
+  name: 'role',
+  initialState: {
+    roles: [], // Список статусов
+    isLoading: false, // Индикатор загрузки
+    error: null, // Для обработки ошибок (дополнительно)
+  },
+  reducers: {
+    // Пример редьюсеров, если они понадобятся
+    setProjectStatuses(state, action) {
+      state.projectStatuses = action.payload;
+    },
+    setLoading(state, action) {
+      state.isLoading = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getProjectStatuses.pending, (state) => {
+        state.isLoading = true;
+        state.error = null; // Сбрасываем ошибки
+      })
+      .addCase(getProjectStatuses.fulfilled, (state, action) => {
+        state.projectStatuses = Array.isArray(action.payload)
+          ? action.payload
+          : []; // Убедимся, что это массив
+        state.isLoading = false;
+      })
+      .addCase(getProjectStatuses.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message; // Сохраняем сообщение об ошибке
+      });
+  },
+});
+
+export const { setProjectStatuses } = projectStatusSlice.actions;
+
+export default projectStatusSlice.reducer;

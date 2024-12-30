@@ -7,5 +7,8 @@ export const API_ENDPOINTS = {
     PROJECT_STATUS: {
         GET_ALL_PROJECT_STATUSES: 'projectStatus/',
         GET_BY_ID_PROJECT_STATUS: 'projectStatus/',
+    },
+    ROLE: {
+        GET_ALL_ROLES: '/role'
     }
 };
