@@ -1,7 +1,7 @@
 import ProjectPage from '../../page/ProjectPage/ProjectPage';
 import ProjectInformation from '../../page/ProjectInformation/ProjectInformation';
 import CustomerInformation from '../../page/CustomerInformation/CustomerInformation'
-// import Auth from '../../page/Auth/Auth';
+import Auth from '../../page/Auth/Auth';
 // import UserData from '../../page/UserData';
 // import Users from '../../page/Users';
 
@@ -23,5 +23,10 @@ export const ROUTES = [
     path: '/information/:projectId/:customerId', 
     nameOfPage: 'ProjectInformation',
     component: CustomerInformation,
+  },
+  {
+    path: '/auth', 
+    nameOfPage: 'Auth',
+    component: Auth,
   },
 ];
