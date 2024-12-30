@@ -2,16 +2,19 @@ const customerInformationRouter = require("express").Router();
 const customerInformationController = require("../controllers/CustomerInformationController");
 
 //Возращает данные о customer согласно первичному ключу
-customerInformationRouter.get(`/`, customerInformationController);
+customerInformationRouter.get(`/`, customerInformationController.getCustomerById);
 
-//Создает дочерний элемент (epic) для текущего проекта
-customerInformationRouter.post(`/`, customerInformationController);
+//Создает дочерний элемент (epic) для текущего customer
+customerInformationRouter.post(`/`, customerInformationController.createEpicForCustomer);
 
-//Обновляет порядок дочерних элементов (epic) для текущего проекта
-customerInformationRouter.put(`/`, customerInformationController);
+// Обновляет данные для текущего customer
+customerInformationRouter.put("/", customerInformationController.updateCustomerData);
+
+// Обновляет порядок дочерних элементов (epic) для текущего customer
+customerInformationRouter.patch("/", customerInformationController.updateEpicsOrder);
 
 //Удаляет текущий customer
-customerInformationRouter.delete("/", customerInformationController);
+customerInformationRouter.delete("/", customerInformationController.deleteCustomerById);
 
 // Подключаем зависимый маршрут epic к пути
 const EPIC_ID_NAME = "epicId";

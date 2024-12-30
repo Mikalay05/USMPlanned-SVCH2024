@@ -2,16 +2,19 @@ const storyInformationRouter = require("express").Router();
 const storyInformationController = require("../controllers/StoryInformationController");
 
 //Возращает данные о story согласно первичному ключу
-storyInformationRouter.get(`/`, storyInformationController);
+storyInformationRouter.get(`/`, storyInformationController.getStoryById);
 
-//Создает дочерний элемент (task) для текущего проекта
-storyInformationRouter.post(`/`, storyInformationController);
+//Создает дочерний элемент (task) для текущего story
+storyInformationRouter.post(`/`, storyInformationController.createTaskForStory);
 
-//Обновляет порядок дочерних элементов (task) для текущего проекта
-storyInformationRouter.put(`/`, storyInformationController);
+// Обновляет данные для текущего story
+storyInformationRouter.put("/", storyInformationController.updateStoryData);
+
+// Обновляет порядок дочерних элементов (task) для текущего story
+storyInformationRouter.patch("/", storyInformationController.updateTasksOrder);
 
 //Удаляет текущий story
-storyInformationRouter.delete("/", storyInformationController);
+storyInformationRouter.delete("/", storyInformationController.deleteStoryById);
 
 // Подключаем зависимый маршрут story к пути
 const TASK_ID_NAME = "taskId";

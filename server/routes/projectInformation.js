@@ -1,17 +1,20 @@
 const projectInformationRouter = require("express").Router();
 const projectInformationController = require("../controllers/ProjectInformationController");
 
-//Возращает данные о проекте согласно первичному ключу
-projectInformationRouter.get(`/`, projectInformationController);
+// Возвращает данные о проекте согласно первичному ключу
+projectInformationRouter.get(`/`, projectInformationController.getProjectById);
 
-//Создает дочерний элемент (customer) для текущего проекта
-projectInformationRouter.post(`/`, projectInformationController);
+// Создает дочерний элемент (customer) для текущего проекта
+projectInformationRouter.post(`/`, projectInformationController.createCustomerForProject);
 
-//Обновляет порядок дочерних элементов (customer) для текущего проекта
-projectInformationRouter.put(`/`, projectInformationController);
+// Обновляет данные для текущего проекта
+projectInformationRouter.put("/", projectInformationController.updateProjectData);
 
-//Удаляет текущий проект проект
-projectInformationRouter.delete("/", projectInformationController);
+// Обновляет порядок дочерних элементов (customer) для текущего проекта
+projectInformationRouter.patch("/", projectInformationController.updateCustomersOrder);
+
+// Удаляет текущий проект
+projectInformationRouter.delete("/", projectInformationController.deleteProjectById);
 
 // Подключаем зависимый маршрут customer к пути
 const CUSTOMER_ID_NAME = "customerId";
