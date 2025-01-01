@@ -116,27 +116,62 @@ class UserService {
     const password = '1234qwer'
     return password;
   }
-  async validation(
-    name,
-    surname,
-    patronymic,
-    email,
-    phone,
-    role
-  ) {
-    try {
-
+  async validation(name, surname, patronymic, email, phone, role) {
+    const errors = {}; // Объект для хранения ошибок
   
-      this.validationName(name);
-      this.validationSurname(surname);
-      this.validationPatronymic(patronymic);
-      await this.validationEmail(email);
-      this.validationPhone(phone);
-      await this.validationRole(role);
+    try {
+      // Валидация имени
+      try {
+        this.validationName(name);
+      } catch (err) {
+        errors.nameErr = err.details?.nameErr || "Invalid name.";
+      }
+  
+      // Валидация фамилии
+      try {
+        this.validationSurname(surname);
+      } catch (err) {
+        errors.surnameErr = err.details?.surnameErr || "Invalid surname.";
+      }
+  
+      // Валидация отчества
+      try {
+        this.validationPatronymic(patronymic);
+      } catch (err) {
+        errors.patronymicErr = err.details?.patronymicErr || "Invalid patronymic.";
+      }
+  
+      // Валидация email
+      try {
+        await this.validationEmail(email);
+      } catch (err) {
+        errors.emailErr = err.details?.emailErr || "Invalid email.";
+      }
+  
+      // Валидация телефона
+      try {
+        this.validationPhone(phone);
+      } catch (err) {
+        errors.phoneErr = err.details?.phoneErr || "Invalid phone number.";
+      }
+  
+      // Валидация роли
+      try {
+        await this.validationRole(role);
+      } catch (err) {
+        errors.roleErr = err.details?.roleErr || "Invalid role.";
+      }
+  
+      // Если есть ошибки, выбрасываем исключение с объектом ошибок
+      if (Object.keys(errors).length > 0) {
+        throw ApiError.badRequest("Ошибка валидации", errors);
+      }
+  
+      // Если ошибок нет, возвращаем данные пользователя
       const login = email;
       const password = this.generatePassword();
       const passwordHash = await this.validationPassword(password);
-
+  
       return {
         login: login,
         passwordHash: passwordHash,
@@ -152,6 +187,8 @@ class UserService {
       throw err;
     }
   }
+  
+
 
   async createUser(validDataUser) {
 
