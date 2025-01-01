@@ -12,15 +12,17 @@ export default class BaseService {
                 return result;
             } catch (error) {
                 if (error.response) {
-                    console.error("Cтатус:", error.response.status, "Ошибка:", error.response.data.message);
-                    alert(`Ошибка: ${error.response.data.message}`);
+                    console.error("Статус:", error.response.status, "Ошибка:", error.response.data.message);
+                    // Вместо alert просто логируем ошибку
+                    return Promise.reject(error.response.data); // Возвращаем ошибку для дальнейшей обработки
                 } else {
                     console.error("Ошибка:", error.message);
-                    alert(`Ошибка: ${error.message}`);
+                    return Promise.reject({ message: error.message }); // Формируем стандартный объект ошибки
                 }
             }
         };
     }
+    
 
     initializeAsyncMethods() {
         const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(this));

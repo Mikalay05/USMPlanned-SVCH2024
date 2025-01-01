@@ -37,46 +37,46 @@ class UserService {
   validationSurname(surname) {
     // not null
     if (!surname) {
-      throw ApiError.badRequest("Surname is required.");
+      throw ApiError.badRequest("Surname is required.", {surnameErr: 'Surname is required.'});
     }
     // only letters of any case
     if (!/^[a-zA-Zа-яА-Я]+$/.test(surname)) {
-      throw ApiError.badRequest("Surname must contain only letters.");
+      throw ApiError.badRequest("Surname must contain only letters.", {surnameErr: 'Surname must contain only letters.'});
     }
   }
 
   validationName(name) {
     // not null
     if (!name) {
-      throw ApiError.badRequest("Name is required.");
+      throw ApiError.badRequest("Name is required.", {nameErr: 'Name is required.'});
     }
     // only letters of any case
     if (!/^[a-zA-Zа-яА-Я]+$/.test(name)) {
-      throw ApiError.badRequest("Name must contain only letters.");
+      throw ApiError.badRequest("Name must contain only letters.", {nameErr: 'Name must contain only letters.'});
     }
   }
 
   validationPatronymic(patronymic) {
     // only letters of any case
     if (patronymic && !/^[a-zA-Zа-яА-Я]+$/.test(patronymic)) {
-      throw ApiError.badRequest("Patronymic must contain only letters.");
+      throw ApiError.badRequest("Patronymic must contain only letters.", {patronymicErr: 'Patronymic must contain only letters.'});
     }
   }
 
   async validationEmail(email) {
     // not null
     if (!email) {
-      throw ApiError.badRequest("Email is required.");
+      throw ApiError.badRequest("Email is required.", {emailErr: 'Email is required.'});
     }
     // masked
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      throw ApiError.badRequest("Email is invalid.");
+      throw ApiError.badRequest("Email is invalid.", {emailErr: 'Email is invalid'});
     }
     // unique
     const candidate = await User.findOne({ where: { email } });
     if (candidate) {
-      throw ApiError.badRequest("Email is already in use.");
+      throw ApiError.badRequest("Email is already in use.", {emailErr: 'Email is already in use.'});
     }
   }
 
@@ -84,7 +84,7 @@ class UserService {
     // masked or null
     const phoneRegex = /^\+?[1-9]\d{1,14}$/;
     if (phone && !phoneRegex.test(phone)) {
-      throw ApiError.badRequest("Phone number is invalid.");
+      throw ApiError.badRequest("Phone number is invalid.", {phoneErr: 'Phone number is invalid'});
     }
   }
 
