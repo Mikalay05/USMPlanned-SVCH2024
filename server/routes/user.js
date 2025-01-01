@@ -4,9 +4,9 @@ const userController = require('../controllers/UserController');
 
 const pk =  'userId';
 //Получить список всех пользователей
-userRouter.get("/", userController.getAllRequest);
+userRouter.get("/", userController.getAllUsers);
 //Получить данные конкретного пользователя
-userRouter.get(`/:${pk}`, userController.getDataRequest);
+userRouter.get(`/:${pk}`, userController.getByIdUser);
 // userRouter.post("/registration", userController.registrationRequire);
 // userRouter.post("/login", userController.loginRequire);
 // userRouter.delete("/logout", userController.logoutRequire);

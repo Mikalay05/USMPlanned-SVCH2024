@@ -3,13 +3,9 @@ const ApiError = require("./error/ApiError");
 
 async function dbQuery(query, params = []) {
     try {
-        console.log("================")
-        console.log("query", query)
-        console.log("================")
-        console.log("================")
-        console.log("test", { bind: params, type: db.QueryTypes.SELECT })
-        console.log("================")
-        return await db.query(query, { bind: params, type: db.QueryTypes.SELECT });
+        const result = await db.query(query, { bind: params, type: db.QueryTypes.SELECT })
+        console.log(result);
+        return  result;
     } catch (err) {
         console.error("Database query failed:", err);
         throw ApiError.internal("Ошибка выполнения запроса к базе данных");

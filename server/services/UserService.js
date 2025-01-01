@@ -180,14 +180,26 @@ class UserService {
     return resultDeleted;
   }
   async getUserDataQuery(userId = null) {
-    const params = [
-      userId,
-    ]
-    const resultOfGet = await dbQuery(QUERIES.GET_USER_DATA,params)
-    return resultOfGet
-  } 
+    const params = [userId];
+    console.log(params)
+    // Выполнение запроса
+    const resultOfGet = await dbQuery(QUERIES.GET_USER_DATA, params);
+
+    // Проверка результата
+    if (resultOfGet && resultOfGet[0] && resultOfGet[0].getuser) {
+      console.log(resultOfGet[0].getuser)
+        return resultOfGet[0].getuser; // Возвращаем данные
+    }
+
+    // Если данные отсутствуют, выбрасываем ошибку
+    throw ApiError.notFound("Данные пользователя не найдены", { userId });
+}
   async getAllUsers() {
-    const result = await getUserDataQuery();
+    const result = await this.getUserDataQuery(1);
+    return result;
+  }
+  async getByIdUser(userId) {
+    const result = await this.getUserDataQuery(userId);
     return result;
   }
 }
