@@ -106,26 +106,29 @@ class UserService {
       throw ApiError.badRequest("Некорректная роль пользователя.");
     }
   }
-
+  generatePassword() {
+    //TODO принцип гинарции пароля
+    const password = '1234qwer'
+    return password;
+  }
   async validation(
-    login,
-    password,
-    roleId,
-    surname,
     name,
+    surname,
     patronymic,
     email,
-    phone
+    phone,
+    roleId
   ) {
     try {
-      await this.validationLogin(login);
-      const passwordHash = await this.validationPassword(password);
-      await this.validationRole(roleId);
-      this.validationSurname(surname);
       this.validationName(name);
+      this.validationSurname(surname);
       this.validationPatronymic(patronymic);
       await this.validationEmail(email);
       this.validationPhone(phone);
+      await this.validationRole(roleId);
+      const login = email;
+      const password = this.generatePassword();
+      const passwordHash = await this.validationPassword(password);
 
       return {
         login: login,

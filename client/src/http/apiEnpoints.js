@@ -12,6 +12,7 @@ export const API_ENDPOINTS = {
         GET_ALL_ROLES: '/role'
     },
     USER: {
-        GET_ALL_USERS: '/user'
+        GET_ALL_USERS: '/user',
+        REGISTRATION_USER:'/user/reg'
     }
 };

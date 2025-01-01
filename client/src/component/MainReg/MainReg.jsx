@@ -50,21 +50,9 @@ export default function MainReg() {
   };
 
   const handleOnRegistationButton = () => {
-    // Логика регистрации (валидация и т.д.)
+    
   };
 
-  // Валидация
-  const validateForm = () => {
-    const errors = {};
-    if (!formData.surname) errors.surname = "Surname is required";
-    if (!formData.name) errors.name = "Name is required";
-    if (!formData.patronymic) errors.patronymic = "Patronymic is required";
-    if (!formData.email) errors.email = "Email is required";
-    if (!formData.phone) errors.phone = "Phone is required";
-    setFormErrors(errors);
-  };
-
-  console.log(formData);
 
   return (
     <section  className="section-form-data-for-reg-user">
@@ -136,7 +124,6 @@ export default function MainReg() {
 
         <CustomerButton
           textValue="Registration"
-          disabled={isLoading || !!error || Object.keys(formErrors).length > 0}
           onClick={handleOnRegistationButton}
         />
       </div>

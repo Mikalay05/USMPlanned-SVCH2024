@@ -7,7 +7,8 @@ const pk =  'userId';
 userRouter.get("/", userController.getAllUsers);
 //Получить данные конкретного пользователя
 userRouter.get(`/:${pk}`, userController.getByIdUser);
-// userRouter.post("/registration", userController.registrationRequire);
+//Регистрация пользователя
+userRouter.post("/reg", userController.registrationRequire);
 // userRouter.post("/login", userController.loginRequire);
 // userRouter.delete("/logout", userController.logoutRequire);
 // userRouter.put(`/:${pk}`, userController.updateRequest);

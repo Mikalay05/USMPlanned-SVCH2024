@@ -7,6 +7,11 @@ export const getUsers = createAsyncThunk("user/getUsers", async () => {
   return response;
 });
 
+export const registrationUser = createAsyncThunk('user/registrationUser', async ({name, surname,patronymic, email, phone, role })=> {
+    const response = await UserService.registrationUser({name, surname,patronymic, email, phone,role });
+    return response;
+})
+
 const userSlice = createSlice({
   name: "user",
   initialState: {

@@ -12,20 +12,17 @@ const UserDto = require("../DTOs/Data/UserDto");
 class UserController {
   constructor() {}
 
-  registrationRequire = async (req, res, next) => {
+  registration = async (req, res, next) => {
     try {
-      const { surname, name, patronymic, email, phone } = req.body;
-      const { login, password, roleId } = req.body;
+      const { name, surname, patronymic, email, phone, role } = req.body;
 
       const validDataUser = await UserService.validation(
-        login,
-        password,
-        roleId,
-        surname,
         name,
+        surname,
         patronymic,
         email,
-        phone
+        phone,
+        role.roleId
       );
 
       const user = await UserService.createUser(validDataUser);
@@ -113,11 +110,11 @@ class UserController {
   }
   async getByIdUser(req, res, next) {
     try {
-      const {userId} = req.params;
+      const { userId } = req.params;
       const result = await UserService.getByIdUser(userId);
-      console.log(result)
+      console.log(result);
       const resultDto = new UserDto(result[0]);
-      console.log(resultDto)
+      console.log(resultDto);
       res.status(200).json(resultDto);
     } catch (err) {
       console.log("error in request getAllUsers", err);
