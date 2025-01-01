@@ -11,7 +11,7 @@ const roles = {
 };
 const pathToProject = '/project'
 const pathToTask = '/task';
-const pathToUsers = '/users';
+const pathToUsers = '/user';
 const rolesAccess = {
   Projects: [roles.admin, roles.developer, roles.teamLead],
   Users: [roles.admin],

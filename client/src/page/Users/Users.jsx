@@ -17,7 +17,7 @@ export default function Users({
     return (
         <>
         <Header/>
-        <MainUsersComponent/>
+        <MainUsersComponent pathForAddUser='reg'/>
         <Footer/>
         </>
     )

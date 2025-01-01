@@ -11,7 +11,7 @@ export default function sys_RouteComponent() {
           element={<route.component />} // Используем компонент
         />
       ))}
-      <Route path="*" element={<Navigate to="/project" />} />
+      {/* <Route path="*" element={<Navigate to="/project" />} /> */}
     </Routes>
   );
 }

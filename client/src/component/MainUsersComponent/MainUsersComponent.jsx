@@ -3,24 +3,27 @@ import "./MainUsersComponent.css";
 import { useSelector } from "react-redux";
 import React from 'react';
 import LoadingDots from "../LoadingDots/LoadingDots";
+import { Link } from "react-router-dom"; 
 
 export default function MainUsersComponent({
   pathForIconAdd = "IconAdd.svg",
   altNameOfIconAdd = "add element",
-  textValueOfButtonChange = 'Change User'
+  textValueOfButtonChange = 'Change User',
+  pathForAddUser = "/" 
 }) {
   const { users, isLoading } = useSelector((state) => state.user);
 
   return (
     <main className="main-users-container">
-      {/* Показываем индикатор загрузки, если isLoading равно true */}
       {isLoading ? (
         <LoadingDots />
       ) : (
         <div className="users-content">
           <div className="header-users">
             <h1>Users</h1>
-            <img src={pathForIconAdd} alt={altNameOfIconAdd} />
+            <Link to={pathForAddUser}>
+              <img src={pathForIconAdd} alt={altNameOfIconAdd} />
+            </Link>
           </div>
 
           <div className="user-list">

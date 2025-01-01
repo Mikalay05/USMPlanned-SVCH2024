@@ -31,13 +31,13 @@ export const ROUTES = [
     component: Auth,
   },
   {
-    path: '/reg', 
+    path: 'user/reg', 
     nameOfPage: 'Reg',
     component: Reg,
   },
   {
-    path: '/users', 
-    nameOfPage: 'users',
+    path: '/user', 
+    nameOfPage: 'user',
     component: Users,
   },
 ];

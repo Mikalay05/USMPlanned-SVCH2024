@@ -4,6 +4,7 @@
     align-items: center;
     gap: 20px;
     align-self: stretch;
+    
 }
 .header-users >h1 {
     color: #000;

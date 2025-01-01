@@ -28,7 +28,7 @@ footer {
     gap: 20px;
     align-self: stretch;
 }
-.text-content-in-footer > p, span, a {
+.text-content-in-footer > p, .text-content-in-footer > span, .text-content-in-footer > a {
     align-self: stretch;
     color: #000;
     font-family: Inter;
