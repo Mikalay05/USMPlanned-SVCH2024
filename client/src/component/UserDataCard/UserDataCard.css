@@ -1,0 +1,42 @@
+.content-user-data-card {
+    display: flex;
+    width: 280px;
+    padding: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+
+    border-radius: 15px;
+    background: #F2F2F2;
+}
+.role-user-data-card {
+    color: #000;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    align-self: stretch;
+}
+.name-user-data-card {
+    color: #000;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    
+    align-self: stretch;
+}
+.contact-user-data-card {
+    color: #000;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    
+    align-self: stretch;
+}
