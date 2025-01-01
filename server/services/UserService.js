@@ -4,6 +4,14 @@ const bcrypt = require("bcrypt");
 const UserDto = require("../DTOs/Data/UserDto");
 const TokenService = require("./TokenService");
 
+/*
+* ====================
+* Queries to DB
+* ====================
+*/
+const QUERIES = require("../queries/queries");
+const { dbQuery } = require("../dbUtils");
+
 const TEST_IN_CONSOLE = true;
 function cl(message) {
   if(TEST_IN_CONSOLE) {
@@ -170,6 +178,17 @@ class UserService {
   async logout(refreshToken) {
     const resultDeleted = TokenService.deleteToken(refreshToken);
     return resultDeleted;
+  }
+  async getUserDataQuery(userId = null) {
+    const params = [
+      userId,
+    ]
+    const resultOfGet = await dbQuery(QUERIES.GET_USER_DATA,params)
+    return resultOfGet
+  } 
+  async getAllUsers() {
+    const result = await getUserDataQuery();
+    return result;
   }
 }
 

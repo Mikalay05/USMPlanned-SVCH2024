@@ -1,3 +1,4 @@
+import UserDataCard from "../UserDataCard/UserDataCard";
 import "./MainUsersComponent.css";
 
 export default function MainUsersComponent({
@@ -10,7 +11,7 @@ export default function MainUsersComponent({
         <h1>Users</h1>
         <img src={pathForIconAdd} alt={altNameOfIconAdd} />
         <div>
-            
+            <UserDataCard/>
         </div>
       </div>
     </main>

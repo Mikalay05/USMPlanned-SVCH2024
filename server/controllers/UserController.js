@@ -2,6 +2,13 @@ const { User } = require("../models/models");
 const UserService = require("../services/UserService");
 const TokenService = require("../services/TokenService");
 
+/*
+* ====================
+* DTO require
+* ====================
+*/
+const UserDto = require('../DTOs/Data/UserDto') 
+
 class UserController {
   constructor(
     model,
@@ -97,6 +104,21 @@ class UserController {
         next(err); // Передаем ошибку в следующий middleware
     }
 }
+
+  async getAllUsers(req,res,next) {
+    try {
+      const result = await UserService.getAllUsers();
+      const resultDto = result.map(user => {
+        return new UserDto(user);
+      })
+      res.status(200).json(resultDto)
+    }
+    catch (err)
+    {
+      console.log("error in request getAllUsers", err)
+      next(err);
+    }
+  }
 }
 
 module.exports = new UserController();

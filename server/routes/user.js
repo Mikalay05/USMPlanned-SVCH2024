@@ -1,10 +1,12 @@
 const userRouter = require('express').Router();
-// const userController = require('../controllers/UserController');
+const userController = require('../controllers/UserController');
 
 
-const pk =  'login';
-// userRouter.get("/", userController.getAllRequest);
-// userRouter.get(`/:${pk}`, userController.getDataRequest);
+const pk =  'userId';
+//Получить список всех пользователей
+userRouter.get("/", userController.getAllRequest);
+//Получить данные конкретного пользователя
+userRouter.get(`/:${pk}`, userController.getDataRequest);
 // userRouter.post("/registration", userController.registrationRequire);
 // userRouter.post("/login", userController.loginRequire);
 // userRouter.delete("/logout", userController.logoutRequire);
