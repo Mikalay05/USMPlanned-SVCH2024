@@ -4,7 +4,7 @@ import CustomerInformation from '../../page/CustomerInformation/CustomerInformat
 import Auth from '../../page/Auth/Auth';
 import Reg from '../../page/Reg/Reg';
 // import UserData from '../../page/UserData';
-// import Users from '../../page/Users';
+import Users from '../../page/Users/Users';
 
 
 
@@ -34,5 +34,10 @@ export const ROUTES = [
     path: '/reg', 
     nameOfPage: 'Reg',
     component: Reg,
+  },
+  {
+    path: '/users', 
+    nameOfPage: 'users',
+    component: Users,
   },
 ];
