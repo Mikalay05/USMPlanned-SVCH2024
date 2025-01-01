@@ -1,8 +1,7 @@
 .user-select-container {
     display: flex;
     height: 50px;
-    min-width: 230px;
-    max-width: 280px;
+    width: 240px;
     padding: 0px 20px;
     justify-content: space-between;
     align-items: center;

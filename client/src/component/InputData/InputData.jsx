@@ -55,7 +55,7 @@ export default function InputData({
           <img
             width={widthIcon}
             height={heightIcon}
-            onClick={onClickIcon}
+            onClick={handleClearClick}
             src={`/${iconName}`}
             alt="icon"
           />
