@@ -1,6 +1,7 @@
 const { User } = require("../models/models");
 const UserService = require("../services/UserService");
 const TokenService = require("../services/TokenService");
+const ApiError = require('../error/ApiError')
 
 /*
  * ====================
@@ -15,28 +16,24 @@ class UserController {
   registration = async (req, res, next) => {
     try {
       const { name, surname, patronymic, email, phone, role } = req.body;
-
       const validDataUser = await UserService.validation(
         name,
         surname,
         patronymic,
         email,
         phone,
-        role.roleId
+        role
       );
-
       const user = await UserService.createUser(validDataUser);
-
       if (!user) {
         throw ApiError.badRequest("Не удалось создать пользователя");
       }
-
-      const tokenInDb = await TokenService.getTokenForUser(user);
-      res.cookie(this.NAME_COOKIE_REFRESH_TOKEN, tokenInDb.value, {
-        maxAge: this.MAX_AGE_FOR_REFRESH_TOKEN,
-        httpOnly: true,
-      });
-      return res.status(200).json({ mess: "created user", user, ...tokenInDb });
+      // const tokenInDb = await TokenService.getTokenForUser(user);
+      // res.cookie(this.NAME_COOKIE_REFRESH_TOKEN, tokenInDb.value, {
+      //   maxAge: this.MAX_AGE_FOR_REFRESH_TOKEN,
+      //   httpOnly: true,
+      // });
+      return res.status(200).json({ mess: "created user", user });
     } catch (err) {
       console.log(
         `${this.NAME_CONRTOLLER_IN_ERROR}. Method ==> registrationRequire`,
@@ -110,6 +107,9 @@ class UserController {
   }
   async getByIdUser(req, res, next) {
     try {
+      console.log("=====================")
+      console.log("3333Cоздается пользователь")
+      console.log("=====================")
       const { userId } = req.params;
       const result = await UserService.getByIdUser(userId);
       console.log(result);
@@ -117,7 +117,7 @@ class UserController {
       console.log(resultDto);
       res.status(200).json(resultDto);
     } catch (err) {
-      console.log("error in request getAllUsers", err);
+      console.log("error in request getByIdUser", err);
       next(err);
     }
   }

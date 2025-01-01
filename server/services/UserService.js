@@ -98,12 +98,17 @@ class UserService {
     return passwordHash;
   }
 
-  async validationRole(roleId) {
+  async validationRole(role) {
+    const roleId = role?.roleId;
+    if (!roleId) {
+      throw ApiError.badRequest("Отсутствует идентификатор роли пользователя.", {roleErr: 'Нужно выбрать роль'});
+    }
+  
     const candidate = await Role.findOne({
       where: { [this.ROLE_PK_NAME]: roleId },
     });
     if (!candidate) {
-      throw ApiError.badRequest("Некорректная роль пользователя.");
+      throw ApiError.badRequest("Некорректная роль пользователя.",{roleErr: 'Некорректная роль пользователя'});
     }
   }
   generatePassword() {
@@ -117,15 +122,17 @@ class UserService {
     patronymic,
     email,
     phone,
-    roleId
+    role
   ) {
     try {
+
+  
       this.validationName(name);
       this.validationSurname(surname);
       this.validationPatronymic(patronymic);
       await this.validationEmail(email);
       this.validationPhone(phone);
-      await this.validationRole(roleId);
+      await this.validationRole(role);
       const login = email;
       const password = this.generatePassword();
       const passwordHash = await this.validationPassword(password);
@@ -133,7 +140,7 @@ class UserService {
       return {
         login: login,
         passwordHash: passwordHash,
-        role_id: roleId,
+        role_id: role.roleId,
         surname: surname,
         name: name,
         patronymic: patronymic,
@@ -147,8 +154,9 @@ class UserService {
   }
 
   async createUser(validDataUser) {
+
     const user = await User.create(validDataUser);
-    return new UserDto(user);
+    return user;
   }
   async doesUserExist(login) {
     const userInDB = await User.findOne({ where: {login} });
@@ -156,7 +164,6 @@ class UserService {
     if (!userInDB) {
       throw ApiError.badRequest("Login not found");
     }
-    console.log("Login exist");
     return userInDB;
   }
   async verifyPassword(password, correctPassowrdHash) {
@@ -183,6 +190,9 @@ class UserService {
     return resultDeleted;
   }
   async getUserDataQuery(userId = null) {
+    console.log("=====================")
+    console.log("22222Cоздается пользователь")
+    console.log("=====================")
     const params = [userId];
     console.log(params)
     // Выполнение запроса
