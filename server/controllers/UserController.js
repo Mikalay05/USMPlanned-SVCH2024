@@ -37,18 +37,19 @@ class UserController {
       next(err);
     }
   };
-  loginRequire = async (req, res, next) => {
+  login = async (req, res, next) => {
     try {
       const { login, password } = req.body;
+      console.log("1234", login)
       const user = await UserService.loginUser(login, password);
 
-      const tokenInDb = await TokenService.getTokenForUser(user);
-      res.cookie(this.NAME_COOKIE_REFRESH_TOKEN, tokenInDb.value, {
-        maxAge: this.MAX_AGE_FOR_REFRESH_TOKEN,
-        httpOnly: true,
-      });
+      // const tokenInDb = await TokenService.getTokenForUser(user);
+      // res.cookie(this.NAME_COOKIE_REFRESH_TOKEN, tokenInDb.value, {
+      //   maxAge: this.MAX_AGE_FOR_REFRESH_TOKEN,
+      //   httpOnly: true,
+      // });
 
-      return res.status(200).json({ mess: "login user", user, tokenInDb });
+      return res.status(200).json({ message: "login user", user });
     } catch (err) {
       console.log(
         `${this.NAME_CONRTOLLER_IN_ERROR}. Method ==> loginRequire`,

@@ -196,23 +196,26 @@ class UserService {
     const userInDB = await User.findOne({ where: {login} });
 
     if (!userInDB) {
-      throw ApiError.badRequest("Login not found");
+      throw ApiError.badRequest("Login not found", {loginErr: "Login not found"});
     }
     return userInDB;
   }
   async verifyPassword(password, correctPassowrdHash) {
     if (!password) {
-      throw ApiError.badRequest("The password must be provided");
+      throw ApiError.badRequest("The password must be provided", {passwordErr: "The password must be provided"});
     }
     if (!correctPassowrdHash) {
-      throw ApiError.badRequest("Error in DB with password");
+      throw ApiError.badRequest("Error in DB with password", {passwordErr: "Error in DB with password"});
     }
     const resultCompare = await bcrypt.compare(password, correctPassowrdHash);
     if (!resultCompare) {
-      throw ApiError.badRequest("incorrect password");
+      throw ApiError.badRequest("incorrect password", {passwordErr: "incorrect password"});
     }
   }
   async loginUser(login, password) {
+    if(!login) {
+      throw ApiError.badRequest("Login requred", {loginErr: "Login requred"});
+    }
     const userData = await this.doesUserExist(login);
     await this.verifyPassword(password, userData.passwordHash);
 

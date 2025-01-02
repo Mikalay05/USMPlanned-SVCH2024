@@ -9,7 +9,8 @@ userRouter.get("/", userController.getAllUsers);
 userRouter.get(`/:${pk}`, userController.getByIdUser);
 //Регистрация пользователя
 userRouter.post("/reg", userController.registration);
-// userRouter.post("/login", userController.loginRequire);
+//Авторизация пользователя
+userRouter.post("/login", userController.login);
 // userRouter.delete("/logout", userController.logoutRequire);
 // userRouter.put(`/:${pk}`, userController.updateRequest);
 // userRouter.delete(`/:${pk}`, userController.deleteRequest);
