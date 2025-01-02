@@ -1,7 +1,7 @@
 const { User } = require("../models/models");
 const UserService = require("../services/UserService");
 const TokenService = require("../services/TokenService");
-const ApiError = require('../error/ApiError')
+const ApiError = require("../error/ApiError");
 
 /*
  * ====================
@@ -9,21 +9,16 @@ const ApiError = require('../error/ApiError')
  * ====================
  */
 const UserDto = require("../DTOs/Data/UserDto");
+const UserForCreationDTO = require("../DTOs/ForCreation/UserForCreationDto");
 
 class UserController {
   constructor() {}
 
   registration = async (req, res, next) => {
     try {
-      const { name, surname, patronymic, email, phone, role } = req.body;
-      const validDataUser = await UserService.validation(
-        name,
-        surname,
-        patronymic,
-        email,
-        phone,
-        role
-      );
+      const dataDto = new UserForCreationDTO(req.body);
+      console.log(req.body)
+      const validDataUser = await UserService.validation(dataDto);
       const user = await UserService.createUser(validDataUser);
       if (!user) {
         throw ApiError.badRequest("Не удалось создать пользователя");
@@ -107,9 +102,9 @@ class UserController {
   }
   async getByIdUser(req, res, next) {
     try {
-      console.log("=====================")
-      console.log("3333Cоздается пользователь")
-      console.log("=====================")
+      console.log("=====================");
+      console.log("3333Cоздается пользователь");
+      console.log("=====================");
       const { userId } = req.params;
       const result = await UserService.getByIdUser(userId);
       console.log(result);

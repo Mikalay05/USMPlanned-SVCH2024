@@ -1,3 +1,4 @@
+// MainReg.js
 import "./MainReg.css";
 import { useSelector } from "react-redux";
 import { useState } from "react";
@@ -6,8 +7,9 @@ import { useDispatch } from "react-redux"; // Для вызова action
 import { registrationUser } from "../../store/slices/userSlice"; // Импорт экшена
 
 import CustomerButton from "../CustomerButton/CustomerButton";
-import CustomerSelect from "../CustomerSelect/CustomerSelect";
+import CustomerSelectWithError from "../CustomerSelectWithError/CustomerSelectWithError"; // Импортируем новый компонент с ошибкой
 import InputDataWithError from "../InputDataWithError/InputDataWithError"; // Импортируем компонент с ошибкой
+import UserForCreationDTO from "../../DTOs/ForCreation/UserForCreationDTO";
 
 export default function MainReg() {
   const roles = useSelector((state) => state.role.roles);
@@ -21,16 +23,17 @@ export default function MainReg() {
     patronymic: "",
     email: "",
     phone: "",
-    status: {},
+    role: {}, // Для хранения выбранной роли
   });
-
   const [formErrors, setFormErrors] = useState({
     nameErr: "",
     surnameErr: "",
     patronymicErr: "",
     emailErr: "",
     phoneErr: "",
+    roleErr: "",
   });
+  console.log(formErrors)
 
   const changeFormData = (name, value) => {
     setFormData({
@@ -40,7 +43,7 @@ export default function MainReg() {
   };
 
   const handleOnSelect = (selectedItem) => {
-    changeFormData("status", selectedItem);
+    changeFormData("role", selectedItem);  // Сохраняем выбранную роль
   };
 
   const handleInInput = (e) => {
@@ -54,26 +57,17 @@ export default function MainReg() {
 
   const handleOnRegistationButton = async () => {
     try {
-      const { name, surname, patronymic, email, phone, status } = formData;
+      const dataForCreate = new UserForCreationDTO(formData);
+      console.log("dataForCreate",dataForCreate)
 
       await dispatch(
-        registrationUser({
-          name,
-          surname,
-          patronymic,
-          email,
-          phone,
-          role: status,
-        })
+        registrationUser(dataForCreate)
       ).unwrap();
 
-      setFormErrors({});
+      setFormErrors({});  // Сброс ошибок, если регистрация прошла успешно
     } catch (err) {
-      console.log("ПОЙМАЛЛЛЛЛЛ", err)
       if (err.details) {
-        console.log("УСТАНОВИЛ")
-
-        setFormErrors(err.details); // Отображаем ошибки валидации
+        setFormErrors(err.details);  // Отображаем ошибки валидации
       } else {
         console.error("Ошибка регистрации:", err.message);
       }
@@ -86,6 +80,7 @@ export default function MainReg() {
       <div className="inputs-form-data-for-reg-user">
         <h3>Person data:</h3>
         <div className="content-input-form-data-for-reg-user">
+          {/* Поля ввода для данных пользователя с ошибками */}
           <InputDataWithError
             errorMessage={formErrors.surnameErr}
             onClear={handleClearInput}
@@ -95,7 +90,6 @@ export default function MainReg() {
             value={formData.surname}
             onInput={handleInInput}
           />
-
           <InputDataWithError
             errorMessage={formErrors.nameErr}
             onClear={handleClearInput}
@@ -105,7 +99,6 @@ export default function MainReg() {
             value={formData.name}
             onInput={handleInInput}
           />
-
           <InputDataWithError
             errorMessage={formErrors.patronymicErr}
             onClear={handleClearInput}
@@ -115,7 +108,6 @@ export default function MainReg() {
             value={formData.patronymic}
             onInput={handleInInput}
           />
-
           <InputDataWithError
             errorMessage={formErrors.emailErr}
             onClear={handleClearInput}
@@ -125,7 +117,6 @@ export default function MainReg() {
             value={formData.email}
             onInput={handleInInput}
           />
-
           <InputDataWithError
             errorMessage={formErrors.phoneErr}
             onClear={handleClearInput}
@@ -139,11 +130,12 @@ export default function MainReg() {
           {isLoading && <p>Loading roles...</p>}
           {error && <p className="error-message">Failed to load roles: {error}</p>}
           {!isLoading && !error && (
-            <CustomerSelect
-              filterKey={"name"}
+            <CustomerSelectWithError
               options={roles}
+              filterKey="name"
               placeholderValue="Choose role for user"
               onSelect={handleOnSelect}
+              error={formErrors.roleErr}  // Передаем ошибку для выбора роли
             />
           )}
         </div>

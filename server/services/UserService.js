@@ -12,13 +12,6 @@ const TokenService = require("./TokenService");
 const QUERIES = require("../queries/queries");
 const { dbQuery } = require("../dbUtils");
 
-const TEST_IN_CONSOLE = true;
-function cl(message) {
-  if(TEST_IN_CONSOLE) {
-    console.log(message);
-  }
-}
-
 class UserService {
   COUNT_PASSWORD_HASH = 5;
   NAME_SERVICE_IN_ERROR = "SERVICE = UserService";
@@ -99,11 +92,15 @@ class UserService {
   }
 
   async validationRole(role) {
+    console.log('ПРОВРЕКА')
     const roleId = role?.roleId;
+    console.log("roleId", roleId)
+    console.log("role", role)
     if (!roleId) {
       throw ApiError.badRequest("Отсутствует идентификатор роли пользователя.", {roleErr: 'Нужно выбрать роль'});
     }
-  
+    console.log('КОНЕЦ')
+
     const candidate = await Role.findOne({
       where: { [this.ROLE_PK_NAME]: roleId },
     });
@@ -116,9 +113,9 @@ class UserService {
     const password = '1234qwer'
     return password;
   }
-  async validation(name, surname, patronymic, email, phone, role) {
+  async validation({name, surname, patronymic, email, phone, role}) {
     const errors = {}; // Объект для хранения ошибок
-  
+    console.log({name, surname, patronymic, email, phone, role})
     try {
       // Валидация имени
       try {

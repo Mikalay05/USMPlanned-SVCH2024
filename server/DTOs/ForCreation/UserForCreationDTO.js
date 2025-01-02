@@ -13,7 +13,7 @@ class UserForCreationDTO {
         this.email = email; // Электронная почта пользователя
         this.phone = phone; // Телефон пользователя
         this.role = {
-            roleId: role.id
+            roleId: role.roleId
         }; 
     }
 }
