@@ -9,6 +9,7 @@ const ApiError = require("../error/ApiError");
  */
 const UserDto = require("../DTOs/Data/UserDto");
 const UserForCreationDTO = require("../DTOs/ForCreation/UserForCreationDto");
+const CurrentUserData = require("../DTOs/Data/CurrentUserData");
 
 const NAME_COOKIE_REFRESH_TOKEN = 'refreshToken'
 const MAX_AGE_FOR_REFRESH_TOKEN = 30*24*60*60*1000;
@@ -18,18 +19,17 @@ class UserController {
   registration = async (req, res, next) => {
     try {
       const dataDto = new UserForCreationDTO(req.body);
-      console.log(req.body)
       const user = await UserService.createUser(dataDto);
       if (!user) {
         throw ApiError.badRequest("Не удалось создать пользователя");
       }
-      console.log(user)
+      const resultUserDto = new CurrentUserData(user);
       res.cookie(
-        NAME_COOKIE_REFRESH_TOKEN, user.refreshToken, {
+        NAME_COOKIE_REFRESH_TOKEN, resultUserDto.refreshToken, {
         maxAge: MAX_AGE_FOR_REFRESH_TOKEN,
         httpOnly: true,
       });
-      return res.status(200).json({ mess: "created user", data: user });
+      return res.status(200).json({ mess: "created user", data: resultUserDto });
     } catch (err) {
       console.log(
         `${this.NAME_CONRTOLLER_IN_ERROR}. Method ==> registrationRequire`,
@@ -41,16 +41,16 @@ class UserController {
   login = async (req, res, next) => {
     try {
       const { login, password } = req.body;
-      console.log("1234", login)
       const user = await UserService.loginUser(login, password);
 
-      // const tokenInDb = await TokenService.getTokenForUser(user);
-      // res.cookie(this.NAME_COOKIE_REFRESH_TOKEN, tokenInDb.value, {
-      //   maxAge: this.MAX_AGE_FOR_REFRESH_TOKEN,
-      //   httpOnly: true,
-      // });
+      const resultUserDto = new CurrentUserData(user);
+      res.cookie(
+        NAME_COOKIE_REFRESH_TOKEN, resultUserDto.refreshToken, {
+        maxAge: MAX_AGE_FOR_REFRESH_TOKEN,
+        httpOnly: true,
+      });
 
-      return res.status(200).json({ message: "login user", user });
+      return res.status(200).json({ message: "login user", resultUserDto });
     } catch (err) {
       console.log(
         `${this.NAME_CONRTOLLER_IN_ERROR}. Method ==> loginRequire`,

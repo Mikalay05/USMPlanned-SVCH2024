@@ -1,7 +1,6 @@
 const ApiError = require("../error/ApiError");
 const { User, Role } = require("../models/models");
 const bcrypt = require("bcrypt");
-const UserDto = require("../DTOs/Data/UserDto");
 const TokenService = require("./TokenService");
 
 /*
@@ -191,7 +190,7 @@ class UserService {
     const validDataUser = await this.validation(dataDto);
     const user = await User.create(validDataUser);
     const tokens = await TokenService.getTokenForUser(user);
-    return {user, ...tokens};
+    return {...user.dataValues, ...tokens};
   }
   async doesUserExist(login) {
     const userInDB = await User.findOne({ where: {login} });
@@ -219,9 +218,9 @@ class UserService {
     }
     const userData = await this.doesUserExist(login);
     await this.verifyPassword(password, userData.passwordHash);
-
-    const userDtoData = new UserDto(userData);
-    return userDtoData;
+    const tokens = await TokenService.getTokenForUser(userData);
+    console.log("IUSER DATA", userData)
+    return {...userData.dataValues, ...tokens};
   }
   async logout(refreshToken) {
     const resultDeleted = TokenService.deleteToken(refreshToken);
