@@ -91,6 +91,7 @@ class UserController {
   async getAllUsers(req, res, next) {
     try {
       const result = await UserService.getAllUsers();
+      console.log("RESULT",result)
       const resultDto = result.map((user) => {
         return new UserDto(user);
       });

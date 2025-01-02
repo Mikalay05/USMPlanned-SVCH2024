@@ -242,7 +242,7 @@ class UserService {
     throw ApiError.notFound("Данные пользователя не найдены", { userId });
 }
   async getAllUsers() {
-    const result = await this.getUserDataQuery(1);
+    const result = await this.getUserDataQuery();
     return result;
   }
   async getByIdUser(userId) {
