@@ -1,6 +1,5 @@
 const { User } = require("../models/models");
 const UserService = require("../services/UserService");
-const TokenService = require("../services/TokenService");
 const ApiError = require("../error/ApiError");
 
 /*
@@ -11,6 +10,8 @@ const ApiError = require("../error/ApiError");
 const UserDto = require("../DTOs/Data/UserDto");
 const UserForCreationDTO = require("../DTOs/ForCreation/UserForCreationDto");
 
+const NAME_COOKIE_REFRESH_TOKEN = 'refreshToken'
+const MAX_AGE_FOR_REFRESH_TOKEN = 30*24*60*60*1000;
 class UserController {
   constructor() {}
 
@@ -18,17 +19,17 @@ class UserController {
     try {
       const dataDto = new UserForCreationDTO(req.body);
       console.log(req.body)
-      const validDataUser = await UserService.validation(dataDto);
-      const user = await UserService.createUser(validDataUser);
+      const user = await UserService.createUser(dataDto);
       if (!user) {
         throw ApiError.badRequest("Не удалось создать пользователя");
       }
-      // const tokenInDb = await TokenService.getTokenForUser(user);
-      // res.cookie(this.NAME_COOKIE_REFRESH_TOKEN, tokenInDb.value, {
-      //   maxAge: this.MAX_AGE_FOR_REFRESH_TOKEN,
-      //   httpOnly: true,
-      // });
-      return res.status(200).json({ mess: "created user", user });
+      console.log(user)
+      res.cookie(
+        NAME_COOKIE_REFRESH_TOKEN, user.refreshToken, {
+        maxAge: MAX_AGE_FOR_REFRESH_TOKEN,
+        httpOnly: true,
+      });
+      return res.status(200).json({ mess: "created user", data: user });
     } catch (err) {
       console.log(
         `${this.NAME_CONRTOLLER_IN_ERROR}. Method ==> registrationRequire`,

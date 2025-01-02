@@ -6,9 +6,8 @@ const ApiError = require("../error/ApiError");
 class TokenService {
   EXPRES_IN_REFRESH = "30d";
   EXPRES_IN_ASSECC = "30m";
-  PERENT_USER = "user_login";
+  PERENT_USER = "user_id";
   NAME_TOKEN_VALUE_COLUME_IN_DB = "value"
-  PERENT_USER ='user_login';
 
 
   generateRefreshToken(payload) {
@@ -34,9 +33,8 @@ class TokenService {
     };
   }
   
-  async saveToken(userLogin, refreshToken) {
-      // Использование where для поиска
-      const candidate = await Token.findOne({ where: { [this.PERENT_USER]: userLogin } });
+  async saveToken(userId, refreshToken) {
+      const candidate = await Token.findOne({ where: { [this.PERENT_USER]: userId } });
 
       if (candidate) {
         candidate.value = refreshToken;
@@ -45,27 +43,27 @@ class TokenService {
       }
 
       // Создание нового токена, если не найден
-      const tokenInDb = await Token.create({ [this.PERENT_USER]: userLogin, value: refreshToken });
+      const tokenInDb = await Token.create({ [this.PERENT_USER]: userId, value: refreshToken });
       return tokenInDb;
   }
 
   async getTokenForUser(user) {
 
     const payload = {
-      login: user.login,
+      id: user.id,
       roleId: user.role_id,
     };
 
     const tokens = this.generateTokens(payload);
 
     console.log("getTokenForUser")
-    const tokenInDb = await this.saveToken(user.login, tokens.refreshToken);
+    const tokenInDb = await this.saveToken(user.id, tokens.refreshToken);
     console.log("getTokenForUser End")
 
     if (!tokenInDb) {
       throw ApiError.badRequest("Failed to create the token");
     }
-    return tokenInDb[this.NAME_TOKEN_VALUE_COLUME_IN_DB];
+    return tokens;
   }
   async deleteToken(refreshToken) {
     if (!refreshToken) {

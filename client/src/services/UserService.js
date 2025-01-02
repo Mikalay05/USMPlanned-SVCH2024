@@ -12,6 +12,10 @@ class UserService extends BaseService {
         const response = await BaseService.request("post", API_ENDPOINTS.USER.REGISTRATION_USER, {name, surname,patronymic, email, phone,role });
         return response
     }
+    async loginUser({login, password}) {
+        const response = await BaseService.request("post", API_ENDPOINTS.USER.LOGIN_USER, {login, password });
+        return response;
+    }
 }
 
 export default new UserService();

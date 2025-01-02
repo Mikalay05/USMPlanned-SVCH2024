@@ -1,3 +1,4 @@
+import LoginUserDto from "../../DTOs/LoginUserDto";
 import UserService from "../../services/UserService";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -22,6 +23,20 @@ export const registrationUser = createAsyncThunk(
       return rejectWithValue(error || { message: "Unknown error" });
     }
   }
+);
+
+export const loginUser = createAsyncThunk("user/loginUser", async(loginData, {rejectWithValue})=> {
+  try {
+    const loginDto = new LoginUserDto(loginData);
+    console.log("LOGIN DTO", loginData)
+    const response = await UserService.loginUser(loginDto);
+    return response;
+  } catch (error) {
+    console.log("ERRPR CATCH", error)
+
+    return rejectWithValue(error || { message: "Unknown error" });
+  }
+}
 );
 
 

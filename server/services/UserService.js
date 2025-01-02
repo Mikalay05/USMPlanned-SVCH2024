@@ -187,10 +187,11 @@ class UserService {
   
 
 
-  async createUser(validDataUser) {
-
+  async createUser(dataDto) {
+    const validDataUser = await this.validation(dataDto);
     const user = await User.create(validDataUser);
-    return user;
+    const tokens = await TokenService.getTokenForUser(user);
+    return {user, ...tokens};
   }
   async doesUserExist(login) {
     const userInDB = await User.findOne({ where: {login} });
