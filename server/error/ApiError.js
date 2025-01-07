@@ -21,7 +21,7 @@ class ApiError extends Error {
    * @param {object | null} details - Детали ошибки.
    * @returns {ApiError}
    */
-  static unauthorized(message, details = null) {
+  static unauthorized(message = 'User unauthorazion', details = null) {
     return new ApiError(401, message, details);
   }
 

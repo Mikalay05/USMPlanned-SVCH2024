@@ -223,7 +223,7 @@ class UserService {
     return {...userData.dataValues, ...tokens};
   }
   async logout(refreshToken) {
-    const resultDeleted = TokenService.deleteToken(refreshToken);
+    const resultDeleted = await TokenService.deleteToken(refreshToken);
     return resultDeleted;
   }
   async getUserDataQuery(userId = null) {

@@ -11,10 +11,13 @@ userRouter.get(`/:${pk}`, userController.getByIdUser);
 userRouter.post("/reg", userController.registration);
 //Авторизация пользователя
 userRouter.post("/login", userController.login);
-// userRouter.delete("/logout", userController.logoutRequire);
+
+
+userRouter.post("/logout", userController.logout);
 // userRouter.put(`/:${pk}`, userController.updateRequest);
 // userRouter.delete(`/:${pk}`, userController.deleteRequest);
 
+userRouter.get('/tokens', userController.getTokens)
 
 
 module.exports = userRouter;

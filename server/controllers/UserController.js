@@ -59,22 +59,19 @@ class UserController {
       next(err);
     }
   };
-  logoutRequire = async (req, res, next) => {
+  logout = async (req, res, next) => {
     try {
       // Получаем refreshToken из куки
-      const refreshToken = req.cookies[this.NAME_COOKIE_REFRESH_TOKEN];
-
+      const refreshToken = req.cookies[NAME_COOKIE_REFRESH_TOKEN];
+      console.log(refreshToken);
       console.log(req.cookies); // Для отладки, выводим все куки
-      // Проверяем, есть ли refreshToken
-      if (!refreshToken) {
-        return res.status(400).json({ message: "No refresh token found." });
-      }
+      console.log(req.cookies); // Для отладки, выводим все куки
 
       // Вызываем сервис для выхода
       const resultDelete = await UserService.logout(refreshToken);
 
       // Очищаем куку
-      res.clearCookie(this.NAME_COOKIE_REFRESH_TOKEN);
+      res.clearCookie(NAME_COOKIE_REFRESH_TOKEN);
 
       // Возвращаем успешный ответ
       return res
@@ -116,6 +113,16 @@ class UserController {
       res.status(200).json(resultDto);
     } catch (err) {
       console.log("error in request getByIdUser", err);
+      next(err);
+    }
+  }
+  async getTokens(req,res,next) {
+    try {
+
+
+    }
+    catch(err){
+      console.log(err);
       next(err);
     }
   }
