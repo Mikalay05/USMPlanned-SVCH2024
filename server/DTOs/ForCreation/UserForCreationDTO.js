@@ -5,7 +5,7 @@ class UserForCreationDTO {
         patronymic, 
         email, 
         phone, 
-        role 
+        role = {} 
     }) {
         this.name = name; // Имя пользователя
         this.surname = surname; // Фамилия пользователя

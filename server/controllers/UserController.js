@@ -10,6 +10,7 @@ const ApiError = require("../error/ApiError");
 const UserDto = require("../DTOs/Data/UserDto");
 const UserForCreationDTO = require("../DTOs/ForCreation/UserForCreationDto");
 const CurrentUserData = require("../DTOs/Data/CurrentUserData");
+const TokenService = require("../services/TokenService");
 
 const NAME_COOKIE_REFRESH_TOKEN = 'refreshToken'
 const MAX_AGE_FOR_REFRESH_TOKEN = 30*24*60*60*1000;
@@ -102,9 +103,6 @@ class UserController {
   }
   async getByIdUser(req, res, next) {
     try {
-      console.log("=====================");
-      console.log("3333Cоздается пользователь");
-      console.log("=====================");
       const { userId } = req.params;
       const result = await UserService.getByIdUser(userId);
       console.log(result);
@@ -116,13 +114,20 @@ class UserController {
       next(err);
     }
   }
-  async getTokens(req,res,next) {
+
+ async updateToken(req,res,next) {
     try {
+      //Получаем токены и проверяем их подленость
+      const refreshToken = req.cookies(this.NAME_COOKIE_REFRESH_TOKEN)
+      const userDataFromToken = await UserService.validateRefreshToken();
 
 
+      //Обновляем токены
+      const result = TokenService.getTokenForUser(validateToken.id);
+      res.status(400).json(...result);
     }
-    catch(err){
-      console.log(err);
+    catch(err) {
+      console.log("ERROR in request updateToken", err);
       next(err);
     }
   }

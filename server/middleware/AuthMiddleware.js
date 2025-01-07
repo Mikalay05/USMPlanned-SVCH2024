@@ -7,7 +7,7 @@ module.exports = function (req, res, next) {
         if (!authToken || !authToken.startsWith('Bearer ')) {
             return next(ApiError.unauthorized('Authorization token is missing or invalid'));
         }
-
+        console.log()
         const valueAuthToken = authToken.split(' ')[1];
         const data = TokenService.validateAccessToken(valueAuthToken);
 
@@ -15,11 +15,12 @@ module.exports = function (req, res, next) {
             return next(ApiError.unauthorized('Invalid or expired token'));
         }
 
-        req.userIdFromToken = data.userId;
+        req.userIdFromToken = data.id;
         req.roleIdFromToken = data.roleId;
 
         next();
     } catch (err) {
-        return next(ApiError.unauthorized('An error occurred during token validation'));
+        console.log("ERROR in AuthMiddleware:",err)
+        return next(ApiError.unauthorized('An error occurred during token validation', err));
     }
 };

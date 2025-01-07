@@ -187,7 +187,10 @@ class UserService {
 
 
   async createUser(dataDto) {
+    console.log("Начало валидации" )
     const validDataUser = await this.validation(dataDto);
+    console.log("Конец валидации" )
+
     const user = await User.create(validDataUser);
     const tokens = await TokenService.getTokenForUser(user);
     return {...user.dataValues, ...tokens};
@@ -251,6 +254,13 @@ class UserService {
   async getByIdUser(userId) {
     const result = await this.getUserDataQuery(userId);
     return result;
+  }
+  async validateRefreshToken(refreshToken) {
+    const validateToken = TokenService.validateRefreshToken(refreshToken);
+    const tokenInDb =  await TokenService.findToken(refreshToken);
+    if(!validateToken || !tokenInDb) {
+      throw ApiError.unauthorized();
+    }
   }
 }
 

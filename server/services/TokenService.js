@@ -87,33 +87,48 @@ class TokenService {
       throw ApiError.internal("Error while deleting token.");
     }
   }
-  validateAccessToken(valueToken) {
+   validateToken(valueToken, secretKey) {
     try {
-      if(!valueToken) {
-        throw ApiError.unauthorized()
+      if (!valueToken) {
+        throw ApiError.unauthorized('Token is missing');
       }
-      const result = jwt.verify(valueToken, env.process.JWT_ACCESS_SECRET_KEY)
-      if(!result) {
-        throw ApiError.unauthorized()
-      }
+      const result = jwt.verify(valueToken, secretKey);
+      return result;
+    } catch (err) {
+      console.log('Error in TOKEN SERVICE validateToken:', err.message);
+      throw err;
+    }
+  }
+
+   validateAccessToken(valueToken) {
+    try {
+      const result=  this.validateToken(valueToken, process.env.JWT_ACCESS_SECRET_KEY);
+
       return result;
     } catch (err) {
       console.log("Error in TOKEN SERVICE validateAccessToken:", err)
       throw err;
     }
   }
-  validateRefreshToken(valueToken) {
+   validateRefreshToken(valueToken) {
     try {
-      if(!valueToken) {
-        throw ApiError.unauthorized()
-      }
-      const result = jwt.verify(valueToken, env.process.JWT_REFRESH_SECRET_KEY)
-      if(!result) {
-        throw ApiError.unauthorized()
-      }
+      const result = this.validateToken(valueToken, process.env.JWT_REFRESH_SECRET_KEY);
       return result;
     } catch (err) {
       console.log("Error in TOKEN SERVICE validateRefreshToken:", err)
+      throw err;
+    }
+  }
+  async findToken(tokenValue) {
+    try {
+      const tokenInDb = await Token.findOne({where: {value: tokenValue}})
+      if(!tokenInDb) {
+        throw ApiError.badRequest("Token not found.");
+      }
+      return tokenInDb;
+    }
+    catch (err) {
+      console.log("Error in TOKEN SERVICE findToken:", err)
       throw err;
     }
   }
