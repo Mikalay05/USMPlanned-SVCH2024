@@ -261,6 +261,7 @@ class UserService {
     if(!validateToken || !tokenInDb) {
       throw ApiError.unauthorized();
     }
+    return validateToken;
   }
 }
 

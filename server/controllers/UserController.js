@@ -12,25 +12,27 @@ const UserForCreationDTO = require("../DTOs/ForCreation/UserForCreationDto");
 const CurrentUserData = require("../DTOs/Data/CurrentUserData");
 const TokenService = require("../services/TokenService");
 
-const NAME_COOKIE_REFRESH_TOKEN = 'refreshToken'
-const MAX_AGE_FOR_REFRESH_TOKEN = 30*24*60*60*1000;
+const NAME_COOKIE_REFRESH_TOKEN = "refreshToken";
+const MAX_AGE_FOR_REFRESH_TOKEN = 30 * 24 * 60 * 60 * 1000;
 class UserController {
   constructor() {}
 
   registration = async (req, res, next) => {
     try {
+      console.log("TTTTTTTTEST");
       const dataDto = new UserForCreationDTO(req.body);
       const user = await UserService.createUser(dataDto);
       if (!user) {
         throw ApiError.badRequest("Не удалось создать пользователя");
       }
       const resultUserDto = new CurrentUserData(user);
-      res.cookie(
-        NAME_COOKIE_REFRESH_TOKEN, resultUserDto.refreshToken, {
+      res.cookie(NAME_COOKIE_REFRESH_TOKEN, resultUserDto.refreshToken, {
         maxAge: MAX_AGE_FOR_REFRESH_TOKEN,
         httpOnly: true,
       });
-      return res.status(200).json({ mess: "created user", data: resultUserDto });
+      return res
+        .status(200)
+        .json({ mess: "created user", data: resultUserDto });
     } catch (err) {
       console.log(
         `${this.NAME_CONRTOLLER_IN_ERROR}. Method ==> registrationRequire`,
@@ -45,8 +47,7 @@ class UserController {
       const user = await UserService.loginUser(login, password);
 
       const resultUserDto = new CurrentUserData(user);
-      res.cookie(
-        NAME_COOKIE_REFRESH_TOKEN, resultUserDto.refreshToken, {
+      res.cookie(NAME_COOKIE_REFRESH_TOKEN, resultUserDto.refreshToken, {
         maxAge: MAX_AGE_FOR_REFRESH_TOKEN,
         httpOnly: true,
       });
@@ -91,7 +92,7 @@ class UserController {
   async getAllUsers(req, res, next) {
     try {
       const result = await UserService.getAllUsers();
-      console.log("RESULT",result)
+      console.log("RESULT", result);
       const resultDto = result.map((user) => {
         return new UserDto(user);
       });
@@ -103,6 +104,7 @@ class UserController {
   }
   async getByIdUser(req, res, next) {
     try {
+      console.log("TTTTTTTTESTTTTTT");
       const { userId } = req.params;
       const result = await UserService.getByIdUser(userId);
       console.log(result);
@@ -115,18 +117,26 @@ class UserController {
     }
   }
 
- async updateToken(req,res,next) {
+  async updateToken(req, res, next) {
     try {
       //Получаем токены и проверяем их подленость
-      const refreshToken = req.cookies(this.NAME_COOKIE_REFRESH_TOKEN)
-      const userDataFromToken = await UserService.validateRefreshToken();
+      console.log("1111111111111111");
+      const refreshToken = req.cookies[NAME_COOKIE_REFRESH_TOKEN];
+      console.log("2222222222222222");
 
+      const userDataFromToken = await UserService.validateRefreshToken(
+        refreshToken
+      );
+      console.log("333333333333333");
 
       //Обновляем токены
-      const result = TokenService.getTokenForUser(validateToken.id);
-      res.status(400).json(...result);
-    }
-    catch(err) {
+      const result = await TokenService.getTokenForUser({id: userDataFromToken.id, role_id: userDataFromToken.roleId});
+      res.cookie(NAME_COOKIE_REFRESH_TOKEN, result.refreshToken, {
+        maxAge: MAX_AGE_FOR_REFRESH_TOKEN,
+        httpOnly: true,
+      });
+      res.status(200).json(result);
+    } catch (err) {
       console.log("ERROR in request updateToken", err);
       next(err);
     }

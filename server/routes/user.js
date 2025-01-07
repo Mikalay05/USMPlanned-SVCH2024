@@ -5,6 +5,8 @@ const authMiddleware = require('../middleware/AuthMiddleware')
 const pk =  'userId';
 //Получить список всех пользователей
 userRouter.get("/", userController.getAllUsers);
+userRouter.get('/updateToken',userController.updateToken)
+
 //Получить данные конкретного пользователя
 userRouter.get(`/:${pk}`, userController.getByIdUser);
 //Регистрация пользователя
@@ -16,7 +18,6 @@ userRouter.post("/login", userController.login);
 userRouter.post("/logout", userController.logout);
 // userRouter.put(`/:${pk}`, userController.updateRequest);
 
-userRouter.get('/updateToken',userController.updateToken)
 
 
 module.exports = userRouter;
