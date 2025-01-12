@@ -1,12 +1,15 @@
 import LoginUserDto from "../../DTOs/LoginUserDto";
+import CurrentUserDataDto from  "../../DTOs/Data/CurrentUserDataDto";
 import UserService from "../../services/UserService";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+// Получаем всех пользователей
 export const getUsers = createAsyncThunk("user/getUsers", async () => {
   const response = await UserService.getAllUsers();
   return response;
 });
 
+// Регистрация нового пользователя
 export const registrationUser = createAsyncThunk(
   "user/registrationUser",
   async ({ name, surname, patronymic, email, phone, role }, { rejectWithValue }) => {
@@ -26,6 +29,7 @@ export const registrationUser = createAsyncThunk(
   }
 );
 
+// Логин пользователя
 export const loginUser = createAsyncThunk("user/loginUser", async(loginData, {rejectWithValue})=> {
   try {
     const loginDto = new LoginUserDto(loginData);
@@ -33,14 +37,22 @@ export const loginUser = createAsyncThunk("user/loginUser", async(loginData, {re
     const response = await UserService.loginUser(loginDto);
     return response;
   } catch (error) {
-    console.log("ERRPR CATCH", error)
-
+    console.log("ERROR CATCH", error)
     return rejectWithValue(error || { message: "Unknown error" });
   }
-}
-);
+});
 
-
+// Получение данных о текущем пользователе
+export const getCurrentUserData = createAsyncThunk('user/currentUserData', async()=> {
+  try {
+    const currentUserData = await UserService.getCurrenUserData();
+    const userDataDto = new CurrentUserDataDto(currentUserData);
+    return userDataDto;
+  }
+  catch(err) {
+    console.log("ERROR CATCH", err);
+  }
+});
 
 const userSlice = createSlice({
   name: "user",
@@ -77,21 +89,15 @@ const userSlice = createSlice({
       })
       .addCase(registrationUser.rejected, (state, action) => {
         state.isLoading = false;
-        // Сохраняем ошибку в state, если она есть
-        if (action.payload) {
-          state.error = action.payload;
-        } else {
-          state.error = { message: "An unexpected error occurred" };
-        }
+        state.error = action.payload || { message: "An unexpected error occurred" };
       })
+      
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        // Сохраняем данные текущего пользователя из ответа
         const { resultUserDto } = action.payload || {};
         if (resultUserDto) {
-          state.currentUser = resultUserDto; // Сохраняем данные пользователя
           localStorage.setItem("token", resultUserDto.accessToken); // Сохраняем токен
         }
         state.isLoading = false;
@@ -99,8 +105,21 @@ const userSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || { message: "Login failed" };
-      });
+      })
       
+      .addCase(getCurrentUserData.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getCurrentUserData.fulfilled, (state, action) => {
+        // Сохраняем данные текущего пользователя из ответа
+        const data = action.payload || {};
+        state.currentUser = data;
+        state.isLoading = false;
+      })
+      .addCase(getCurrentUserData.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || { message: "Unable to fetch current user data" };
+      });
   },
 });
 
