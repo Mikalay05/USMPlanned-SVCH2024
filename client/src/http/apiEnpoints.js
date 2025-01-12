@@ -15,5 +15,6 @@ export const API_ENDPOINTS = {
         GET_ALL_USERS: '/user',
         REGISTRATION_USER:'/user/reg',
         LOGIN_USER:'/user/login',
+        UPDATE_TOKEN: '/user/updateToken'
     }
 };

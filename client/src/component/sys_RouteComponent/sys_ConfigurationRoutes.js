@@ -26,7 +26,7 @@ export const ROUTES = [
     component: CustomerInformation,
   },
   {
-    path: '/auth', 
+    path: '/login', 
     nameOfPage: 'Auth',
     component: Auth,
   },
