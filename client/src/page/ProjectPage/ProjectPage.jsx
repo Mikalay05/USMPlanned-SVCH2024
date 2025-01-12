@@ -7,12 +7,14 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjects, createProject } from "../../store/slices/projectSlice";
 import { getProjectStatuses } from "../../store/slices/projectStatusSlice";
+import { getCurrentUserData } from "../../store/slices/userSlice";
 
 export default function ProjectPage() {
   const dispatch = useDispatch();
   const { projects, isLoadingProject, errorProject } = useSelector(
     (state) => state.project
   );
+  
   const { projectStatuses, isLoadingProjectStatus, errorProjectStatus } =
     useSelector((state) => state.projectStatus);
 
@@ -21,6 +23,7 @@ export default function ProjectPage() {
 
 
     dispatch(getProjectStatuses());
+    dispatch(getCurrentUserData());
 
 
   }, [dispatch]);
