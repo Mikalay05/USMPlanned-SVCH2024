@@ -7,8 +7,7 @@ const pk =  'userId';
 userRouter.get("/", userController.getAllUsers);
 userRouter.get('/updateToken',userController.updateToken)
 
-//Получить данные конкретного пользователя
-userRouter.get(`/:${pk}`, userController.getByIdUser);
+
 //Регистрация пользователя
 userRouter.post("/reg", authMiddleware, userController.registration);
 //Авторизация пользователя
@@ -16,8 +15,9 @@ userRouter.post("/login", userController.login);
 
 
 userRouter.post("/logout", userController.logout);
-// userRouter.put(`/:${pk}`, userController.updateRequest);
-
+userRouter.post(`/updateToken`, userController.updateToken);
+//Получить данные конкретного пользователя
+userRouter.get(`/:${pk}`, userController.getByIdUser);
 
 
 module.exports = userRouter;

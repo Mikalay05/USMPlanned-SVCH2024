@@ -2,7 +2,8 @@ const jwt = require("jsonwebtoken");
 const { Token } = require("../models/models");
 
 const ApiError = require("../error/ApiError");
-
+const NAME_COOKIE_REFRESH_TOKEN = "refreshToken";
+const MAX_AGE_FOR_REFRESH_TOKEN = 30 * 24 * 60 * 60 * 1000;
 class TokenService {
   EXPRES_IN_REFRESH = "30d";
   EXPRES_IN_ASSECC = "30m";
@@ -62,7 +63,7 @@ class TokenService {
     console.log("getTokenForUser");
     const tokenInDb = await this.saveToken(user.id, tokens.refreshToken);
     console.log("getTokenForUser End");
-
+    console.log(tokens)
     if (!tokenInDb) {
       throw ApiError.badRequest("Failed to create the token");
     }
@@ -129,6 +130,18 @@ class TokenService {
     }
     catch (err) {
       console.log("Error in TOKEN SERVICE findToken:", err)
+      throw err;
+    }
+  }
+  saveTokenInRequest = (token, res, nameCookie=  NAME_COOKIE_REFRESH_TOKEN , maxAgeForToken= MAX_AGE_FOR_REFRESH_TOKEN) => {
+    try {
+      res.cookie(nameCookie, token, {
+        maxAge: maxAgeForToken,
+        httpOnly: true,
+      });
+    }
+    catch(err) {
+      console.log("Error in saveTokenInRequest", err)
       throw err;
     }
   }

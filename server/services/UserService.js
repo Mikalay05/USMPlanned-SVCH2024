@@ -263,6 +263,7 @@ class UserService {
     }
     return validateToken;
   }
+
 }
 
 module.exports = new UserService();

@@ -25,11 +25,7 @@ class UserController {
       if (!user) {
         throw ApiError.badRequest("Не удалось создать пользователя");
       }
-      const resultUserDto = new CurrentUserData(user);
-      res.cookie(NAME_COOKIE_REFRESH_TOKEN, resultUserDto.refreshToken, {
-        maxAge: MAX_AGE_FOR_REFRESH_TOKEN,
-        httpOnly: true,
-      });
+
       return res
         .status(200)
         .json({ mess: "created user", data: resultUserDto });
@@ -41,16 +37,14 @@ class UserController {
       next(err);
     }
   };
+
   login = async (req, res, next) => {
     try {
       const { login, password } = req.body;
       const user = await UserService.loginUser(login, password);
-
       const resultUserDto = new CurrentUserData(user);
-      res.cookie(NAME_COOKIE_REFRESH_TOKEN, resultUserDto.refreshToken, {
-        maxAge: MAX_AGE_FOR_REFRESH_TOKEN,
-        httpOnly: true,
-      });
+
+      TokenService.saveTokenInRequest(resultUserDto.refreshToken, res);
 
       return res.status(200).json({ message: "login user", resultUserDto });
     } catch (err) {
@@ -119,23 +113,21 @@ class UserController {
 
   async updateToken(req, res, next) {
     try {
-      //Получаем токены и проверяем их подленость
-      console.log("1111111111111111");
+      console.log("111111111111")
       const refreshToken = req.cookies[NAME_COOKIE_REFRESH_TOKEN];
-      console.log("2222222222222222");
+      console.log("111111111111")
 
       const userDataFromToken = await UserService.validateRefreshToken(
         refreshToken
       );
-      console.log("333333333333333");
+      
+      const tokens = await TokenService.getTokenForUser({id: userDataFromToken.id, role_id: userDataFromToken.roleId}) 
+      console.log("111111111111")
 
-      //Обновляем токены
-      const result = await TokenService.getTokenForUser({id: userDataFromToken.id, role_id: userDataFromToken.roleId});
-      res.cookie(NAME_COOKIE_REFRESH_TOKEN, result.refreshToken, {
-        maxAge: MAX_AGE_FOR_REFRESH_TOKEN,
-        httpOnly: true,
-      });
-      res.status(200).json(result);
+      TokenService.saveTokenInRequest(tokens.refreshToken, res);
+      console.log("111111111111")
+
+      res.status(200).json(tokens);
     } catch (err) {
       console.log("ERROR in request updateToken", err);
       next(err);
