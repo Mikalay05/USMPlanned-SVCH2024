@@ -1,20 +1,21 @@
 const epicInformationRouter = require("express").Router();
 const epicInformationController = require("../controllers/EpicInformationController");
+const authMiddleware = require('../middleware/AuthMiddleware')
 
 //Возращает данные о epic согласно первичному ключу
-epicInformationRouter.get(`/`, epicInformationController.getEpicById);
+epicInformationRouter.get(`/`, authMiddleware, epicInformationController.getEpicById);
 
 //Создает дочерний элемент (story) для текущего epic
-epicInformationRouter.post(`/`, epicInformationController.createStoryForEpic);
+epicInformationRouter.post(`/`, authMiddleware, epicInformationController.createStoryForEpic);
 
 // Обновляет данные для текущего epic
-epicInformationRouter.put("/", epicInformationController.updateEpicData);
+epicInformationRouter.put("/", authMiddleware, epicInformationController.updateEpicData);
 
 // Обновляет порядок дочерних элементов (story) для текущего epic
-epicInformationRouter.patch("/", epicInformationController.updateStoriesOrder);
+epicInformationRouter.patch("/", authMiddleware, epicInformationController.updateStoriesOrder);
 
 //Удаляет текущий epic
-epicInformationRouter.delete("/", epicInformationController.deleteEpicById);
+epicInformationRouter.delete("/", authMiddleware, epicInformationController.deleteEpicById);
 
 // Подключаем зависимый маршрут story к пути
 const STORY_ID_NAME = "storyId";

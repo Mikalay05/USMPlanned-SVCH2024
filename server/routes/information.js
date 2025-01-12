@@ -1,4 +1,5 @@
 const informationRouter = require("express").Router();
+const authMiddleware = require('../middleware/AuthMiddleware')
 
 const PROJECT_ID_NAME = "projectId";
 const projectInformation = require('./projectInformation');
