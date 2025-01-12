@@ -6,6 +6,7 @@ export const getUsers = createAsyncThunk("user/getUsers", async () => {
   const response = await UserService.getAllUsers();
   return response;
 });
+
 export const registrationUser = createAsyncThunk(
   "user/registrationUser",
   async ({ name, surname, patronymic, email, phone, role }, { rejectWithValue }) => {
@@ -45,6 +46,7 @@ const userSlice = createSlice({
   name: "user",
   initialState: {
     users: [],
+    usersDataLogs: [],
     currentUser: {},
     isLoading: false,
     error: null,
@@ -81,6 +83,22 @@ const userSlice = createSlice({
         } else {
           state.error = { message: "An unexpected error occurred" };
         }
+      })
+      .addCase(loginUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        // Сохраняем данные текущего пользователя из ответа
+        const { resultUserDto } = action.payload || {};
+        if (resultUserDto) {
+          state.currentUser = resultUserDto; // Сохраняем данные пользователя
+          localStorage.setItem("token", resultUserDto.accessToken); // Сохраняем токен
+        }
+        state.isLoading = false;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || { message: "Login failed" };
       });
       
   },

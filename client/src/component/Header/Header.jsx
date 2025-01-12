@@ -1,13 +1,12 @@
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import {Link} from 'react-router-dom'
 import "./Header.css"
+import { useSelector } from "react-redux";
 
-
-//TODO get roles from DB
 const roles = {
-  admin: 0,
-  developer: 1,
-  teamLead: 2,
+  admin: 1,
+  developer: 2,
+  teamLead: 3,
 };
 const pathToProject = '/project'
 const pathToTask = '/task';
@@ -19,12 +18,8 @@ const rolesAccess = {
 };
 
 export default function Header({ nameMainIcon = "MainIcon.svg", nameLoginIcon = "LoginIconFull.svg" }) {
-  //TODO get user
+  const user = useSelector((state) => state.user.currentUser);
 
-  const user = {
-    login: "Login",
-    role_id: 0,
-  };
 
   const hasAccess = (roleArray) => roleArray.includes(user.role_id);
 

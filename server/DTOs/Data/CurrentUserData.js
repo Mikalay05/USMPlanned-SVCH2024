@@ -7,7 +7,7 @@ class CurrentUserData {
     patronymic = null,
     email,
     phone = null,
-    roleId,
+    role_id,
     accessToken,
     refreshToken
   }) {
@@ -18,7 +18,7 @@ class CurrentUserData {
     this.patronymic = patronymic; // Отчество (может быть null)
     this.email = email; // Email
     this.phone = phone; // Телефон (может быть null)
-    this.roleId  = roleId;
+    this.roleId  = role_id;
     this.accessToken = accessToken;
     this.refreshToken = refreshToken;
     
