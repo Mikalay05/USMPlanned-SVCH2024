@@ -230,9 +230,7 @@ class UserService {
     return resultDeleted;
   }
   async getUserDataQuery(userId = null) {
-    console.log("=====================")
-    console.log("22222Cоздается пользователь")
-    console.log("=====================")
+
     const params = [userId];
     console.log(params)
     // Выполнение запроса

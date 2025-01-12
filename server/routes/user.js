@@ -3,21 +3,22 @@ const userController = require('../controllers/UserController');
 const authMiddleware = require('../middleware/AuthMiddleware')
 
 const pk =  'userId';
+//Авторизация пользователя
+userRouter.post("/login", userController.login);
 //Получить список всех пользователей
-userRouter.get("/", userController.getAllUsers);
-userRouter.get('/updateToken',userController.updateToken)
+userRouter.get("/", authMiddleware, userController.getAllUsers);
+userRouter.get("/currentUserData", authMiddleware, userController.getCurrentUserData);
 
 
 //Регистрация пользователя
 userRouter.post("/reg", authMiddleware, userController.registration);
-//Авторизация пользователя
-userRouter.post("/login", userController.login);
 
 
-userRouter.post("/logout", userController.logout);
-userRouter.post(`/updateToken`, userController.updateToken);
-//Получить данные конкретного пользователя
-userRouter.get(`/:${pk}`, userController.getByIdUser);
+
+userRouter.post("/logout", authMiddleware, userController.logout);
+userRouter.post(`/updateToken`, authMiddleware, userController.updateToken);
+userRouter.get(`/data/:${pk}`, authMiddleware, userController.getByIdUser);
+
 
 
 module.exports = userRouter;

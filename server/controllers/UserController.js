@@ -133,6 +133,22 @@ class UserController {
       next(err);
     }
   }
+  async getCurrentUserData(req,res,next) {
+    try {
+      const {userIdFromToken} = req;
+      console.log(userIdFromToken)
+      // const userDto = await UserService.getByIdUser(userIdFromToken);
+      const userData = await UserService.getByIdUser(userIdFromToken);
+      const userDto = new UserDto(userData[0]);
+      return res.status(200).json(userDto) 
+    }
+    catch (err) {
+      console.log(
+        "ERROR in getCurrentUserData", err
+      )
+      next(err);
+    }
+  }
 }
 
 module.exports = new UserController();
