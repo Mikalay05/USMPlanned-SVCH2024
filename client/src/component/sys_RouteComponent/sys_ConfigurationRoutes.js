@@ -3,7 +3,7 @@ import ProjectInformation from '../../page/ProjectInformation/ProjectInformation
 import CustomerInformation from '../../page/CustomerInformation/CustomerInformation'
 import Auth from '../../page/Auth/Auth';
 import Reg from '../../page/Reg/Reg';
-// import UserData from '../../page/UserData';
+import UserData from '../../page/UserData/UserData';
 import Users from '../../page/Users/Users';
 
 
@@ -39,5 +39,10 @@ export const ROUTES = [
     path: '/user', 
     nameOfPage: 'user',
     component: Users,
+  },
+  {
+    path: '/userData', 
+    nameOfPage: 'Person',
+    component: UserData,
   },
 ];

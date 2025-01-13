@@ -14,22 +14,19 @@ export default function ProjectPage() {
   const { projects, isLoadingProject, errorProject } = useSelector(
     (state) => state.project
   );
-  
+
   const { projectStatuses, isLoadingProjectStatus, errorProjectStatus } =
     useSelector((state) => state.projectStatus);
 
   useEffect(() => {
     dispatch(getProjects());
 
-
     dispatch(getProjectStatuses());
     dispatch(getCurrentUserData());
-
-
   }, [dispatch]);
   const onCreateProject = (dataDto) => {
     return dispatch(createProject(dataDto));
-  }
+  };
 
   return (
     <>
@@ -39,7 +36,6 @@ export default function ProjectPage() {
         isLoadingProject={isLoadingProject}
         errorProject={errorProject}
         onCreateProject={onCreateProject}
-
         arrProjectStatus={projectStatuses}
         isLoadingProjectStatus={isLoadingProjectStatus}
         errorProjectStatus={errorProjectStatus}
@@ -48,4 +44,3 @@ export default function ProjectPage() {
     </>
   );
 }
-  

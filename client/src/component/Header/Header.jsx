@@ -29,7 +29,7 @@ export default function Header({ nameMainIcon = "MainIcon.svg", nameLoginIcon = 
   // Обработчики событий для меню
   const handleEditProfile = () => {
     console.log("Редактировать данные пользователя");
-    // Здесь можно добавить переход на страницу редактирования профиля
+    navigate("/userData");
   };
 
   const handleLogout = () => {
