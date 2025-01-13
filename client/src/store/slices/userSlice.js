@@ -3,6 +3,18 @@ import CurrentUserDataDto from  "../../DTOs/Data/CurrentUserDataDto";
 import UserService from "../../services/UserService";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+// Обновление данных пользователя
+export const updateUser = createAsyncThunk(
+  "user/updateUser",
+  async (updatedUserData, { rejectWithValue }) => {
+    try {
+      const response = await UserService.updateUser(updatedUserData);
+      return response; // Возвращаем обновленные данные пользователя
+    } catch (error) {
+      return rejectWithValue(error || { message: "Failed to update user data" });
+    }
+  }
+);
 // Получаем всех пользователей
 export const getUsers = createAsyncThunk("user/getUsers", async () => {
   const response = await UserService.getAllUsers();
@@ -119,6 +131,24 @@ const userSlice = createSlice({
       .addCase(getCurrentUserData.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || { message: "Unable to fetch current user data" };
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        const updatedUser = action.payload;
+        // Обновляем данные пользователя в `users` или `currentUser`
+        state.users = state.users.map((user) =>
+          user.id === updatedUser.id ? updatedUser : user
+        );
+        if (state.currentUser.id === updatedUser.id) {
+          state.currentUser = updatedUser;
+        }
+        state.isLoading = false;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || { message: "Failed to update user data" };
       });
   },
 });
