@@ -149,6 +149,18 @@ class UserController {
       next(err);
     }
   }
+  async updateUser() {
+    try {
+       
+    }
+    catch(err) {
+      console.log(
+        "ERROR in getCurrentUserData", err
+      )
+      next(err);
+    
+    }
+  }
 }
 
 module.exports = new UserController();
