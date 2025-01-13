@@ -1,0 +1,37 @@
+.login-icon-menu {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .menu-dropdown {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .menu-button {
+    display: block;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 8px 12px;
+    width: 100%;
+    cursor: pointer;
+  }
+  
+  .menu-button:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .login-icon {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+  }
+  
