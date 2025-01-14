@@ -20,10 +20,16 @@ class UserService extends BaseService {
         const response = await BaseService.request("get", API_ENDPOINTS.USER.GET_CURRENT_USER_DATA);
         return response;
     }
-    async updateUser() {
-        const response = await BaseService.request("put", API_ENDPOINTS.USER.GET_CURRENT_USER_DATA);
+    async updateUser(userId, updatedUserData) {
+        console.log("1234")
+        console.log(userId)
+
+        const endpoint = API_ENDPOINTS.USER.PUT_UPDATE_USER_DATA.replace(':userId', userId); // Подставляем userId
+        console.log(endpoint)
+        const response = await BaseService.request("put", endpoint, updatedUserData); // Передаём данные
         return response;
-    }
+      }
+      
 }
 
 export default new UserService();

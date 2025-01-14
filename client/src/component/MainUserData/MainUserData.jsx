@@ -1,13 +1,15 @@
 import './MainUserData.css';
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
-import { updateUser } from "../../store/slices/userSlice"; // Экшен для обновления пользователя
-import InputDataWithError from "../InputDataWithError/InputDataWithError"; // Компонент для ввода с ошибкой
-import CustomerButton from "../CustomerButton/CustomerButton"; // Кнопка с кастомным стилем
-import Notification from "../Notification/Notification"; // Компонент для уведомлений
+import { useNavigate } from "react-router-dom"; // Импортируем useNavigate
+import { updateUser } from "../../store/slices/userSlice";
+import InputDataWithError from "../InputDataWithError/InputDataWithError";
+import CustomerButton from "../CustomerButton/CustomerButton";
+import Notification from "../Notification/Notification";
 
 export default function MainUserData() {
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // Хук для навигации
   const { currentUser, isLoading } = useSelector((state) => state.user);
 
   const [formData, setFormData] = useState({
@@ -58,8 +60,26 @@ export default function MainUserData() {
 
   const handleOnUpdateButton = async () => {
     try {
-      await dispatch(updateUser(formData)).unwrap(); // 
+      await dispatch(
+        updateUser({
+          userId: currentUser.id,
+          updatedUserData: formData,
+        })
+      ).unwrap();
+
+      // Очищаем ошибки
+      setFormErrors({
+        loginErr: "",
+        phoneErr: "",
+      });
+
+      // Отображаем уведомление об успехе
       handleSetNotification("User data updated successfully", "#00FF00");
+
+      // Переход через 3 секунды
+      setTimeout(() => {
+        navigate("/project"); // Перенаправляем на /project
+      }, 3000);
     } catch (err) {
       handleSetNotification(err.message, "#F00");
       if (err.details) {
@@ -105,18 +125,16 @@ export default function MainUserData() {
         />
 
         <div className='buttons-user-data'>
-        <CustomerButton
-          textValue="Change password"
-          onClick={handleOnUpdateButton}
-          styleColor='gray'
-        />
-        <CustomerButton
-          textValue="Save"
-          onClick={handleOnUpdateButton}
-        />
-
+          <CustomerButton
+            textValue="Change password"
+            onClick={handleOnUpdateButton}
+            styleColor='gray'
+          />
+          <CustomerButton
+            textValue="Save"
+            onClick={handleOnUpdateButton}
+          />
         </div>
-        
       </div>
     </section>
   );
