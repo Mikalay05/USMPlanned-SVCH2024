@@ -17,5 +17,6 @@ export const API_ENDPOINTS = {
         LOGIN_USER:'/user/login',
         UPDATE_TOKEN: '/user/updateToken',
         GET_CURRENT_USER_DATA: '/user/currentUserData',
+        PUT_UPDATE_USER_DATA: '/updateUser/:userId'
     }
 };

@@ -17,7 +17,7 @@ userRouter.post("/reg", authMiddleware, userController.registration);
 
 userRouter.post("/logout", authMiddleware, userController.logout);
 userRouter.post(`/updateToken`, authMiddleware, userController.updateToken);
-userRouter.post(`/updateUser/:${pk}`, authMiddleware, userController.updateUser);
+userRouter.put(`/updateUser/:${pk}`, authMiddleware, userController.updateUser);
 userRouter.get(`/data/:${pk}`, authMiddleware, userController.getByIdUser);
 
 

@@ -15,15 +15,21 @@ class UserService {
   COUNT_PASSWORD_HASH = 5;
   NAME_SERVICE_IN_ERROR = "SERVICE = UserService";
   ROLE_PK_NAME = "id";
-  async validationLogin(login) {
+  async validationLogin(login, nameOfPropertyInDetalies = 'loginErr') {
+    console.log(login)
+    console.log("111")
     // Наличие значения логина
     if (!login) {
-      throw ApiError.badRequest("Некорректный логин пользователя.");
+      throw ApiError.badRequest("Incorrect user login.", {[nameOfPropertyInDetalies]: "Incorrect user login"});
     }
+    console.log("222")
+
     // Уникальность
-    const candidate = await User.findOne({ where: login });
+    const candidate = await User.findOne({ where: { login } });
+    console.log("333")
+
     if (candidate) {
-      throw ApiError.badRequest("Логин уже занят.");
+      throw ApiError.badRequest("The login is already taken.", {[nameOfPropertyInDetalies]: "The login is already taken"});
     }
   }
   validationSurname(surname) {
@@ -261,7 +267,65 @@ class UserService {
     }
     return validateToken;
   }
+  async updateDataUser(userId, data) {
+    try {
+      const resultOfUpdate = await User.update(data,{where: {id: userId}});
+      return resultOfUpdate;
+    }
+    catch(err) {
+      console.log("Error in updateDataUser", err)
+      throw err;
+    }
+  }
+  async validateUpdateUserData(formData, baseData) {
+    const errors = {};
+  
+    // Валидация логина
+    try {
+      if(formData.login != baseData.login) {
+        await this.validationLogin(formData.login);
 
+      }
+    } catch (err) {
+      console.log("НЕ прошел валидацию логина",err)
+      errors.loginErr = err.details?.loginErr || "Invalid login.";
+    }
+  
+    // Валидация телефона
+    try {
+      if(formData.phone != baseData.phone) {
+      this.validationPhone(formData.phone);
+      }
+    } catch (err) {
+      console.log("НЕ прошел валидацию телефона",err)
+
+      errors.phoneErr = err.details?.phoneErr || "Invalid phone number.";
+    }
+  
+    // Если ошибки есть, выбрасываем их
+    if (Object.keys(errors).length > 0) {
+      throw ApiError.badRequest("Validation errors in update data.", errors);
+    }
+  }
+  
+  async doesUserExistById(userId) {
+    const userInDB = await User.findOne({ where: { id: userId } });
+  
+    if (!userInDB) {
+      throw ApiError.badRequest(`User not found by id: ${userId}`, {
+        userIdErr: `User with id ${userId} does not exist.`,
+      });
+    }
+    return userInDB;
+  }
+  
+  async updateUser(userId, formData) {
+    const user = await this.doesUserExistById(userId);
+    const newUserData = { ...formData, id: userId };
+    await this.validateUpdateUserData(formData, user);
+    const resultOfUpdate = await this.updateDataUser(user.id, newUserData);
+    return resultOfUpdate;
+  }
 }
 
 module.exports = new UserService();

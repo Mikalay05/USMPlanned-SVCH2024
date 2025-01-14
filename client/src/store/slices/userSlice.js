@@ -1,4 +1,5 @@
 import LoginUserDto from "../../DTOs/LoginUserDto";
+import UserDataUpdateDto from "../../DTOs/ForUpdate/UserDataUpdateDto";
 import CurrentUserDataDto from  "../../DTOs/Data/CurrentUserDataDto";
 import UserService from "../../services/UserService";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
@@ -8,8 +9,9 @@ export const updateUser = createAsyncThunk(
   "user/updateUser",
   async (updatedUserData, { rejectWithValue }) => {
     try {
-      const response = await UserService.updateUser(updatedUserData);
-      return response; // Возвращаем обновленные данные пользователя
+      const formDto = new UserDataUpdateDto();
+      const response = await UserService.updateUser(formDto);
+      return response;
     } catch (error) {
       return rejectWithValue(error || { message: "Failed to update user data" });
     }

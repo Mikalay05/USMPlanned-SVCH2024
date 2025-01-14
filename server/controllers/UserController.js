@@ -9,6 +9,7 @@ const ApiError = require("../error/ApiError");
  */
 const UserDto = require("../DTOs/Data/UserDto");
 const UserForCreationDTO = require("../DTOs/ForCreation/UserForCreationDto");
+const UserDataUpdateDto = require("../DTOs/ForUpdate/UserDataUpdateDto");
 const CurrentUserData = require("../DTOs/Data/CurrentUserData");
 const TokenService = require("../services/TokenService");
 
@@ -113,19 +114,22 @@ class UserController {
 
   async updateToken(req, res, next) {
     try {
-      console.log("111111111111")
+      console.log("111111111111");
       const refreshToken = req.cookies[NAME_COOKIE_REFRESH_TOKEN];
-      console.log("111111111111")
+      console.log("111111111111");
 
       const userDataFromToken = await UserService.validateRefreshToken(
         refreshToken
       );
-      
-      const tokens = await TokenService.getTokenForUser({id: userDataFromToken.id, role_id: userDataFromToken.roleId}) 
-      console.log("111111111111")
+
+      const tokens = await TokenService.getTokenForUser({
+        id: userDataFromToken.id,
+        role_id: userDataFromToken.roleId,
+      });
+      console.log("111111111111");
 
       TokenService.saveTokenInRequest(tokens.refreshToken, res);
-      console.log("111111111111")
+      console.log("111111111111");
 
       res.status(200).json(tokens);
     } catch (err) {
@@ -133,32 +137,38 @@ class UserController {
       next(err);
     }
   }
-  async getCurrentUserData(req,res,next) {
+  async getCurrentUserData(req, res, next) {
     try {
-      const {userIdFromToken} = req;
-      console.log(userIdFromToken)
+      const { userIdFromToken } = req;
+      console.log(userIdFromToken);
       // const userDto = await UserService.getByIdUser(userIdFromToken);
       const userData = await UserService.getByIdUser(userIdFromToken);
       const userDto = new UserDto(userData[0]);
-      return res.status(200).json(userDto) 
-    }
-    catch (err) {
-      console.log(
-        "ERROR in getCurrentUserData", err
-      )
+      return res.status(200).json(userDto);
+    } catch (err) {
+      console.log("ERROR in getCurrentUserData", err);
       next(err);
     }
   }
-  async updateUser() {
-    try {
-       
+  static getUserIdFromReqParams(req, nameOfPropertyUserId = "userId") {
+    const result = req.params[nameOfPropertyUserId];
+    if (!result) {
+      throw ApiError.badRequest("UserId not has value");
     }
-    catch(err) {
-      console.log(
-        "ERROR in getCurrentUserData", err
-      )
+    return result;
+  }
+  async updateUser(req, res, next) {
+    try {
+      const userId = UserController.getUserIdFromReqParams(req);
+      console.log("USER ID", userId);
+      const formData = new UserDataUpdateDto(req.body);
+      console.log("formData", formData);
+
+      const result = await UserService.updateUser(userId, formData);
+      return res.status(200).json({ message: "Updated data", result });
+    } catch (err) {
+      console.log("ERROR in updateUser", err);
       next(err);
-    
     }
   }
 }

@@ -58,7 +58,7 @@ export default function MainUserData() {
 
   const handleOnUpdateButton = async () => {
     try {
-      await dispatch(updateUser(formData)).unwrap(); // Обновляем данные пользователя через Redux
+      await dispatch(updateUser(formData)).unwrap(); // 
       handleSetNotification("User data updated successfully", "#00FF00");
     } catch (err) {
       handleSetNotification(err.message, "#F00");
