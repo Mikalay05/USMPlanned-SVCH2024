@@ -103,10 +103,19 @@ export default function MainUserData() {
           value={formData.phone}
           onInput={handleInInput}
         />
+
+        <div className='buttons-user-data'>
+        <CustomerButton
+          textValue="Change password"
+          onClick={handleOnUpdateButton}
+          styleColor='gray'
+        />
         <CustomerButton
           textValue="Save"
           onClick={handleOnUpdateButton}
         />
+
+        </div>
         
       </div>
     </section>

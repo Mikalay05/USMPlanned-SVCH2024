@@ -9,7 +9,8 @@ export const updateUser = createAsyncThunk(
   "user/updateUser",
   async (updatedUserData, { rejectWithValue }) => {
     try {
-      const formDto = new UserDataUpdateDto();
+      const formDto = new UserDataUpdateDto(updatedUserData);
+      console.log("FORM DATA", formDto)
       const response = await UserService.updateUser(formDto);
       return response;
     } catch (error) {
