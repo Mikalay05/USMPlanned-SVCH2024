@@ -10,11 +10,16 @@ const ApiError = require("../error/ApiError");
 const UserDto = require("../DTOs/Data/UserDto");
 const UserForCreationDTO = require("../DTOs/ForCreation/UserForCreationDto");
 const UserDataUpdateDto = require("../DTOs/ForUpdate/UserDataUpdateDto");
+const UserPasswordUpdateDto = require("../DTOs/ForUpdate/UserPasswordUpdateDto");
 const CurrentUserData = require("../DTOs/Data/CurrentUserData");
 const TokenService = require("../services/TokenService");
 
 const NAME_COOKIE_REFRESH_TOKEN = "refreshToken";
 const MAX_AGE_FOR_REFRESH_TOKEN = 30 * 24 * 60 * 60 * 1000;
+
+const OLD_PASSWORD_ERROR_FIELD = "oldPasswordErr";
+const NEW_PASSWORD_ERROR_FIELD = "newPasswordErr";
+
 class UserController {
   constructor() {}
 
@@ -168,6 +173,39 @@ class UserController {
       return res.status(200).json({ message: "Updated data", result });
     } catch (err) {
       console.log("ERROR in updateUser", err);
+      next(err);
+    }
+  }
+  static getPasswordsFromReqBody(
+    req,
+    propertyNameOfOldPassword = OLD_PASSWORD_ERROR_FIELD,
+    propertyNameOfNewPassword = NEW_PASSWORD_ERROR_FIELD
+  ) {
+    const data = new UserPasswordUpdateDto(req.body);
+    if (!data.oldPassword) {
+      throw ApiError.badRequest("Enter the old password", {
+        [propertyNameOfOldPassword]: 'Enter the old password"',
+      });
+    }
+    if (!data.newPassword) {
+      throw ApiError.badRequest("Enter the new password", {
+        [propertyNameOfNewPassword]: 'Enter the new password"',
+      });
+    }
+    return data;
+  }
+  async changePassword(req, res, next) {
+    try {
+      const userId = UserController.getUserIdFromReqParams(req);
+      const {oldPassword, newPassword} = UserController.getPasswordsFromReqBody(req);
+      console.log("TESSST")
+      console.log(userId, oldPassword, newPassword)
+
+      const result = await UserService.changePassword(userId, oldPassword,newPassword);
+      return res.status(200).json({message: "Password changed"})
+
+    } catch (err) {
+      console.log("ERROR in changePassword", err);
       next(err);
     }
   }

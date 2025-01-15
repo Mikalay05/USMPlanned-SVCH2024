@@ -103,7 +103,7 @@ export default function MainUserData() {
 
   return (
     <section className="section-user-data">
-      <PasswordUpdateModal openModal={isPasswordModalOpen} clickOnClose={handleClosePasswordModal}/>
+      <PasswordUpdateModal currentUserId={currentUser.id} openModal={isPasswordModalOpen} clickOnClose={handleClosePasswordModal}/>
       <Notification
         onClose={handleOnCloseNotification}
         text={notificationObject.textValue}
