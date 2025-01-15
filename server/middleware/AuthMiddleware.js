@@ -10,7 +10,7 @@ const getAuthTokenFromHeaders = (req) => {
     return TokenService.validateAccessToken(valueAuthToken);
 };
 
-module.exports = function (req, res, next) {
+module.exports = async function (req, res, next) {
     try {
         const data = getAuthTokenFromHeaders(req);
 
@@ -20,7 +20,9 @@ module.exports = function (req, res, next) {
 
         req.userIdFromToken = data.id;
         req.roleIdFromToken = data.roleId;
-
+        //Обновляем токены...
+        const tokens = await TokenService.getTokenForUser({id: data.id, role_id: data.roleId});
+        TokenService.saveTokenInRequest(tokens.refreshToken,res)
         next();
     } catch (err) {
         console.error("ERROR in AuthMiddleware:", err);

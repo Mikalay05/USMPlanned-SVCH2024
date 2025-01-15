@@ -57,10 +57,11 @@ class TokenService {
       id: user.id,
       roleId: user.role_id,
     };
-
+    
     const tokens = this.generateTokens(payload);
 
     console.log("getTokenForUser");
+    console.log(user);
     const tokenInDb = await this.saveToken(user.id, tokens.refreshToken);
     console.log("getTokenForUser End");
     console.log(tokens)

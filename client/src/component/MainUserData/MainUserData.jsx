@@ -6,6 +6,7 @@ import { updateUser } from "../../store/slices/userSlice";
 import InputDataWithError from "../InputDataWithError/InputDataWithError";
 import CustomerButton from "../CustomerButton/CustomerButton";
 import Notification from "../Notification/Notification";
+import PasswordUpdateModal from '../PasswordUpdateModal/PasswordUpdateModal';
 
 export default function MainUserData() {
   const dispatch = useDispatch();
@@ -21,7 +22,13 @@ export default function MainUserData() {
     loginErr: "",
     phoneErr: "",
   });
-
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const handleOpenPasswordModal = () => {
+    setIsPasswordModalOpen(true);
+  };
+  const handleClosePasswordModal = () => {
+    setIsPasswordModalOpen(false);
+  };
   const [notificationObject, setNotificationObject] = useState({
     textValue: "",
     color: "#fff",
@@ -96,6 +103,7 @@ export default function MainUserData() {
 
   return (
     <section className="section-user-data">
+      <PasswordUpdateModal openModal={isPasswordModalOpen} clickOnClose={handleClosePasswordModal}/>
       <Notification
         onClose={handleOnCloseNotification}
         text={notificationObject.textValue}
@@ -127,7 +135,7 @@ export default function MainUserData() {
         <div className='buttons-user-data'>
           <CustomerButton
             textValue="Change password"
-            onClick={handleOnUpdateButton}
+            onClick={handleOpenPasswordModal}
             styleColor='gray'
           />
           <CustomerButton
