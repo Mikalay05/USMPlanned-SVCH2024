@@ -29,7 +29,13 @@ class UserService extends BaseService {
         const response = await BaseService.request("put", endpoint, updatedUserData); // Передаём данные
         return response;
       }
-      
+      async updateUserPassword(userId, passwordData) {
+
+
+        const endpoint = API_ENDPOINTS.USER.PATCH_CHANGE_PASSWORD_USER.replace(':userId', userId); // Подставляем userId
+        const response = await BaseService.request("patch", endpoint, passwordData); // Передаём данные
+        return response;
+      } 
 }
 
 export default new UserService();

@@ -2,7 +2,10 @@ import './PasswordUpdateModal.css';
 import CustomerModal from '../CustomerModal/CustomerModal';
 import InputPassword from '../InputPassword/InputPassword';
 import { useState } from 'react';
-
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom"; // Импортируем useNavigate
+import { changePassword } from "../../store/slices/userSlice";
+//FIXME отображение ошибок пароля
 export default function PasswordUpdateModal({
   openModal,
   textTitle = "Change password",
@@ -17,38 +20,40 @@ export default function PasswordUpdateModal({
   const [newPasswordValueInput, setNewPasswordValueInput] = useState("");
   const [confirmPasswordValueInput, setConfirmPasswordValueInput] = useState("");
 
-  const [oldPasswordError, setOldPasswordError] = useState(""); // Error state for old password
-  const [newPasswordError, setNewPasswordError] = useState(""); // Error state for new password
-  const [confirmPasswordError, setConfirmPasswordError] = useState(""); // Error state for confirm password
+  const [passwordErrors, setPasswordErrors] = useState({
+    oldPasswordErr: "",
+    newPasswordErr: "",
+    confirmPasswordErr: "",
+  }); // Один стейт для всех ошибок
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); // useNavigate для перенаправления
+  const clearPasswordError = () => {
+    setPasswordErrors({
+      oldPasswordErr: "",
+      newPasswordErr: "",
+      confirmPasswordErr: "",
+    });
+  }
   // Обработчик для старого пароля
   const handleInputOldPasswordValueInput = (e) => {
     const value = e.target.value;
-    setOldPasswordValueInput(value);    
-
-    // Очистка ошибки при вводе
-      setOldPasswordError(""); // No error
-    
+    setOldPasswordValueInput(value);
+    setPasswordErrors((prevErrors) => ({ ...prevErrors, oldPasswordErr: "" })); // Очистка ошибки старого пароля
   };
 
   // Обработчик для нового пароля
   const handleInputNewPasswordValueInput = (e) => {
     const value = e.target.value;
     setNewPasswordValueInput(value);
-
-    // Очистка ошибки при вводе
-      setNewPasswordError(""); // No error
-    
+    setPasswordErrors((prevErrors) => ({ ...prevErrors, newPasswordErr: "" })); // Очистка ошибки нового пароля
   };
 
   // Обработчик для подтверждения пароля
   const handleInputConfirmPasswordValueInput = (e) => {
     const value = e.target.value;
     setConfirmPasswordValueInput(value);
-
-    // Очистка ошибки при вводе
-      setConfirmPasswordError(""); // No error
-    
+    setPasswordErrors((prevErrors) => ({ ...prevErrors, confirmPasswordErr: "" })); // Очистка ошибки подтверждения пароля
   };
 
   const handleCloseModal = () => {
@@ -56,44 +61,71 @@ export default function PasswordUpdateModal({
     setOldPasswordValueInput("");
     setNewPasswordValueInput("");
     setConfirmPasswordValueInput("");
-    setOldPasswordError("");
-    setNewPasswordError("");
-    setConfirmPasswordError("");
-    clickOnClose(); // вызов обработчика закрытия модального окна
+    clearPasswordError();
+        clickOnClose(); // вызов обработчика закрытия модального окна
   };
-  
-  const handleClickOnButtonChange = () => {
+
+  const handleClickOnButtonChange = async () => {
     const errors = {}; // Объект для хранения ошибок
-  
+
     // Проверяем старый пароль
     if (!oldPasswordValueInput.trim()) {
-      errors.oldPassword = "It's mandatory to enter";
+      errors.oldPasswordErr = "It's mandatory to enter";
     }
-  
+
     // Проверяем новый пароль
     if (!newPasswordValueInput.trim()) {
-      errors.newPassword = "It's mandatory to enter";
+      errors.newPasswordErr = "It's mandatory to enter";
     }
-  
+
     // Проверяем совпадение нового пароля с подтверждением
     if (newPasswordValueInput !== confirmPasswordValueInput) {
-      errors.confirmPassword = "The repeated password does not match the new one";
+      errors.confirmPasswordErr = "The repeated password does not match the new one";
     }
-  
+
     // Если есть ошибки, устанавливаем их в стейт и выходим
     if (Object.keys(errors).length > 0) {
-      setOldPasswordError(errors.oldPassword || "");
-      setNewPasswordError(errors.newPassword || "");
-      setConfirmPasswordError(errors.confirmPassword || "");
+      setPasswordErrors({
+        oldPasswordErr: errors.oldPasswordErr,
+        newPasswordErr: errors.newPasswordErr,
+        confirmPasswordErr: errors.confirmPasswordErr,
+      });
       return;
     }
-  
-    // Если ошибок нет, обрабатываем отправку данных на сервер
-    // Пример:
-    // sendPasswordChangeRequest(oldPasswordValueInput, newPasswordValueInput)
-    console.log("Password change successful");
+
+    try {
+      await dispatch(
+        changePassword({
+          userId: currentUserId,
+          updatedPasswordData: { oldPassword: oldPasswordValueInput, newPassword: newPasswordValueInput },
+        })
+      ).unwrap();
+
+      // Отображаем уведомление об успехе
+      alert("Password updated successfully");
+
+      // Переход через 3 секунды
+      setTimeout(() => {
+        navigate("/project"); // Перенаправляем на /project
+      }, 3000);
+    } catch (err) {
+      // Обработка ошибок
+      if (err && err.details) {
+        // Если ошибки приходят с сервера
+        const { details } = err;
+        console.log("details.passwordErr", details.passwordErr);
+        setPasswordErrors({
+          oldPasswordErr: details.passwordErr,
+          newPasswordErr: details.newPasswordErr,
+          confirmPasswordErr: details.confirmPasswordErr,
+        });
+        alert("TEST")
+      } else {
+        console.error(err.message);
+      }
+    }
   };
-  
+console.log("passwordErrors",passwordErrors)
   return (
     <CustomerModal
       openModal={openModal}
@@ -106,19 +138,19 @@ export default function PasswordUpdateModal({
         placeholderValue={textValueOldPasswordPlaceholder}
         textValue={oldPasswordValueInput}
         onInput={handleInputOldPasswordValueInput} // Обработчик ввода старого пароля
-        errorMessage={oldPasswordError} // Передаем ошибку для старого пароля
+        errorMessage={passwordErrors.oldPasswordErr} // Передаем ошибку для старого пароля
       />
       <InputPassword
         placeholderValue={textValueNewPasswordPlaceholder}
         textValue={newPasswordValueInput}
         onInput={handleInputNewPasswordValueInput} // Обработчик ввода нового пароля
-        errorMessage={newPasswordError} // Передаем ошибку для нового пароля
+        errorMessage={passwordErrors.newPasswordErr} // Передаем ошибку для нового пароля
       />
       <InputPassword
         placeholderValue={textValueConfirmPasswordPlaceholder}
         textValue={confirmPasswordValueInput}
         onInput={handleInputConfirmPasswordValueInput} // Обработчик ввода подтверждения пароля
-        errorMessage={confirmPasswordError} // Передаем ошибку для подтверждения пароля
+        errorMessage={passwordErrors.confirmPasswordErr} // Передаем ошибку для подтверждения пароля
       />
     </CustomerModal>
   );

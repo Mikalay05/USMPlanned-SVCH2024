@@ -52,7 +52,6 @@ export default function ProjectCreationModal({
   //Отправки запросы на создание проекта
   const handleCreateProject = () => {
     try {
-      //TODO Валидация формы
       if (
         !projectCreationFormData[projectNameField] ||
         !projectCreationFormData[projectDescriptionField] ||

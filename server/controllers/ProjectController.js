@@ -26,8 +26,8 @@ class ProjectController {
     async createProject(req,res,next) {
         try {
             const body = new ProjectForCreationDTO(req.body);
-            //TODO Получить userId
-            const userId = 1;
+            
+            const userId = req.userIdFromToken;
             const resultOfCreate = await ProjectService.createProject(body, userId);
             res.status(201).json(resultOfCreate);
         } catch (err) {

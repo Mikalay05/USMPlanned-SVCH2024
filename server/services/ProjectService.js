@@ -166,7 +166,6 @@ class ProjectService {
     try {
       // Пройти валидацию объекта
       await this.validateProjectForCreationDto(projectForm);
-      //TODO проверка прав доступа
 
       // Создать проект в базе данных
       const resultFromDb = await this.dbQueryCreateProject(projectForm, whoCreateProject);
@@ -204,7 +203,6 @@ class ProjectService {
   }
 
   async updateProject(projectFormDto, whoUpdateProject) {
-    //TODO проверка прав доступа
     try {
       // Пройти валидацию объекта
       await this.validateProjectForUpdateDto(projectFormDto);
@@ -222,7 +220,6 @@ class ProjectService {
   }
 
   async deleteProject(projectId, userId) {
-    //TODO проверка прав доступа
     try {
       await this.validateProjectId(projectId);
       const deleteProject = Project.destroy({ where: { id: projectId } });

@@ -1,8 +1,28 @@
 import LoginUserDto from "../../DTOs/LoginUserDto";
 import UserDataUpdateDto from "../../DTOs/ForUpdate/UserDataUpdateDto";
+import UserPasswordUpdateDto from "../../DTOs/ForUpdate/UserPasswordUpdateDto";
 import CurrentUserDataDto from  "../../DTOs/Data/CurrentUserDataDto";
 import UserService from "../../services/UserService";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+export const changePassword = createAsyncThunk(
+  "user/changePassword", // уникальное имя действия
+  async ({ userId, updatedPasswordData }, { rejectWithValue }) => {
+    try {
+      console.log(updatedPasswordData)
+
+      const formDto = new UserPasswordUpdateDto(updatedPasswordData);
+      console.log(formDto)
+      const response = await UserService.updateUserPassword(userId, formDto); // добавляем метод для обновления пароля
+      return response;
+    } catch (error) {
+      console.log("Error", error);
+      return rejectWithValue(error || { message: "Failed to update password" });
+    }
+  }
+);
+
+
 
 export const updateUser = createAsyncThunk(
   "user/updateUser",
@@ -153,6 +173,21 @@ const userSlice = createSlice({
       .addCase(updateUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || { message: "Failed to update user data" };
+      })
+      .addCase(changePassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(changePassword.fulfilled, (state, action) => {
+        const updatedUser = action.payload;
+        // Обновляем данные пароля в текущем пользователе
+        if (state.currentUser.id === updatedUser.id) {
+          state.currentUser = updatedUser;
+        }
+        state.isLoading = false;
+      })
+      .addCase(changePassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || { message: "Failed to update password" };
       });
   },
 });
