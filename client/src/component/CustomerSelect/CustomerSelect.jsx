@@ -13,13 +13,18 @@ const CustomerSelect = ({
     // Обработчик при выборе элемента
     onSelectItem, 
 }) => {
+
     const [inputValue, setInputValue] = useState(defaultValue ? defaultValue[filterKey] : "");
     const [filteredOptions, setFilteredOptions] = useState(options);
     const [isOptionsVisible, setIsOptionsVisible] = useState(false);
     const [isIconRotated, setIsIconRotated] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(-1);  // Для выделения элемента
     const dropdownRef = useRef(null);
-
+    useEffect(() => {
+        if (defaultValue && defaultValue[filterKey]) {
+            setInputValue(defaultValue[filterKey]); // Устанавливаем новое значение
+        }
+    }, [defaultValue, filterKey]);
     const handleInputChange = (event) => {
         const value = event.target.value;
         setInputValue(value);

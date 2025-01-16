@@ -1,0 +1,43 @@
+.main-change-data-for-user {
+    display: flex;
+padding: 0px 20px;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+gap: 20px;
+align-self: stretch;
+}
+.main-change-data-for-user >h2 {
+    color: #000;
+text-align: center;
+font-family: Inter;
+font-size: 40px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+align-self: stretch;
+}
+.content-change-data-for-user {
+    display: flex;
+
+max-width: 300px;
+flex-direction: column;
+align-items: flex-start;
+gap: 20px;
+}
+.content-change-data-for-user > h3{
+    color: #000;
+font-family: Inter;
+font-size: 24px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+align-self: stretch;
+}
+.form-container {
+    display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap: 20px;
+}
+

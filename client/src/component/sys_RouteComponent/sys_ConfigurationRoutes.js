@@ -4,6 +4,7 @@ import CustomerInformation from '../../page/CustomerInformation/CustomerInformat
 import Auth from '../../page/Auth/Auth';
 import Reg from '../../page/Reg/Reg';
 import UserData from '../../page/UserData/UserData';
+import ChangeDataForUser from '../../page/ChangeDataForUser/ChangeDataForUser';
 import Users from '../../page/Users/Users';
 
 
@@ -44,5 +45,10 @@ export const ROUTES = [
     path: '/userData', 
     nameOfPage: 'Person',
     component: UserData,
+  },
+  {
+    path: '/user/:userId', 
+    nameOfPage: 'Change',
+    component: ChangeDataForUser,
   },
 ];

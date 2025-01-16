@@ -1,11 +1,17 @@
 import './UserDataCard.css'
 import CustomerButton from '../CustomerButton/CustomerButton'
+import { useNavigate } from 'react-router-dom';
 
 export default function UserDataCard({
   userData = {},
   textValueOfButtonChange
 }) {
-  console.log(userData)
+  const navigate = useNavigate();
+
+  const handleOnClickButtonInUserCard = () => {
+    navigate(`/user/${userData.id}`);
+  }
+  
   return (
     <div className="content-user-data-card">
       <div className="role-user-data-card">
@@ -17,7 +23,7 @@ export default function UserDataCard({
       <div className="contact-user-data-card">
         Email: {userData.email}; phone: {userData.phone}
       </div>
-      <CustomerButton textValue={textValueOfButtonChange} />
+      <CustomerButton onClick={handleOnClickButtonInUserCard} textValue={textValueOfButtonChange} />
     </div>
   )
 }

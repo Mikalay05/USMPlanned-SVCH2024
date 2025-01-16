@@ -14,7 +14,7 @@ export default function CustomerSelectWithError({
     onSelectItem,
     error = ""
 }) {
-
+    console.log("НАЧАЛО", defaultValue)
     return (
         <div className="customer-select-with-error">
             <CustomerSelect

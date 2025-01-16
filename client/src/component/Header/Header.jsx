@@ -4,7 +4,7 @@ import "./Header.css";
 import { useSelector } from "react-redux";
 import LoginIconMenu from "../LoginIconMenu/LoginIconMenu"; // Импортируем новый компонент
 import { useNavigate } from "react-router-dom";
-
+//TODO функционал бургер меню
 const roles = {
   admin: 1,
   developer: 2,
