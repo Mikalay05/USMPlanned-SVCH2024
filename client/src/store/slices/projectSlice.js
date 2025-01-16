@@ -22,6 +22,13 @@ export const getProjectById = createAsyncThunk('project/getProjectById', async (
     return new InformationProjectDto(response);
 });
 
+export const deleteProject = createAsyncThunk(
+    'project/deleteProject',
+    async(projectId)=> {
+        const response = await ProjectService.deleteProject(projectId);
+        return response;
+    }
+)
 // Срез проекта
 const projectSlice = createSlice({
     name: 'project', 

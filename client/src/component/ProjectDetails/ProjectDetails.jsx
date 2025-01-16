@@ -2,6 +2,9 @@ import "./ProjectDetails.css";
 import CustomerButton from "../CustomerButton/CustomerButton";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { deleteProject } from "../../store/slices/projectSlice";
+import { useNavigate } from "react-router-dom"; // Импортируем useNavigate
 
 // Функция для форматирования даты
 const formatDate = (dateString) => {
@@ -17,15 +20,29 @@ const formatDate = (dateString) => {
 
 export default function ProjectDetails({ projectData }) {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); // useNavigate для перенаправления
+
   const handleOnOpenDeleteModal = () => {
     setOpenDeleteModal(true);
   };
   const handleOnCloseDeleteModal = () => {
     setOpenDeleteModal(false);
   };
-  const handleOnConfirm = () => {
-    //TODO Delete project request
+  const handleOnConfirm = async() => {
     setOpenDeleteModal(false);
+    try {
+      await dispatch(deleteProject(projectData.id)
+    ).unwrap();
+    alert("Project deleted");
+    navigate("/project"); // Перенаправляем на /project
+
+    }
+    catch(err) {
+      console.log(err);
+      alert(err.message);
+    }
+
   }
   return (
     <div className="project-details-container">

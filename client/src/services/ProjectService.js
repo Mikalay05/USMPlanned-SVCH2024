@@ -16,9 +16,12 @@ class ProjectService extends BaseService {
     }
     async getProjectById(projectId) {
         const endpoint = API_ENDPOINTS.PROJECT.GET_PROJECT_BY_ID.replace(':projectId', projectId);
-        console.log('projectId',projectId)
-        console.log('endpoint',endpoint)
         const response = await BaseService.request("get", endpoint);
+        return response;
+    }
+    async deleteProject(projectId) {
+        const endpoint = API_ENDPOINTS.PROJECT.DELETE_PROJECT.replace(':projectId', projectId);
+        const response = await BaseService.request("delete", endpoint);
         return response;
     }
 }

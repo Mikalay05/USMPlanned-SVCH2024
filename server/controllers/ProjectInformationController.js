@@ -6,10 +6,17 @@ class ProjectInformationController {
     constructor(projectIdProperty = "projectId") {
         this.PROJECT_ID_PROPERTY = projectIdProperty
     }
+    getProjectIdFromReqParams = (req) => {
+        console.log("PROJECT ID")
+
+        const projectId = req.params[this.PROJECT_ID_PROPERTY];
+        console.log("PROJECT ID", projectId)
+        return projectId;
+    }
     getProjectById = async (req, res, next) => {
         try {
             // Получаем projectId из параметров
-            const projectId = req.params[this.PROJECT_ID_PROPERTY];
+            const projectId = this.getProjectIdFromReqParams(req);
     
             // Получаем данные о проекте
             const data = await ProjectService.getProjectById(projectId, false, true); 
@@ -52,10 +59,12 @@ class ProjectInformationController {
             next(err);
         }
     }
-    async deleteProjectById(req,res,next) {
+    deleteProjectById=async(req,res,next)=> {
         try {
-            //TODO Add a method implementation
-            throw new Error("Not realized");
+            console.log("TEST")
+            const projectId = this.getProjectIdFromReqParams(req);
+            const resultOfDelete = await ProjectService.deleteProject(projectId);
+            return res.status(200).json(resultOfDelete)
         }
         catch (err) {
             console.log("Error in catch", err)
