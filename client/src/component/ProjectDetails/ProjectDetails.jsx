@@ -30,7 +30,7 @@ export default function ProjectDetails({ projectData }) {
           {projectData.actions.length > 0 ? (
             projectData.actions.map((action) => (
               <p key={action.actionId} className="project-action-item">
-                {formatDate(action.createdAt)} | {action.actionName}
+                {formatDate(action.createdAt)} | {action.user.login}({action.user.fullName}) did {action.actionName}
               </p>
             ))
           ) : (
