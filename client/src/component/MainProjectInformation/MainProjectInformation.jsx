@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import "./MainProjectInformation.css";
+import { useDispatch, useSelector } from "react-redux";
+
 import CustomerSlider from "../CustomerSlider/CustomerSlider";
 import CardForCustomers from "../CardForCustomers/CardForCustomers";
 import TitleForProjectInformation from "../TitleForProjectInformation/TitleForProjectInformation";
 import ProjectDetails from "../ProjectDetails/ProjectDetails";
 import CustomerCreationModal from "../CustomerCreationModal/CustomerCreationModal";
 
-export default function MainProjectInformation({ projectData }) {
+export default function MainProjectInformation({  }) {
+  const projectData = useSelector((state) => state.project.selectedProject);
+  const isLoading = useSelector((state) => state.project.isLoading);
+
   const [formForCreationCustomer, setFormForCreationCustomer] = useState({
     name: '',
-    project_id: projectData.projectId,
+    project_id: projectData.projectId || null,
     next_id: projectData.dataForSelect[0]?.customerId || null,
   });
-  console.log("formForCreationCustomer",formForCreationCustomer)
   const handleNextId = (newNextId) => {
     // Обновляем поле next_id в форме
     setFormForCreationCustomer((prevForm) => ({
