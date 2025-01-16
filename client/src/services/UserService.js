@@ -37,9 +37,14 @@ class UserService extends BaseService {
         return response;
       } 
       async getUserDataById(userId) {
-        const endpoint = API_ENDPOINTS.USER.GET_USER_DATA_BY_UD.replace(':userId', userId); // Подставляем userId
+        const endpoint = API_ENDPOINTS.USER.GET_USER_DATA_BY_ID.replace(':userId', userId); // Подставляем userId
         const response = await BaseService.request("get", endpoint); // Передаём данные
         return response;      
+    }
+    async updateUserDataById(userId, data) {
+        const endpoint = API_ENDPOINTS.USER.UPDATE_USER_DATA_BY_ID.replace(':userId', userId); // Подставляем userId
+        const response = await BaseService.request("patch", endpoint, data); // Передаём данные
+        return response;    
     }
 }
 

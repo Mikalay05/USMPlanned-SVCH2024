@@ -23,7 +23,6 @@ export default function ChangeDataForUser({
             dispatch(getUserDataById(userId)); // Получаем данные пользователя по userId
         }
     }, [dispatch, userId]); // Следим за изменением userId
-    console.log("userId",userId)
     return (
         <>
         <Header/>

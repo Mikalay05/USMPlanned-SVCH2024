@@ -19,6 +19,7 @@ export const API_ENDPOINTS = {
         GET_CURRENT_USER_DATA: '/user/currentUserData',
         PUT_UPDATE_USER_DATA: '/user/updateUser/:userId',
         PATCH_CHANGE_PASSWORD_USER: '/user/changePassword/:userId',
-        GET_USER_DATA_BY_UD: '/user/userData/:userId'
+        GET_USER_DATA_BY_ID: '/user/data/:userId',
+        UPDATE_USER_DATA_BY_ID: 'user/data/:userId'
     }
 };

@@ -225,6 +225,9 @@ class UserController {
         next(err);
       }
   }
+  async updateUserDataById(req,res,next) {
+
+  }
 }
 
 module.exports = new UserController();

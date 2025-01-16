@@ -1,14 +1,18 @@
 import "./MainChangeDataForUser.css";
 import { useSelector, useDispatch } from "react-redux";
+import { useParams } from 'react-router-dom'; // Импортируем useParams
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { updateUser } from "../../store/slices/userSlice"; // Экшен для обновления данных пользователя
+import { updateUserData } from "../../store/slices/userSlice"; // Экшен для обновления данных пользователя
 import CustomerButton from "../CustomerButton/CustomerButton";
 import CustomerSelectWithError from "../CustomerSelectWithError/CustomerSelectWithError";
 import InputDataWithError from "../InputDataWithError/InputDataWithError";
 import Notification from "../Notification/Notification";
-
+//TODO Updated request
 export default function MainChangeDataForUser() {
+      const { userId } = useParams(); // Получаем userId из маршрута
+  
   const roles = useSelector((state) => state.role.roles);
   const isLoadingRoles = useSelector((state) => state.role.isLoading);
   const errorRoles = useSelector((state) => state.role.error);
@@ -99,13 +103,10 @@ export default function MainChangeDataForUser() {
 
   const handleOnSaveChanges = async () => {
     try {
-      // Здесь можно добавить валидацию данных перед отправкой
-
-      await dispatch(updateUser(formData)).unwrap();
+      await dispatch(updateUserData(userId, formData)).unwrap();
 
       handleSetNotification("User data has been updated", "#00FF00");
 
-      // Переход на страницу пользователя после успешного обновления
       setTimeout(() => {
         navigate("/user");
       }, 2000);
@@ -118,7 +119,6 @@ export default function MainChangeDataForUser() {
       }
     }
   };
-  console.log(formData)
   return (
     <main className="main-change-data-for-user">
       <Notification

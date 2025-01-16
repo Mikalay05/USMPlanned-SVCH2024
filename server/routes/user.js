@@ -8,7 +8,8 @@ userRouter.post("/login", userController.login);
 //Получить список всех пользователей
 userRouter.get("/", authMiddleware, userController.getAllUsers);
 userRouter.get("/currentUserData", authMiddleware, userController.getCurrentUserData);
-userRouter.get(`/userData/:${pk}`, authMiddleware, userController.getUserDataById);
+userRouter.get(`/data/:${pk}`, authMiddleware, userController.getUserDataById);
+userRouter.patch(`/data/:${pk}`, authMiddleware, userController.updateUserDataById);
 
 
 //Регистрация пользователя

@@ -2,18 +2,28 @@ import LoginUserDto from "../../DTOs/LoginUserDto";
 import UserDataUpdateDto from "../../DTOs/ForUpdate/UserDataUpdateDto";
 import UserPasswordUpdateDto from "../../DTOs/ForUpdate/UserPasswordUpdateDto";
 import CurrentUserDataDto from  "../../DTOs/Data/CurrentUserDataDto";
+import UserDataByIdUpdateDto from  "../../DTOs/ForUpdate/UserDataByIdUpdateDto";
 import UserDataByIdDto from  "../../DTOs/Data/UserDataByIdDto";
 import UserService from "../../services/UserService";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
+export const updateUserData = createAsyncThunk(
+  'user/updateUserData/',
+  async({userId, formData}, { rejectWithValue }) => {
+    try {
+      const data = new UserDataByIdUpdateDto(formData);
+      const response = await UserService.updateUserDataById(userId, data);
+      return response;
+    } catch (error) {
+      console.log("Error", error);
+      return rejectWithValue(error || { message: "Failed to update data" });
+    }
+  }
+)
 export const changePassword = createAsyncThunk(
   "user/changePassword", // уникальное имя действия
   async ({ userId, updatedPasswordData }, { rejectWithValue }) => {
     try {
-      console.log(updatedPasswordData)
-
       const formDto = new UserPasswordUpdateDto(updatedPasswordData);
-      console.log(formDto)
       const response = await UserService.updateUserPassword(userId, formDto); // добавляем метод для обновления пароля
       return response;
     } catch (error) {
