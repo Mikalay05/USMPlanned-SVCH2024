@@ -32,7 +32,7 @@ export default function ProjectDetails({ projectData }) {
   const handleOnConfirm = async() => {
     setOpenDeleteModal(false);
     try {
-      await dispatch(deleteProject(projectData.id)
+      await dispatch(deleteProject(projectData.projectId)
     ).unwrap();
     alert("Project deleted");
     navigate("/project"); // Перенаправляем на /project

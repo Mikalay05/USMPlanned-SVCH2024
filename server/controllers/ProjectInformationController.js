@@ -62,6 +62,7 @@ class ProjectInformationController {
     deleteProjectById=async(req,res,next)=> {
         try {
             console.log("TEST")
+            console.log(req.baseUrl)
             const projectId = this.getProjectIdFromReqParams(req);
             const resultOfDelete = await ProjectService.deleteProject(projectId);
             return res.status(200).json(resultOfDelete)
