@@ -10,6 +10,7 @@ const ApiError = require("../error/ApiError");
 const UserDto = require("../DTOs/Data/UserDto");
 const UserForCreationDTO = require("../DTOs/ForCreation/UserForCreationDto");
 const UserDataUpdateDto = require("../DTOs/ForUpdate/UserDataUpdateDto");
+const UserDataByIdDto = require("../DTOs/Data/UserDataByIdDto");
 const UserPasswordUpdateDto = require("../DTOs/ForUpdate/UserPasswordUpdateDto");
 const CurrentUserData = require("../DTOs/Data/CurrentUserData");
 const TokenService = require("../services/TokenService");
@@ -208,6 +209,21 @@ class UserController {
       console.log("ERROR in changePassword", err);
       next(err);
     }
+
+  }
+  async getUserDataById(req,res,next) {
+      try {
+          const {userId } = req.params;
+          console.log("USER ID", userId)
+          const data = await UserService.getByIdUser(userId);
+          console.log("data", data)
+          const resultDto = new UserDataByIdDto(data[0]);
+          return res.status(200).json(resultDto)
+
+      } catch (err) {
+        console.log("ERROR in getUserDataById", err);
+        next(err);
+      }
   }
 }
 

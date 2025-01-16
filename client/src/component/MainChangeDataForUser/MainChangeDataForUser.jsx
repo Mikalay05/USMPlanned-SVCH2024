@@ -15,7 +15,7 @@ export default function MainChangeDataForUser() {
   const { currentUser, isLoading, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
@@ -24,7 +24,7 @@ export default function MainChangeDataForUser() {
     phone: "",
     role: {},
   });
-
+  console.log(formData)
   const [formErrors, setFormErrors] = useState({
     nameErr: "",
     surnameErr: "",

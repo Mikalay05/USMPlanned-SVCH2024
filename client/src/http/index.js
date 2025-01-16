@@ -36,16 +36,15 @@ $api.interceptors.response.use(
             originalRequest._isRetry = true;
 
             try {
-                console.log('Пробую получить новый accessToken...');
-                const response = await axios.get(`${API_URL}/${API_ENDPOINTS.USER.UPDATE_TOKEN}`, {
+                const response = await axios.get(`${API_URL}${API_ENDPOINTS.USER.UPDATE_TOKEN}`, {
                     withCredentials: true,
                 });
-
                 // Сохраняем новый токен и повторяем запрос
                 localStorage.setItem('token', response.data.accessToken);
                 originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`;
                 return $api.request(originalRequest);
             } catch (e) {
+                alert(e)
                 window.location.href = '/login';
             }
         }

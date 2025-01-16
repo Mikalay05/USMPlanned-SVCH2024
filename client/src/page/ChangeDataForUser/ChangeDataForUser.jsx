@@ -6,16 +6,22 @@ import { getCurrentUserData } from "../../store/slices/userSlice";
 import React, { useEffect } from "react";
 import MainChangeDataForUser from '../../component/MainChangeDataForUser/MainChangeDataForUser';
 import { getRoles } from '../../store/slices/roleSlice';
+import { useParams } from 'react-router-dom'; // Импортируем useParams
 
 export default function ChangeDataForUser({
 
 }) {
     const dispatch  = useDispatch();
-    useEffect(() => {
-            dispatch(getCurrentUserData());
-        dispatch(getRoles());
+    const { userId } = useParams(); // Получаем userId из маршрута
 
-      }, [dispatch]);
+    useEffect(() => {
+
+        dispatch(getRoles());
+        if (userId) {
+            dispatch(getCurrentUserData(userId)); // Получаем данные пользователя по userId
+        }
+    }, [dispatch, userId]); // Следим за изменением userId
+    console.log("userId",userId)
     return (
         <>
         <Header/>
