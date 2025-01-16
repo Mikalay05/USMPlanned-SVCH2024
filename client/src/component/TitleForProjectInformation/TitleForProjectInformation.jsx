@@ -21,16 +21,17 @@ export default function TitleForProjectInformation({
 
     return (
         <div className="container-TitleForProjectInformation">
-            <h1>{projectData.projectName}</h1>
-            <h3>{projectData.status.status_name}</h3>
-            <div className="selected-in-TitleForProjectInformation">
-                <CustomerSelect 
-                    options={projectData.dataForSelect} 
-                    filterKey={filterKey} 
-                    onSelectItem={handleSelectItem} // Передаем обработчик выбора элемента
-                />
-            </div>
-            <CustomerButton textValue="Export USM" />
+          <h1>{projectData?.projectName || 'Project Name Not Available'}</h1>
+          <h3>{projectData?.status?.status_name || 'Status Not Available'}</h3>
+          <div className="selected-in-TitleForProjectInformation">
+            <CustomerSelect
+              options={projectData?.dataForSelect || []}
+              filterKey={filterKey}
+              onSelectItem={handleSelectItem}
+            />
+          </div>
+          <CustomerButton textValue="Export USM" />
         </div>
-    );
+      );
+      
 }

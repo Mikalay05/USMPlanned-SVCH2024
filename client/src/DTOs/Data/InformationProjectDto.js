@@ -25,7 +25,7 @@ class InformationProjectDto {
     this.dataForSelect = (serverData.dataForSelect || []).map(item => ({
       customerId: item.customerId || null, // Измените на соответствующее поле из БД
       customerName: item.customerName || 'Unknown', // Измените на соответствующее поле из БД
-    }));
+    })) ;
   }
 }
 

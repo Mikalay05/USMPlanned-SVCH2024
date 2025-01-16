@@ -7,73 +7,74 @@ import CardForCustomers from "../CardForCustomers/CardForCustomers";
 import TitleForProjectInformation from "../TitleForProjectInformation/TitleForProjectInformation";
 import ProjectDetails from "../ProjectDetails/ProjectDetails";
 import CustomerCreationModal from "../CustomerCreationModal/CustomerCreationModal";
+import LoadingDots from "../LoadingDots/LoadingDots";
 
-export default function MainProjectInformation({  }) {
+export default function MainProjectInformation() {
   const projectData = useSelector((state) => state.project.selectedProject);
   const isLoading = useSelector((state) => state.project.isLoading);
 
-  const [formForCreationCustomer, setFormForCreationCustomer] = useState({
-    name: '',
-    project_id: projectData.projectId || null,
-    next_id: projectData.dataForSelect[0]?.customerId || null,
-  });
+  const [formForCreationCustomer, setFormForCreationCustomer] = useState(null);
+
   const handleNextId = (newNextId) => {
-    // Обновляем поле next_id в форме
     setFormForCreationCustomer((prevForm) => ({
       ...prevForm,
-      next_id: newNextId, // Записываем next_id
+      next_id: newNextId,
     }));
   };
-  const handleClearForm = () => {
-    setFormForCreationCustomer(
-      (prevForm) => ({
-        ...prevForm,
-        name: '',
-      })
-    )
-  }
-const handleOnCreateCustomer = (customerName) => {
-  // Проверяем, что имя клиента не пустое
-  if (!customerName || customerName.trim() === "") {
-    alert("Customer name is required"); // Покажем сообщение, если имя пустое
-    return; // Прерываем выполнение функции, не создавая клиента
-  }
 
-  // Создаем локальную переменную для отображения данных
-  const newCustomerData = {
-    ...formForCreationCustomer,
-    name: customerName,
+  const handleClearForm = () => {
+    setFormForCreationCustomer((prevForm) => ({
+      ...prevForm,
+      name: "",
+    }));
   };
 
-  // Обновляем форму с именем клиента
-  setFormForCreationCustomer(newCustomerData);
+  const handleOnCreateCustomer = (customerName) => {
+    if (!customerName || customerName.trim() === "") {
+      alert("Customer name is required");
+      return;
+    }
 
-  // Закрываем модальное окно
-  handleCloseModalCreationCustomer();
+    const newCustomerData = {
+      ...formForCreationCustomer,
+      name: customerName,
+    };
 
-  // Используем локальные данные, чтобы избежать проблем с асинхронностью
-  alert(
-    `${newCustomerData.name} ${newCustomerData.project_id} ${newCustomerData.next_id}`
-  );
+    setFormForCreationCustomer(newCustomerData);
+    handleCloseModalCreationCustomer();
 
-  // Очищаем имя в форме
-  handleClearForm();
-};
+    alert(
+      `${newCustomerData.name} ${newCustomerData.project_id} ${newCustomerData.next_id}`
+    );
 
+    handleClearForm();
+  };
 
-  const [openModalForCreationCustomer, setopenModalForCreationCustomer] = useState(false);
+  const [openModalForCreationCustomer, setopenModalForCreationCustomer] =
+    useState(false);
+
   const handleCloseModalCreationCustomer = () => {
     setopenModalForCreationCustomer(false);
   };
+
   const handleOpenModalCreationCustomer = () => {
     setopenModalForCreationCustomer(true);
   };
 
+  if (isLoading) {
+    return <LoadingDots />;
+  }
+
+  // Добавляем проверку на наличие данных в projectData
+  const dataForSelect = projectData?.dataForSelect || [];
+  if(!projectData) {
+    return <LoadingDots/>
+  }
   return (
     <>
       <TitleForProjectInformation
         projectData={projectData}
-        onSelectItem={handleOnCreateCustomer} // Передаем обработчик выбора элемента
+        onSelectItem={handleOnCreateCustomer}
       />
       <CustomerCreationModal
         isModalOpen={openModalForCreationCustomer}
@@ -84,22 +85,30 @@ const handleOnCreateCustomer = (customerName) => {
       <div className="icons-box-TitleForProjectInformation">
         <div className="icons-changed-box-TitleForProjectInformation">
           <img src={`/Icon-MoveElement.svg`} alt="move" />
-          <img src={`/Icon-AddElement.svg`} alt="add" onClick={handleOpenModalCreationCustomer} />
+          <img
+            src={`/Icon-AddElement.svg`}
+            alt="add"
+            onClick={handleOpenModalCreationCustomer}
+          />
         </div>
         <img src={`/Icon-Decomposition.svg`} alt="Decomposition" />
       </div>
 
       <CustomerSlider
-        onHandleNextId={handleNextId} // Передаем callback для обновления next_id
+        onHandleNextId={handleNextId}
         notFoundMessage="Not found Customers in this project"
       >
-        {projectData.dataForSelect.map((item) => (
-          <CardForCustomers
-            key={item.customerId}
-            customerId={item.customerId}
-            customerName={item.customerName}
-          />
-        ))}
+        {Array.isArray(dataForSelect) && dataForSelect.length > 0 ? (
+          dataForSelect.map((item) => (
+            <CardForCustomers
+              key={item.customerId}
+              customerId={item.customerId}
+              customerName={item.customerName}
+            />
+          ))
+        ) : (
+          <p className="not-found-message">No customers found in this project.</p>
+        )}
       </CustomerSlider>
 
       <ProjectDetails projectData={projectData} />

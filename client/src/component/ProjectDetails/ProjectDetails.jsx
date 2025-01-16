@@ -1,5 +1,7 @@
 import "./ProjectDetails.css";
 import CustomerButton from "../CustomerButton/CustomerButton";
+import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
+import { useState } from "react";
 
 // Функция для форматирования даты
 const formatDate = (dateString) => {
@@ -14,6 +16,14 @@ const formatDate = (dateString) => {
 };
 
 export default function ProjectDetails({ projectData }) {
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const handleOnOpenDeleteModal = () => {
+    setOpenDeleteModal(true);
+  }
+  const handleOnCloseDeleteModal = () => {
+    setOpenDeleteModal(false);
+  }
+  console.log(openDeleteModal)
   return (
     <div className="project-details-container">
       <div className="project-description">
@@ -22,7 +32,7 @@ export default function ProjectDetails({ projectData }) {
       </div>
       <div className="project-actions-buttons">
         <CustomerButton textValue="Change project" />
-        <CustomerButton textValue="Delete project" />
+        <CustomerButton textValue="Delete project" onClick={handleOnOpenDeleteModal} />
       </div>
       <div className="project-actions-section">
         <h3 className="project-actions-title">Actions of Project:</h3>
@@ -38,6 +48,7 @@ export default function ProjectDetails({ projectData }) {
           )}
         </div>
       </div>
+      <ConfirmationModal isOpen={openDeleteModal} onCancel={handleOnCloseDeleteModal}/>
     </div>
   );
 }
