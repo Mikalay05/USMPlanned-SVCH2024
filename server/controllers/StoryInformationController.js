@@ -1,6 +1,7 @@
 class StoryInformationController {
     async getStoryById(req, res, next) {
         try {
+            //TODO Add a method implementation
             throw new Error("Not implemented");
         } catch (err) {
             console.log("Error in getStoryById:", err);
@@ -10,6 +11,7 @@ class StoryInformationController {
 
     async createTaskForStory(req, res, next) {
         try {
+            //TODO Add a method implementation
             throw new Error("Not implemented");
         } catch (err) {
             console.log("Error in createTaskForStory:", err);
@@ -19,6 +21,7 @@ class StoryInformationController {
 
     async updateStoryData(req, res, next) {
         try {
+            //TODO Add a method implementation
             throw new Error("Not implemented");
         } catch (err) {
             console.log("Error in updateStoryData:", err);
@@ -28,6 +31,7 @@ class StoryInformationController {
 
     async updateTasksOrder(req, res, next) {
         try {
+            //TODO Add a method implementation
             const { taskId, nextId } = req.query;
             throw new Error(`Not implemented. Params: taskId=${taskId}, nextId=${nextId}`);
         } catch (err) {
@@ -38,6 +42,7 @@ class StoryInformationController {
 
     async deleteStoryById(req, res, next) {
         try {
+            //TODO Add a method implementation
             throw new Error("Not implemented");
         } catch (err) {
             console.log("Error in deleteStoryById:", err);

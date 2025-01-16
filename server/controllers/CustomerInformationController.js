@@ -1,6 +1,7 @@
 class CustomerInformationController {
     async getCustomerById(req, res, next) {
         try {
+            //TODO Add a method implementation
             throw new Error("Not implemented");
         } catch (err) {
             console.log("Error in getCustomerById:", err);
@@ -10,6 +11,7 @@ class CustomerInformationController {
 
     async createEpicForCustomer(req, res, next) {
         try {
+            //TODO Add a method implementation
             throw new Error("Not implemented");
         } catch (err) {
             console.log("Error in createEpicForCustomer:", err);
@@ -19,6 +21,7 @@ class CustomerInformationController {
 
     async updateCustomerData(req, res, next) {
         try {
+            //TODO Add a method implementation
             throw new Error("Not implemented");
         } catch (err) {
             console.log("Error in updateCustomerData:", err);
@@ -28,6 +31,7 @@ class CustomerInformationController {
 
     async updateEpicsOrder(req, res, next) {
         try {
+            //TODO Add a method implementation
             throw new Error("Not implemented");
         } catch (err) {
             console.log("Error in updateEpicsOrder:", err);
@@ -37,6 +41,7 @@ class CustomerInformationController {
 
     async deleteCustomerById(req, res, next) {
         try {
+            //TODO Add a method implementation
             throw new Error("Not implemented");
         } catch (err) {
             console.log("Error in deleteCustomerById:", err);

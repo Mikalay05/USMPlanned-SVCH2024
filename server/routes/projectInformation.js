@@ -2,8 +2,10 @@ const projectInformationRouter = require("express").Router();
 const projectInformationController = require("../controllers/ProjectInformationController");
 const authMiddleware = require('../middleware/AuthMiddleware')
 
+const pk = projectInformationController.PROJECT_ID_PROPERTY;
+
 // Возвращает данные о проекте согласно первичному ключу
-projectInformationRouter.get(`/`, authMiddleware, projectInformationController.getProjectById);
+projectInformationRouter.get(`/:${pk}`, authMiddleware, projectInformationController.getProjectById);
 
 // Создает дочерний элемент (customer) для текущего проекта
 projectInformationRouter.post(`/`, authMiddleware, projectInformationController.createCustomerForProject);
