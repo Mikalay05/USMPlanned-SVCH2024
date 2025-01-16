@@ -12,7 +12,7 @@ export default function MainChangeDataForUser() {
   const roles = useSelector((state) => state.role.roles);
   const isLoadingRoles = useSelector((state) => state.role.isLoading);
   const errorRoles = useSelector((state) => state.role.error);
-  const { currentUser, isLoading, error } = useSelector((state) => state.user);
+  const { targetUser, isLoading, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
@@ -42,17 +42,17 @@ export default function MainChangeDataForUser() {
 
   useEffect(() => {
     // Загрузка данных текущего пользователя
-    if (currentUser) {
+    if (targetUser) {
       setFormData({
-        name: currentUser.name || "",
-        surname: currentUser.surname || "",
-        patronymic: currentUser.patronymic || "",
-        email: currentUser.email || "",
-        phone: currentUser.phone || "",
-        role: currentUser.role || {},
+        name: targetUser.name || "",
+        surname: targetUser.surname || "",
+        patronymic: targetUser.patronymic || "",
+        email: targetUser.email || "",
+        phone: targetUser.phone || "",
+        role: targetUser.role || {},
       });
     }
-  }, [currentUser]);
+  }, [targetUser]);
 
   if (isLoading) {
     return <div>Loading user data...</div>;

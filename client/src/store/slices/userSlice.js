@@ -2,6 +2,7 @@ import LoginUserDto from "../../DTOs/LoginUserDto";
 import UserDataUpdateDto from "../../DTOs/ForUpdate/UserDataUpdateDto";
 import UserPasswordUpdateDto from "../../DTOs/ForUpdate/UserPasswordUpdateDto";
 import CurrentUserDataDto from  "../../DTOs/Data/CurrentUserDataDto";
+import UserDataByIdDto from  "../../DTOs/Data/UserDataByIdDto";
 import UserService from "../../services/UserService";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -89,6 +90,17 @@ export const getCurrentUserData = createAsyncThunk('user/currentUserData', async
     console.log("ERROR CATCH", err);
   }
 });
+export const getUserDataById = createAsyncThunk('user/getUserDataById', async(userId) => {
+  try {
+    const userData = await UserService.getUserDataById(userId);
+    console.log("RESULT",userData)
+    const userDataDto = new UserDataByIdDto(userData);
+    return userDataDto;
+  }
+  catch(err) {
+    console.log("ERROR CATCH", err);
+  }
+})
 
 const userSlice = createSlice({
   name: "user",
@@ -98,6 +110,7 @@ const userSlice = createSlice({
     currentUser: {},
     isLoading: false,
     error: null,
+    targetUser: {},
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -188,7 +201,21 @@ const userSlice = createSlice({
       .addCase(changePassword.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || { message: "Failed to update password" };
-      });
+      })
+
+      .addCase(getUserDataById.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getUserDataById.fulfilled, (state, action) => {
+        // Сохраняем данные текущего пользователя из ответа
+        const data = action.payload || {};
+        state.targetUser = data;
+        state.isLoading = false;
+      })
+      .addCase(getUserDataById.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || { message: "Unable to fetch target user data" };
+      })
   },
 });
 

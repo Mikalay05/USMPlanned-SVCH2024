@@ -2,6 +2,7 @@ import './ChangeDataForUser.css'
 import Footer from '../../component/Footer/Footer'
 import Header from '../../component/Header/Header'
 import { useDispatch, useSelector } from 'react-redux';
+import { getUserDataById } from "../../store/slices/userSlice";
 import { getCurrentUserData } from "../../store/slices/userSlice";
 import React, { useEffect } from "react";
 import MainChangeDataForUser from '../../component/MainChangeDataForUser/MainChangeDataForUser';
@@ -17,8 +18,9 @@ export default function ChangeDataForUser({
     useEffect(() => {
 
         dispatch(getRoles());
+        dispatch(getCurrentUserData());
         if (userId) {
-            dispatch(getCurrentUserData(userId)); // Получаем данные пользователя по userId
+            dispatch(getUserDataById(userId)); // Получаем данные пользователя по userId
         }
     }, [dispatch, userId]); // Следим за изменением userId
     console.log("userId",userId)
