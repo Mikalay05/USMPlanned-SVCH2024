@@ -45,6 +45,7 @@ class ProjectService {
   async getProjectById(projectId, showPrecent = false, showActions = false) {
     try {
       const params = [projectId, showPrecent, showActions];
+      console.log("PARAMS", params)
       const rows = await dbQuery(QUERIES.GET_PROJECT_BY_ID, params);
       if (rows.length === 0) {
         throw ApiError.notFound(ERROR_MESSAGES.projectNotFoundError, {
