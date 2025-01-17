@@ -124,19 +124,56 @@ class ProjectService {
       await this.checkExistProjectId(projectId);
     } catch (err)      {
       console.error("Error executing validateProjectId:", err);
-      throw ApiError.internal(ERROR_MESSAGES.getProjectByIdError, {
-        projectId,
-        error: err.message
-      });
+      throw err;
     }
   }
 
   async validateProjectForUpdateDto(projectFormDto) {
-    await this.validateProjectId(projectFormDto.project_id);
-    this.validateName(projectFormDto.name);
-    this.validateDescription(projectFormDto.description);
-    await this.validateStatusProjectId(projectFormDto.status_id);
+    const errors = {}; // Объект для хранения ошибок
+    console.log(projectFormDto);
+    try {
+      // Валидация project_id
+      try {
+        await this.validateProjectId(projectFormDto.project_id);
+      } catch (err) {
+        errors[DETAILS.projectIdErrorField] = err.details?.[DETAILS.projectIdErrorField] || "Invalid project ID.";
+      }
+  
+      // Валидация name
+      try {
+        this.validateName(projectFormDto.name);
+      } catch (err) {
+        errors[DETAILS.nameErrorField] = err.details?.[DETAILS.nameErrorField] || "Invalid name.";
+      }
+  
+      // Валидация description
+      try {
+        this.validateDescription(projectFormDto.description);
+      } catch (err) {
+        errors[DETAILS.descriptionErrorField] = err.details?.[DETAILS.descriptionErrorField] || "Invalid description.";
+      }
+  
+      // Валидация status_id
+      try {
+        await this.validateStatusProjectId(projectFormDto.status_id);
+      } catch (err) {
+        errors.statusIdErr = err.details?.statusIdErr || "Invalid status ID.";
+      }
+  
+      // Если есть ошибки, выбрасываем исключение с объектом ошибок
+      if (Object.keys(errors).length > 0) {
+        throw ApiError.badRequest("Ошибка валидации", errors);
+      }
+  
+      // Если ошибок нет, возвращаем успешный результат
+      return projectFormDto;
+  
+    } catch (err) {
+      console.log("Project not pass validation")
+      throw err;
+    }
   }
+  
 
   // Запрос на создание проекта в базе данных
   async dbQueryCreateProject(projectForm, whoCreateProject) {
@@ -212,10 +249,7 @@ class ProjectService {
       return result;
     } catch (err) {
       console.error("Error executing updateProject:", err);
-      throw ApiError.internal(ERROR_MESSAGES.updateProjectError, {
-        projectFormDto,
-        error: err.message
-      });
+      throw err;
     }
   }
 

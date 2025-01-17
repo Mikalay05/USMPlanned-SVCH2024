@@ -1,4 +1,5 @@
 const InformationProjectDto = require("../DTOs/Data/InformationProjectDto");
+const ProjectForUpdateDto = require("../DTOs/ForUpdate/ProjectForUpdateDto");
 const ProjectService = require("../services/ProjectService");
 
 
@@ -32,6 +33,8 @@ class ProjectInformationController {
 
     async createCustomerForProject(req,res,next) {
         try {
+            const projectId = this.getProjectIdFromReqParams(req);
+
             //TODO Add a method implementation
             throw new Error("Not realized");
         }
@@ -40,18 +43,31 @@ class ProjectInformationController {
             next(err)
         }
     }
-    async updateProjectData(req, res, next) {
+    updateProjectData= async (req, res, next)=> {
         try {
-            //TODO Add a method implementation
-            throw new Error("Not implemented");
+            const projectId = this.getProjectIdFromReqParams(req);
+            const userId = req.userIdFromToken;
+
+            const projectData = {
+                project_id: projectId,
+                ...req.body
+            };
+
+            const projectDataForUpdate = new ProjectForUpdateDto(projectData);    
+            console.log("projectData",projectData)
+            console.log("projectDataForUpdate",projectDataForUpdate)
+            const result = await ProjectService.updateProject(projectDataForUpdate, userId);            
+            return res.status(200).json(result);
         } catch (err) {
             console.log("Error in updateCustomerData:", err);
             next(err);
         }
     }
 
-    async updateCustomersOrder(req, res, next) {
+     updateCustomersOrder =async(req, res, next)=> {
         try {
+            const projectId = this.getProjectIdFromReqParams(req);
+
             //TODO Add a method implementation
             throw new Error("Not implemented");
         } catch (err) {
@@ -61,8 +77,6 @@ class ProjectInformationController {
     }
     deleteProjectById=async(req,res,next)=> {
         try {
-            console.log("TEST")
-            console.log(req.baseUrl)
             const projectId = this.getProjectIdFromReqParams(req);
             const resultOfDelete = await ProjectService.deleteProject(projectId);
             return res.status(200).json(resultOfDelete)
