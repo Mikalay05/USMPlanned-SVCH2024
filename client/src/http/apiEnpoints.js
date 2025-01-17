@@ -4,6 +4,7 @@ export const API_ENDPOINTS = {
         CREATE_PROJECT: 'project/',
         GET_PROJECT_BY_ID: 'information/:projectId',
         DELETE_PROJECT: 'information/:projectId',
+        UPDATE_PROJECT_DATA: 'information/:projectId',
     },
     PROJECT_STATUS: {
         GET_ALL_PROJECT_STATUSES: 'projectStatus/',

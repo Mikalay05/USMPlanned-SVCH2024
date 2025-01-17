@@ -24,6 +24,11 @@ class ProjectService extends BaseService {
         const response = await BaseService.request("delete", endpoint);
         return response;
     }
+    async updateProject(projectId, dataForm) {
+        const endpoint = API_ENDPOINTS.PROJECT.UPDATE_PROJECT_DATA.replace(':projectId', projectId);
+        const response = await BaseService.request("put", endpoint);
+        return response;
+    }
 }
 
 const projectServiceInstance = new ProjectService();

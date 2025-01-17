@@ -2,7 +2,17 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import ProjectService from "../../services/ProjectService";
 import ProjectDTO from "../../DTOs/Data/ProjectDTO";
 import InformationProjectDto from "../../DTOs/Data/InformationProjectDto";
+import ProjectForUpdateDto from "../../DTOs/ForUpdate/ProjectForUpdateDto";
 
+// Обновление проекта
+export const updateProject = createAsyncThunk(
+  "project/updateProject",
+  async (projectId, projectData) => {
+    const dataForm = new ProjectForUpdateDto(projectData)
+    const response = await ProjectService.updateProject(projectId, dataForm);
+    return response;  // Возвращаем объект с обновленным проектом
+  }
+);
 // Получение всех проектов
 export const getProjects = createAsyncThunk("project/getProjects", async () => {
   const response = await ProjectService.getProjects();
@@ -92,6 +102,21 @@ const projectSlice = createSlice({
       .addCase(deleteProject.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload || action.error.message;
+      })
+      // Обработка обновления проекта
+      .addCase(updateProject.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateProject.fulfilled, (state, action) => {
+        const updatedProject = action.payload;
+        state.projects = state.projects.map((project) =>
+          project.projectId === updatedProject.projectId ? updatedProject : project
+        ); // Обновляем проект в списке
+        state.selectedProject = updatedProject; // Обновляем выбранный проект
+        state.isLoading = false;
+      })
+      .addCase(updateProject.rejected, (state) => {
+        state.isLoading = false;
       });
   },
 });
