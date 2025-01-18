@@ -58,7 +58,8 @@ export default function MainProjectInformation() {
   };
 
   // Модальное окно для создания заказчика
-  const [openModalForCreationCustomer, setOpenModalForCreationCustomer] = useState(false);
+  const [openModalForCreationCustomer, setOpenModalForCreationCustomer] =
+    useState(false);
 
   const handleCloseModalCreationCustomer = () => {
     setOpenModalForCreationCustomer(false);
@@ -83,9 +84,7 @@ export default function MainProjectInformation() {
 
   return (
     <>
-          <TitleForProjectInformation
-        onSelectItem={handleOnCreateCustomer}
-      />
+      <TitleForProjectInformation onSelectItem={handleOnCreateCustomer} />
       <CustomerCreationModal
         isModalOpen={openModalForCreationCustomer}
         handleCloseModal={handleCloseModalCreationCustomer}
@@ -117,10 +116,12 @@ export default function MainProjectInformation() {
             />
           ))
         ) : (
-          <p className="not-found-message">No customers found in this project.</p>
+          <p className="not-found-message">
+            No customers found in this project.
+          </p>
         )}
       </CustomerSlider>
-      <ProjectDetails/>
+      <ProjectDetails />
     </>
   );
 }

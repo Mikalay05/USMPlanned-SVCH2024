@@ -1,32 +1,36 @@
 class InformationProjectDto {
   constructor(dbData) {
     // Устанавливаем projectId, projectName и description
-    this.projectId = dbData.project_id; // Изменено для соответствия данным из БД
-    this.projectName = dbData.project_name; // Изменено
-    this.description = dbData.project_description; // Изменено
+    this.projectId = dbData.projectId || null; // Установлено значение null по умолчанию, если projectId отсутствует
+    this.projectName = dbData.projectName || 'Untitled Project'; // Название проекта или дефолтное значение
+    this.description = dbData.description || 'No description provided'; // Описание проекта или дефолтное значение
 
-    // Статус
+    // Статус проекта
     this.status = {
-      status_id: dbData.status_id || null, // Если status_id отсутствует, будет null
-      status_name: dbData.status_name || 'Unknown', // Если status_name отсутствует, будет 'Unknown'
+      status_id: dbData.status?.status_id || null, // Если статус отсутствует, устанавливаем null
+      status_name: dbData.status?.status_name || 'Unknown Status', // Если имя статуса отсутствует, устанавливаем дефолтное значение
     };
 
     // Массив действий (actions)
-    this.actions = (dbData.actions || []).map(action => ({
-      user: {
-        userLogin: action.user.login,
-        userFullName:  action.user.full_name,
-      },
-      actionId: action.action_id || null, // Изменено для соответствия данным из БД
-      createdAt: action.created_at || null, // Изменено
-      actionName: action.description || 'Unknown action', // Изменено для использования поля description
-    }));
+    this.actions = Array.isArray(dbData.actions)
+      ? dbData.actions.map(action => ({
+          user: {
+            userLogin: action.user?.login || 'Unknown Login', // Логин пользователя или дефолтное значение
+            userFullName: action.user?.full_name || 'Unknown User', // Полное имя пользователя или дефолтное значение
+          },
+          actionId: action.action_id || null, // Id действия или null
+          createdAt: action.created_at || null, // Дата создания или null
+          actionName: action.description || 'No action description', // Имя действия или дефолтное значение
+        }))
+      : [];
 
-    // Массив данных для выбора (dataForSelect)
-    this.dataForSelect = (dbData.dataForSelect || []).map(item => ({
-      customerId: item.customer_id || null, // Измените на соответствующее поле из БД
-      customerName: item.customer_name || 'Unknown', // Измените на соответствующее поле из БД
-    }));
+    // Данные для выбора (dataForSelect)
+    this.dataForSelect = Array.isArray(dbData.dataForSelect)
+      ? dbData.dataForSelect.map(item => ({
+          customerId: item.customerId || null, // Id заказчика или null
+          customerName: item.customerName || 'Unknown Customer', // Имя заказчика или дефолтное значение
+        }))
+      : [];
   }
 }
 

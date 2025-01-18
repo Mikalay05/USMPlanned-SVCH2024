@@ -43,16 +43,15 @@ class ProjectService {
   }
 
   async getProjectById(projectId, showPrecent = false, showActions = false) {
+    const NAME_OF_OBJECT_FROM_RESULT_OF_DB = "process_data";
     try {
-      const params = [projectId, showPrecent, showActions];
+      const params = [projectId];
       const rows = await dbQuery(QUERIES.GET_PROJECT_BY_ID, params);
-      if (rows.length === 0) {
-        throw ApiError.notFound(ERROR_MESSAGES.projectNotFoundError, {
-          projectId,
-          error: "Проект с данным ID не найден"
-        });
-      }
-      return rows[0];
+      console.log(rows);
+      const dataResult = rows[0][NAME_OF_OBJECT_FROM_RESULT_OF_DB];
+      console.log(dataResult);
+
+      return dataResult;
     } catch (err) {
       console.error("Error executing query:", err);
       throw ApiError.internal(ERROR_MESSAGES.getProjectByIdError, {

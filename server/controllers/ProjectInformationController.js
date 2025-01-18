@@ -22,7 +22,10 @@ class ProjectInformationController {
             // Получаем данные о проекте
             const data = await ProjectService.getProjectById(projectId, false, true); 
             // Создаем DTO для результата
+            console.log("TEST 1")
+
             const resultDto = new InformationProjectDto(data);
+
             return res.status(200).json(resultDto);
         } catch (err) {
             console.log("Error in catch", err); // Логирование ошибки
