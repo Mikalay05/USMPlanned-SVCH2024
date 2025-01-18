@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"; // Импортируем useParams
 import { getProjectById } from '../../store/slices/projectSlice';
 import { getCurrentUserData } from '../../store/slices/userSlice';
+import { getProjectStatuses } from '../../store/slices/projectStatusSlice';
 
 import Header from "../../component/Header/Header";
 import MainProjectInformation from '../../component/MainProjectInformation/MainProjectInformation'
@@ -15,6 +16,7 @@ export default function ProjectInformation() {
 
     useEffect(() => {
         dispatch(getCurrentUserData());
+        dispatch(getProjectStatuses());
         
         if (projectId) {
             dispatch(getProjectById(projectId));

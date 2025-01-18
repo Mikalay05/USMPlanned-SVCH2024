@@ -7,12 +7,17 @@ import ProjectForUpdateDto from "../../DTOs/ForUpdate/ProjectForUpdateDto";
 // Обновление проекта
 export const updateProject = createAsyncThunk(
   "project/updateProject",
-  async (projectId, projectData) => {
-    const dataForm = new ProjectForUpdateDto(projectData)
-    const response = await ProjectService.updateProject(projectId, dataForm);
-    return response;  // Возвращаем объект с обновленным проектом
+  async ({ projectId, projectData }, { rejectWithValue }) => {
+    try {
+      const dataForm = new ProjectForUpdateDto(projectData);
+      const response = await ProjectService.updateProject(projectId, dataForm);
+      return response; // Возвращаем объект с обновленным проектом
+    } catch (error) {
+      return rejectWithValue(error || "Unknown error");
+    }
   }
 );
+
 // Получение всех проектов
 export const getProjects = createAsyncThunk("project/getProjects", async () => {
   const response = await ProjectService.getProjects();
@@ -45,6 +50,7 @@ export const deleteProject = createAsyncThunk(
     return response;
   }
 );
+
 // Срез проекта
 const projectSlice = createSlice({
   name: "project",
@@ -52,6 +58,8 @@ const projectSlice = createSlice({
     projects: [], // Список всех проектов
     selectedProject: null, // Выбранный проект
     isLoading: false, // Состояние загрузки
+    status: null, // Статус для deleteProject
+    error: null, // Ошибка для отображения в случае неудачи
   },
   reducers: {
     setProjects(state, action) {
@@ -89,7 +97,9 @@ const projectSlice = createSlice({
       .addCase(getProjectById.rejected, (state) => {
         state.isLoading = false;
       })
+      // Обработка удаления проекта
       .addCase(deleteProject.pending, (state) => {
+        state.isLoading = true; // Добавляем загрузку для удаления
         state.status = "loading";
       })
       .addCase(deleteProject.fulfilled, (state, action) => {
@@ -98,26 +108,25 @@ const projectSlice = createSlice({
         state.projects = state.projects.filter(
           (project) => project.projectId !== action.payload.projectId
         );
+        state.isLoading = false;
       })
       .addCase(deleteProject.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload || action.error.message;
+        state.isLoading = false;
       })
       // Обработка обновления проекта
-      .addCase(updateProject.pending, (state) => {
-        state.isLoading = true;
-      })
+      .addCase(updateProject.pending, (state) => {})
       .addCase(updateProject.fulfilled, (state, action) => {
         const updatedProject = action.payload;
         state.projects = state.projects.map((project) =>
-          project.projectId === updatedProject.projectId ? updatedProject : project
+          project.projectId === updatedProject.projectId
+            ? updatedProject
+            : project
         ); // Обновляем проект в списке
-        state.selectedProject = updatedProject; // Обновляем выбранный проект
-        state.isLoading = false;
+        state.selectedProject = action.payload; // Обновляем выбранный проект
       })
-      .addCase(updateProject.rejected, (state) => {
-        state.isLoading = false;
-      });
+      .addCase(updateProject.rejected, (state) => {});
   },
 });
 

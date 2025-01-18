@@ -35,7 +35,7 @@ class UserController {
 
       return res
         .status(200)
-        .json({ mess: "created user", data: resultUserDto });
+        .json({ mess: "created user", data: user });
     } catch (err) {
       console.log(
         `${this.NAME_CONRTOLLER_IN_ERROR}. Method ==> registrationRequire`,

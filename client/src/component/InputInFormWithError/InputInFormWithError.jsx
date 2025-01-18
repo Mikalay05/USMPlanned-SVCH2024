@@ -31,6 +31,7 @@ export default function InputInFormWithError({
                 value={value}
                 placeholderValue={placeholderValue} 
                 iconName={currentIconName} 
+                nameOfInput
                 onClickIcon={isPassword ? handleShowPassword : null} 
                 typeOfData={isPassword ? (showPassword ? "text" : "password") : "text"}
             />

@@ -244,8 +244,8 @@ class ProjectService {
       // Пройти валидацию объекта
       await this.validateProjectForUpdateDto(projectFormDto);
       const resultFromDb = await this.dbQueryUpdateProject(projectFormDto, whoUpdateProject);
-      const extractedData = Object.values(resultFromDb[0])[0];
-      const result = new ProjectDTO(extractedData);
+      const result = await this.getProjectById(projectFormDto.project_id)
+      console.log("TEST result",result)
       return result;
     } catch (err) {
       console.error("Error executing updateProject:", err);

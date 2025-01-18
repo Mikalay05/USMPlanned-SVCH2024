@@ -8,20 +8,19 @@ class ProjectInformationController {
         this.PROJECT_ID_PROPERTY = projectIdProperty
     }
     getProjectIdFromReqParams = (req) => {
-        console.log("PROJECT ID")
-
         const projectId = req.params[this.PROJECT_ID_PROPERTY];
-        console.log("PROJECT ID", projectId)
         return projectId;
+    }
+    getCustomerData = (req,projectId) => {
+        const customerData =  req.body;
+
     }
     getProjectById = async (req, res, next) => {
         try {
             // Получаем projectId из параметров
             const projectId = this.getProjectIdFromReqParams(req);
-    
             // Получаем данные о проекте
             const data = await ProjectService.getProjectById(projectId, false, true); 
-    
             // Создаем DTO для результата
             const resultDto = new InformationProjectDto(data);
             return res.status(200).json(resultDto);
@@ -30,13 +29,11 @@ class ProjectInformationController {
             next(err); // Передаем ошибку дальше
         }
     };
-
+    
     async createCustomerForProject(req,res,next) {
         try {
             const projectId = this.getProjectIdFromReqParams(req);
-
-            //TODO Add a method implementation
-            throw new Error("Not realized");
+            const customerDataForCreate = this.getCustomerData(req,projectId);
         }
         catch (err) {
             console.log("Error in catch", err)
@@ -54,10 +51,10 @@ class ProjectInformationController {
             };
 
             const projectDataForUpdate = new ProjectForUpdateDto(projectData);    
-            console.log("projectData",projectData)
-            console.log("projectDataForUpdate",projectDataForUpdate)
-            const result = await ProjectService.updateProject(projectDataForUpdate, userId);            
-            return res.status(200).json(result);
+            const result = await ProjectService.updateProject(projectDataForUpdate, userId);
+            const resultDto = new InformationProjectDto(result);
+
+            return res.status(200).json(resultDto);
         } catch (err) {
             console.log("Error in updateCustomerData:", err);
             next(err);

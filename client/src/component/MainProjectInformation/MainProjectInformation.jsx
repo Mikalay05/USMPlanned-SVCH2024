@@ -1,20 +1,25 @@
-import React, { useState } from "react";
-import "./MainProjectInformation.css";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import { useParams } from "react-router-dom";
+import "./MainProjectInformation.css";
 import CustomerSlider from "../CustomerSlider/CustomerSlider";
 import CardForCustomers from "../CardForCustomers/CardForCustomers";
+import CustomerCreationModal from "../CustomerCreationModal/CustomerCreationModal";
 import TitleForProjectInformation from "../TitleForProjectInformation/TitleForProjectInformation";
 import ProjectDetails from "../ProjectDetails/ProjectDetails";
-import CustomerCreationModal from "../CustomerCreationModal/CustomerCreationModal";
 import LoadingDots from "../LoadingDots/LoadingDots";
 
 export default function MainProjectInformation() {
-  const projectData = useSelector((state) => state.project.selectedProject);
+  const { projectId } = useParams();
+  const dispatch = useDispatch();
+
+  // Получаем данные о выбранном проекте из Redux
+  const selectedProject = useSelector((state) => state.project.selectedProject);
   const isLoading = useSelector((state) => state.project.isLoading);
 
   const [formForCreationCustomer, setFormForCreationCustomer] = useState(null);
 
+  // Функция для обновления next_id в форме
   const handleNextId = (newNextId) => {
     setFormForCreationCustomer((prevForm) => ({
       ...prevForm,
@@ -22,6 +27,7 @@ export default function MainProjectInformation() {
     }));
   };
 
+  // Функция для очистки формы
   const handleClearForm = () => {
     setFormForCreationCustomer((prevForm) => ({
       ...prevForm,
@@ -29,6 +35,7 @@ export default function MainProjectInformation() {
     }));
   };
 
+  // Функция для создания нового заказчика
   const handleOnCreateCustomer = (customerName) => {
     if (!customerName || customerName.trim() === "") {
       alert("Customer name is required");
@@ -50,30 +57,33 @@ export default function MainProjectInformation() {
     handleClearForm();
   };
 
-  const [openModalForCreationCustomer, setopenModalForCreationCustomer] =
-    useState(false);
+  // Модальное окно для создания заказчика
+  const [openModalForCreationCustomer, setOpenModalForCreationCustomer] = useState(false);
 
   const handleCloseModalCreationCustomer = () => {
-    setopenModalForCreationCustomer(false);
+    setOpenModalForCreationCustomer(false);
   };
 
-  const handleOpenModalCreationCustomer = () => {
-    setopenModalForCreationCustomer(true);
+  const handleOpenModalForCreationCustomer = () => {
+    setOpenModalForCreationCustomer(true);
   };
 
+  // Проверка на загрузку
   if (isLoading) {
     return <LoadingDots />;
   }
 
-  // Добавляем проверку на наличие данных в projectData
-  const dataForSelect = projectData?.dataForSelect || [];
-  if(!projectData) {
-    return <LoadingDots/>
+  // Проверяем, есть ли данные в selectedProject
+  if (!selectedProject || Object.keys(selectedProject).length === 0) {
+    return <LoadingDots />;
   }
+
+  // Данные для селекта из выбранного проекта
+  const dataForSelect = selectedProject?.dataForSelect || [];
+
   return (
     <>
-      <TitleForProjectInformation
-        projectData={projectData}
+          <TitleForProjectInformation
         onSelectItem={handleOnCreateCustomer}
       />
       <CustomerCreationModal
@@ -88,7 +98,7 @@ export default function MainProjectInformation() {
           <img
             src={`/Icon-AddElement.svg`}
             alt="add"
-            onClick={handleOpenModalCreationCustomer}
+            onClick={handleOpenModalForCreationCustomer}
           />
         </div>
         <img src={`/Icon-Decomposition.svg`} alt="Decomposition" />
@@ -110,8 +120,7 @@ export default function MainProjectInformation() {
           <p className="not-found-message">No customers found in this project.</p>
         )}
       </CustomerSlider>
-
-      <ProjectDetails projectData={projectData} />
+      <ProjectDetails/>
     </>
   );
 }
