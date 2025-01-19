@@ -1,6 +1,7 @@
 import ProjectPage from '../../page/ProjectPage/ProjectPage';
 import ProjectInformation from '../../page/ProjectInformation/ProjectInformation';
 import CustomerInformation from '../../page/CustomerInformation/CustomerInformation'
+import EpicInformation from '../../page/EpicInformation/EpicInformation'
 import Auth from '../../page/Auth/Auth';
 import Reg from '../../page/Reg/Reg';
 import UserData from '../../page/UserData/UserData';
@@ -23,8 +24,14 @@ export const ROUTES = [
   },
   {
     path: '/information/:projectId/:customerId', 
-    nameOfPage: 'ProjectInformation',
+    nameOfPage: 'CustomerInformation',
     component: CustomerInformation,
+
+  },
+  {
+    path: '/information/:projectId/:customerId/:epicId', 
+    nameOfPage: 'EpicInformation',
+    component: EpicInformation,
 
   },
   {

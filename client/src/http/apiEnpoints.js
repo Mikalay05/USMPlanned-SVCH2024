@@ -10,6 +10,9 @@ export const API_ENDPOINTS = {
     CUSTOMER: {
         GET_CUSTOMER_ACTIONS_BY_ID: 'information/:projectId/:customerId/actions',
     },
+    EPIC: {
+        GET_EPIC_ACTIONS_BY_ID: 'information/:projectId/:customerId/:epicId/actions',
+    },
     PROJECT_STATUS: {
         GET_ALL_PROJECT_STATUSES: 'projectStatus/',
         GET_BY_ID_PROJECT_STATUS: 'projectStatus/',
