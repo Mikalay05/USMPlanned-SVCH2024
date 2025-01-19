@@ -7,6 +7,9 @@ export const API_ENDPOINTS = {
         UPDATE_PROJECT_DATA: 'information/:projectId',
         GET_PROJECT_ACTIONS_BY_ID: 'information/:projectId/actions',
     },
+    CUSTOMER: {
+        GET_CUSTOMER_ACTIONS_BY_ID: 'information/:projectId/:customerId/actions',
+    },
     PROJECT_STATUS: {
         GET_ALL_PROJECT_STATUSES: 'projectStatus/',
         GET_BY_ID_PROJECT_STATUS: 'projectStatus/',

@@ -7,7 +7,7 @@ class EpicActionsDto {
     }) {
         this.user = {
             login: user.login, // Логин пользователя
-            full_name: user.full_name // Полное имя пользователя
+            fullName: user.full_name // Полное имя пользователя
         };
         this.action_id = action_id; // Идентификатор действия
         this.created_at = created_at; // Дата и время создания

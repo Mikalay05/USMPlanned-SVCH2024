@@ -25,6 +25,7 @@ export const ROUTES = [
     path: '/information/:projectId/:customerId', 
     nameOfPage: 'ProjectInformation',
     component: CustomerInformation,
+
   },
   {
     path: '/login', 

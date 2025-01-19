@@ -1,6 +1,6 @@
 /* src/components/ProjectActionsData/ProjectActionsData.css */
 
-.project-actions-section {
+.customer-actions-section {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -8,7 +8,7 @@
     align-self: stretch;
   }
   
-  .project-actions-title {
+  .customer-actions-title {
     color: #000;
     font-family: Inter;
     font-size: 26px;
@@ -16,7 +16,7 @@
     line-height: normal;
   }
   
-  .project-actions-list {
+  .customer-actions-list {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -24,7 +24,7 @@
     align-self: stretch;
   }
   
-  .project-action-item {
+  .customer-action-item {
     color: #000;
     font-family: Inter;
     font-size: 18px;

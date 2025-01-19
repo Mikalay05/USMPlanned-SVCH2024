@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import ProjectService from "../../services/ProjectService";
 
 /*
@@ -29,14 +29,8 @@ export const updateProject = createAsyncThunk(
 export const getProjectActions = createAsyncThunk(
   "project/getProjectActions",
   async (projectId) => {
-    console.log("TESTED 111 ",projectId)
-
     const response = await ProjectService.getProjectActions(projectId);
-    console.log("TESTED 222 ",response)
-
     const result = response.projectActions.map((action) => new ProjectActionsDto(action));
-    console.log("TESTED 1212 ",projectId)
-
     return result;
   }
 );
@@ -163,15 +157,12 @@ const projectSlice = createSlice({
         state.projectActions.isLoading = true;
       })
       .addCase(getProjectActions.fulfilled, (state, action) => {
-        console.log("111TESTING")
         state.projectActions.actionsData = Array.isArray(action.payload)
           ? action.payload
           : [];
         state.projectActions.isLoading = false;
       })
       .addCase(getProjectActions.rejected, (state) => {
-        console.log("22222")
-
         state.projectActions.isLoading = false;
       });
   },
