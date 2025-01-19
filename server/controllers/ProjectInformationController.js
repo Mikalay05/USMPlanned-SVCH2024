@@ -1,5 +1,5 @@
 const InformationProjectDto = require("../DTOs/Data/InformationProjectDto");
-const ProjectActionsDto = require("../DTOs/Data/ProjectActionsDto");
+const ProjectActionsDto = require("../DTOs/Data/Actions/ProjectActionsDto");
 const ProjectForUpdateDto = require("../DTOs/ForUpdate/ProjectForUpdateDto");
 const ProjectService = require("../services/ProjectService");
 
