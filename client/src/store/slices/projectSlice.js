@@ -1,8 +1,15 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import ProjectService from "../../services/ProjectService";
+
+/*
+ * ===============
+ * DTOs
+ * ===============
+ */
 import ProjectDTO from "../../DTOs/Data/ProjectDTO";
 import InformationProjectDto from "../../DTOs/Data/InformationProjectDto";
 import ProjectForUpdateDto from "../../DTOs/ForUpdate/ProjectForUpdateDto";
+import ProjectActionsDto from "../../DTOs/Data/Actions/ProjectActionsDto";
 
 // Обновление проекта
 export const updateProject = createAsyncThunk(
@@ -15,6 +22,22 @@ export const updateProject = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error || "Unknown error");
     }
+  }
+);
+
+// Получение всех actions
+export const getProjectActions = createAsyncThunk(
+  "project/getProjectActions",
+  async (projectId) => {
+    console.log("TESTED 111 ",projectId)
+
+    const response = await ProjectService.getProjectActions(projectId);
+    console.log("TESTED 222 ",response)
+
+    const result = response.projectActions.map((action) => new ProjectActionsDto(action));
+    console.log("TESTED 1212 ",projectId)
+
+    return result;
   }
 );
 
@@ -60,6 +83,14 @@ const projectSlice = createSlice({
     isLoading: false, // Состояние загрузки
     status: null, // Статус для deleteProject
     error: null, // Ошибка для отображения в случае неудачи
+    projectActions: {
+      actionsData: [],
+      isLoading: false,
+    },
+    currentProject: {
+      projectData: {},
+      isLoading: false,
+    }
   },
   reducers: {
     setProjects(state, action) {
@@ -126,7 +157,23 @@ const projectSlice = createSlice({
         ); // Обновляем проект в списке
         state.selectedProject = action.payload; // Обновляем выбранный проект
       })
-      .addCase(updateProject.rejected, (state) => {});
+      .addCase(updateProject.rejected, (state) => {})
+      // Обработка получения всех проектов
+      .addCase(getProjectActions.pending, (state) => {
+        state.projectActions.isLoading = true;
+      })
+      .addCase(getProjectActions.fulfilled, (state, action) => {
+        console.log("111TESTING")
+        state.projectActions.actionsData = Array.isArray(action.payload)
+          ? action.payload
+          : [];
+        state.projectActions.isLoading = false;
+      })
+      .addCase(getProjectActions.rejected, (state) => {
+        console.log("22222")
+
+        state.projectActions.isLoading = false;
+      });
   },
 });
 

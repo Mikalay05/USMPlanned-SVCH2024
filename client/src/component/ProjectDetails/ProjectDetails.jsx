@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteProject } from "../../store/slices/projectSlice";
 import { useNavigate } from "react-router-dom"; // Импортируем useNavigate
 import ProjectUpdateModal from "../ProjectUpdateModal/ProjectUpdateModal";
+import ProjectActionsData from "../ProjectActionsData/ProjectActionsData";
 
 // Функция для форматирования даты
 const formatDate = (dateString) => {
@@ -57,7 +58,7 @@ export default function ProjectDetails() {
 
   return (
     <div className="project-details-container">
-      <div className="project-description">
+      {/* <div className="project-description">
         <h3 className="project-description-title">Description of Project:</h3>
         <p className="project-description-text">{projectData?.description}</p>
       </div>
@@ -67,23 +68,9 @@ export default function ProjectDetails() {
           textValue="Delete project"
           onClick={handleOnOpenDeleteModal}
         />
-      </div>
-      <div className="project-actions-section">
-        <h3 className="project-actions-title">Actions of Project:</h3>
-        <div className="project-actions-list">
-          {projectData?.actions?.length > 0 ? (
-            projectData.actions.map((action) => (
-              <p key={action.actionId} className="project-action-item">
-                {formatDate(action.createdAt)} | {action.user.login}(
-                {action.user.fullName}) did {action.actionName}
-              </p>
-            ))
-          ) : (
-            <p className="no-actions-found">Action not found</p>
-          )}
-        </div>
-      </div>
-      <ConfirmationModal
+      </div> */}
+      <ProjectActionsData/>
+      {/* <ConfirmationModal
         isOpen={openDeleteModal}
         title="Do you want to delete the project?"
         message="All internal objects will be removed!"
@@ -92,7 +79,7 @@ export default function ProjectDetails() {
         onConfirm={handleOnConfirm}
         onCancel={handleOnCloseDeleteModal}
       />
-      <ProjectUpdateModal openModal={openUpdateModal} clickOnClose={handleOnCloseUpdateModal} />
+      <ProjectUpdateModal openModal={openUpdateModal} clickOnClose={handleOnCloseUpdateModal} /> */}
     </div>
   );
 }

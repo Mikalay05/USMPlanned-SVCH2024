@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import CustomerService from '../../services/CustomerService';
 import CustomerDTO from '../../DTOs/Data/CustomerDto'
+import CustomerActionsDto from "../../DTOs/Data/Actions/CustomerActionsDto";
 
 export const getProjects = createAsyncThunk('project/getProjects', async () => {
     const response = await ProjectService.getProjects();

@@ -30,6 +30,11 @@ class ProjectService extends BaseService {
         console.log("response in updateProject service",response)
         return response;
     }
+    async getProjectActions(projectId) {
+        const endpoint = API_ENDPOINTS.PROJECT.GET_PROJECT_ACTIONS_BY_ID.replace(':projectId', projectId);
+        const response = await BaseService.request("get", endpoint);
+        return response;
+    }
 }
 
 const projectServiceInstance = new ProjectService();

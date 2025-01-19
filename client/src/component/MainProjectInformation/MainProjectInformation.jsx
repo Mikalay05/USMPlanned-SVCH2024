@@ -69,22 +69,22 @@ export default function MainProjectInformation() {
     setOpenModalForCreationCustomer(true);
   };
 
-  // Проверка на загрузку
-  if (isLoading) {
-    return <LoadingDots />;
-  }
+  // // Проверка на загрузку
+  // if (isLoading) {
+  //   return <LoadingDots />;
+  // }
 
-  // Проверяем, есть ли данные в selectedProject
-  if (!selectedProject || Object.keys(selectedProject).length === 0) {
-    return <LoadingDots />;
-  }
+  // // Проверяем, есть ли данные в selectedProject
+  // if (!selectedProject || Object.keys(selectedProject).length === 0) {
+  //   return <LoadingDots />;
+  // }
 
   // Данные для селекта из выбранного проекта
   const dataForSelect = selectedProject?.dataForSelect || [];
 
   return (
     <>
-      <TitleForProjectInformation onSelectItem={handleOnCreateCustomer} />
+      {/* <TitleForProjectInformation onSelectItem={handleOnCreateCustomer} />
       <CustomerCreationModal
         isModalOpen={openModalForCreationCustomer}
         handleCloseModal={handleCloseModalCreationCustomer}
@@ -120,7 +120,7 @@ export default function MainProjectInformation() {
             No customers found in this project.
           </p>
         )}
-      </CustomerSlider>
+      </CustomerSlider> */}
       <ProjectDetails />
     </>
   );

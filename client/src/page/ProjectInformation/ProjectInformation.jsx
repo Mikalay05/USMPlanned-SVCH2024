@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom"; // Импортируем useParam
 import { getProjectById } from '../../store/slices/projectSlice';
 import { getCurrentUserData } from '../../store/slices/userSlice';
 import { getProjectStatuses } from '../../store/slices/projectStatusSlice';
+import { getProjectActions } from '../../store/slices/projectSlice';
 
 import Header from "../../component/Header/Header";
 import MainProjectInformation from '../../component/MainProjectInformation/MainProjectInformation'
@@ -19,6 +20,7 @@ export default function ProjectInformation() {
         dispatch(getProjectStatuses());
         
         if (projectId) {
+            dispatch(getProjectActions(projectId));
             dispatch(getProjectById(projectId));
         }
     }, [dispatch, projectId]);
