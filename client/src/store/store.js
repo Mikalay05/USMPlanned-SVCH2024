@@ -5,6 +5,8 @@ import roleReducer from './slices/roleSlice';
 import userReducer from './slices/userSlice';
 import customerReducer from './slices/customerSlice';
 import epicReducer from './slices/epicSlice';
+import storyReducer from './slices/storySlice';
+import taskReducer from './slices/taskSlice';
 
 
 const store = configureStore({
@@ -15,6 +17,8 @@ const store = configureStore({
         user: userReducer,
         customer: customerReducer,
         epic: epicReducer,
+        story: storyReducer,
+        task: taskReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({ serializableCheck: false }),

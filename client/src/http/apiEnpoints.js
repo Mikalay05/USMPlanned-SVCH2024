@@ -11,7 +11,13 @@ export const API_ENDPOINTS = {
         GET_CUSTOMER_ACTIONS_BY_ID: 'information/:projectId/:customerId/actions',
     },
     EPIC: {
-        GET_EPIC_ACTIONS_BY_ID: 'information/:projectId/:customerId/:epicId/actions',
+        GET_EPIC_ACTIONS_BY_ID: 'information/:projectId/:customerId/:epic/actions',
+    },
+    STORY: {
+        GET_STORY_ACTIONS_BY_ID: 'information/:projectId/:customerId/:epic/:storyId/actions',
+    },
+    TASK: {
+        GET_TASK_ACTIONS_BY_ID: 'information/:projectId/:customerId/:epic/:storyId/:taskId/actions',
     },
     PROJECT_STATUS: {
         GET_ALL_PROJECT_STATUSES: 'projectStatus/',

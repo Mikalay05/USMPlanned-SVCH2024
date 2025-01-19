@@ -29,7 +29,7 @@ class TaskInformationController {
           // Создаем DTO для результата
           const resultDto = data.map((item) => new TaskActionsDto(item));
     
-          return res.status(200).json({ taskIdActions: resultDto });
+          return res.status(200).json({ taskActions: resultDto });
         } catch (err) {
           console.log("Error in catch", err); // Логирование ошибки
           next(err); // Передаем ошибку дальше

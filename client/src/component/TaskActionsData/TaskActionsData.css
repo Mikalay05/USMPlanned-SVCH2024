@@ -1,0 +1,46 @@
+/* src/components/ProjectActionsData/ProjectActionsData.css */
+
+.task-actions-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+  }
+  
+  .task-actions-title {
+    color: #000;
+    font-family: Inter;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: normal;
+  }
+  
+  .task-actions-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+  }
+  
+  .task-action-item {
+    color: #000;
+    font-family: Inter;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: normal;
+  }
+  
+  .no-actions-found {
+    color: #999;
+    font-size: 16px;
+    font-style: italic;
+  }
+  
+  .loading-text {
+    color: #007bff;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  

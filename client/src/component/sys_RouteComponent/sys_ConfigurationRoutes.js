@@ -1,62 +1,69 @@
-import ProjectPage from '../../page/ProjectPage/ProjectPage';
-import ProjectInformation from '../../page/ProjectInformation/ProjectInformation';
-import CustomerInformation from '../../page/CustomerInformation/CustomerInformation'
-import EpicInformation from '../../page/EpicInformation/EpicInformation'
-import Auth from '../../page/Auth/Auth';
-import Reg from '../../page/Reg/Reg';
-import UserData from '../../page/UserData/UserData';
-import ChangeDataForUser from '../../page/ChangeDataForUser/ChangeDataForUser';
-import Users from '../../page/Users/Users';
+import ProjectPage from "../../page/ProjectPage/ProjectPage";
+import ProjectInformation from "../../page/ProjectInformation/ProjectInformation";
+import CustomerInformation from "../../page/CustomerInformation/CustomerInformation";
+import EpicInformation from "../../page/EpicInformation/EpicInformation";
+import StoryInformation from "../../page/StoryInformation/StoryInformation";
+import TaskInformation from "../../page/TaskInformation/TaskInformation";
+import Auth from "../../page/Auth/Auth";
+import Reg from "../../page/Reg/Reg";
+import UserData from "../../page/UserData/UserData";
+import ChangeDataForUser from "../../page/ChangeDataForUser/ChangeDataForUser";
+import Users from "../../page/Users/Users";
 
-
-
-  
 export const ROUTES = [
   {
-    path: '/project',
-    nameOfPage: 'Project',
-    component: ProjectPage, 
+    path: "/project",
+    nameOfPage: "Project",
+    component: ProjectPage,
   },
   {
-    path: '/information/:projectId', 
-    nameOfPage: 'ProjectInformation',
+    path: "/information/:projectId",
+    nameOfPage: "ProjectInformation",
     component: ProjectInformation,
   },
   {
-    path: '/information/:projectId/:customerId', 
-    nameOfPage: 'CustomerInformation',
+    path: "/information/:projectId/:customerId",
+    nameOfPage: "CustomerInformation",
     component: CustomerInformation,
-
   },
   {
-    path: '/information/:projectId/:customerId/:epicId', 
-    nameOfPage: 'EpicInformation',
+    path: "/information/:projectId/:customerId/:epicId",
+    nameOfPage: "EpicInformation",
     component: EpicInformation,
-
   },
   {
-    path: '/login', 
-    nameOfPage: 'Auth',
+    path: "/information/:projectId/:customerId/:epicId/:storyId",
+    nameOfPage: "StoryInformation",
+    component: StoryInformation,
+  },
+  {
+    path: "/information/:projectId/:customerId/:epicId/:storyId/:taskId",
+    nameOfPage: "TaskInformation",
+    component: TaskInformation,
+  },
+  {
+    path: "/login",
+    nameOfPage: "Auth",
     component: Auth,
   },
   {
-    path: 'user/reg', 
-    nameOfPage: 'Reg',
+    path: "user/reg",
+    nameOfPage: "Reg",
     component: Reg,
   },
   {
-    path: '/user', 
-    nameOfPage: 'user',
+    path: "/user",
+    nameOfPage: "user",
     component: Users,
   },
   {
-    path: '/userData', 
-    nameOfPage: 'Person',
+    path: "/userData",
+    nameOfPage: "Person",
     component: UserData,
   },
   {
-    path: '/user/:userId', 
-    nameOfPage: 'Change',
+    path: "/user/:userId",
+    nameOfPage: "Change",
     component: ChangeDataForUser,
   },
 ];
