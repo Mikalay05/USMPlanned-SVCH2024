@@ -3,14 +3,10 @@ const projectInformationRouter = express.Router({ mergeParams: true });
 const projectInformationController = require("../controllers/ProjectInformationController");
 const authMiddleware = require('../middleware/AuthMiddleware');
 
-// Middleware для логирования параметров
-projectInformationRouter.use((req, res, next) => {
-    console.log(`[PROJECT INFORMATION] Params:`, req.params);
-    next(); // Обязательно вызываем next(), чтобы передать управление дальше
-});
-
 // Возвращает данные о проекте согласно первичному ключу
 projectInformationRouter.get('/', authMiddleware, projectInformationController.getProjectById);
+// Возвращает данные о проекте (действия) согласно первичному ключу
+projectInformationRouter.get('/actions', authMiddleware, projectInformationController.getProjectActionById);
 
 // Создает дочерний элемент (customer) для текущего проекта
 projectInformationRouter.post('/', authMiddleware, projectInformationController.createCustomerForProject);

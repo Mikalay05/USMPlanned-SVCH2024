@@ -7,6 +7,7 @@ const { ProjectStatus, Project } = require('../models/models');
 const ERROR_MESSAGES = {
   getAllProjectsError: "Ошибка при получении проектов",
   getProjectByIdError: "Ошибка при получении проекта",
+  getProjectActionByIdError: "Ошибка при получении действий проекта",
   projectNotFoundError: "Проект не найден",
   nameRequiredError: "Название проекта не может быть пустым",
   descriptionRequiredError: "Описание проекта не может быть пустым",
@@ -55,6 +56,20 @@ class ProjectService {
     } catch (err) {
       console.error("Error executing query:", err);
       throw ApiError.internal(ERROR_MESSAGES.getProjectByIdError, {
+        projectId,
+        error: err.message
+      });
+    }
+  }
+  async getProjectActionById(projectId) {
+    try {
+      const params = [projectId];
+      const rows = await dbQuery(QUERIES.GET_PROJECT_ACTIONS_BY_ID, params);
+      const actions = rows[0].get_project_actions;  // Извлекаем внутренний массив
+      return actions;
+    } catch (err) {
+      console.error("Error executing query:", err);
+      throw ApiError.internal(ERROR_MESSAGES.getProjectActionByIdError, {
         projectId,
         error: err.message
       });
