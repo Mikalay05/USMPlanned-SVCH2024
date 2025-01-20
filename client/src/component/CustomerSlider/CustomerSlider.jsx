@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./CustomerSlider.css";
 import SliderButton from "../SliderButton/SliderButton";
 import CustomerCard from "../CustomerCard/CustomerCard";
@@ -12,20 +12,25 @@ export default function CustomerSlider({
   nameOfSliderIndexFile = "Icon-SliderIndex.svg", // Иконка для кнопок
   notFoundMessage = "Not found elements", // Сообщение, если элементов нет
   onHandleNextId, // Callback для обновления next_id
+  localStorageKey = "customerSliderKey", // Ключ для localStorage
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // Загружаем индекс из localStorage при первом рендере
+  useEffect(() => {
+    const savedIndex = localStorage.getItem(localStorageKey);
+    if (savedIndex !== null && !isNaN(savedIndex)) {
+      const index = Math.min(Math.max(0, parseInt(savedIndex, 10)), children.length - 1);
+      setCurrentIndex(index);
+    }
+  }, [children.length, localStorageKey]);
+
   // Функция для обновления индекса и next_id
   const updateIndex = (newIndex) => {
-    const nextCustomerId = children[newIndex+1]?.props.customerId || null;
+    const nextCustomerId = children[newIndex + 1]?.props.customerId || null;
 
     setCurrentIndex(newIndex);
-
-    console.log("=============")
-    console.log("newIndex",newIndex)
-    console.log("children",children)
-    console.log("nextCustomerId", nextCustomerId)
-    console.log("=============")
+    localStorage.setItem(localStorageKey, newIndex); // Сохраняем текущий индекс в localStorage
     onHandleNextId(nextCustomerId); // Передаем next_id в родительский компонент
   };
 
@@ -37,7 +42,6 @@ export default function CustomerSlider({
 
   // Переключение на следующий слайд
   const handleNext = () => {
-
     const newIndex = currentIndex === children.length - 1 ? 0 : currentIndex + 1;
     updateIndex(newIndex); // Обновляем индекс и передаем next_id
   };

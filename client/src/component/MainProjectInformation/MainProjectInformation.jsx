@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Импорт useNavigate
 import "./MainProjectInformation.css";
 import CustomerSlider from "../CustomerSlider/CustomerSlider";
 import CardForCustomers from "../CardForCustomers/CardForCustomers";
@@ -8,18 +8,23 @@ import CustomerCreationModal from "../CustomerCreationModal/CustomerCreationModa
 import TitleForProjectInformation from "../TitleForProjectInformation/TitleForProjectInformation";
 import ProjectDetails from "../ProjectDetails/ProjectDetails";
 import LoadingDots from "../LoadingDots/LoadingDots";
-
 export default function MainProjectInformation() {
   const { projectId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  // Получаем данные о выбранном проекте из Redux
-  const selectedProject = useSelector((state) => state.project.customersForSelectInTheProject);
+  const selectedProject = useSelector(
+    (state) => state.project.customersForSelectInTheProject
+  );
   const isLoading = useSelector((state) => state.project.isLoading);
-  
-  const [formForCreationCustomer, setFormForCreationCustomer] = useState(null);
 
-  // Функция для обновления next_id в форме
+  const [formForCreationCustomer, setFormForCreationCustomer] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0); // Храним текущий индекс
+
+  const handleDecomposition = (customerId) => {
+    navigate(`/information/${projectId}/${customerId}`);
+  };
+
   const handleNextId = (newNextId) => {
     setFormForCreationCustomer((prevForm) => ({
       ...prevForm,
@@ -27,7 +32,6 @@ export default function MainProjectInformation() {
     }));
   };
 
-  // Функция для очистки формы
   const handleClearForm = () => {
     setFormForCreationCustomer((prevForm) => ({
       ...prevForm,
@@ -35,7 +39,6 @@ export default function MainProjectInformation() {
     }));
   };
 
-  // Функция для создания нового заказчика
   const handleOnCreateCustomer = (customerName) => {
     if (!customerName || customerName.trim() === "") {
       alert("Customer name is required");
@@ -57,7 +60,6 @@ export default function MainProjectInformation() {
     handleClearForm();
   };
 
-  // Модальное окно для создания заказчика
   const [openModalForCreationCustomer, setOpenModalForCreationCustomer] =
     useState(false);
 
@@ -69,19 +71,12 @@ export default function MainProjectInformation() {
     setOpenModalForCreationCustomer(true);
   };
 
-  // // Проверка на загрузку
-  // if (isLoading) {
-  //   return <LoadingDots />;
-  // }
-
-  // // Проверяем, есть ли данные в selectedProject
-  // if (!selectedProject || Object.keys(selectedProject).length === 0) {
-  //   return <LoadingDots />;
-  // }
-
-  // Данные для селекта из выбранного проекта
   const dataForSelect = selectedProject?.customersData || [];
-  console.log("dataForSelect",dataForSelect)
+
+  const handleIndexChange = (index) => {
+    setCurrentIndex(index); // Обновляем индекс в родительском компоненте
+  };
+
   return (
     <>
       <TitleForProjectInformation onSelectItem={handleOnCreateCustomer} />
@@ -100,11 +95,17 @@ export default function MainProjectInformation() {
             onClick={handleOpenModalForCreationCustomer}
           />
         </div>
-        <img src={`/Icon-Decomposition.svg`} alt="Decomposition" />
+        <img
+          src={`/Icon-Decomposition.svg`}
+          alt="Decomposition"
+          onClick={() => handleDecomposition(dataForSelect[currentIndex]?.id)} // Используем currentIndex
+        />
       </div>
 
       <CustomerSlider
+        localStorageKey="currentCustomerIndex"
         onHandleNextId={handleNextId}
+        onIndexChange={handleIndexChange} // Передаем callback для изменения индекса
         notFoundMessage="Not found Customers in this project"
       >
         {Array.isArray(dataForSelect) && dataForSelect.length > 0 ? (
@@ -125,3 +126,4 @@ export default function MainProjectInformation() {
     </>
   );
 }
+
