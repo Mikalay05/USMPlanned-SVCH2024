@@ -7,18 +7,7 @@ import { deleteProject } from "../../store/slices/projectSlice";
 import { useNavigate } from "react-router-dom"; // Импортируем useNavigate
 import ProjectUpdateModal from "../ProjectUpdateModal/ProjectUpdateModal";
 import ProjectActionsData from "../ProjectActionsData/ProjectActionsData";
-
-// Функция для форматирования даты
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = date.getFullYear();
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-
-  return `${day}.${month}.${year} ${hours}:${minutes}`;
-};
+import LoadingDots from '../LoadingDots/LoadingDots';
 
 export default function ProjectDetails() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -28,7 +17,11 @@ export default function ProjectDetails() {
   const navigate = useNavigate(); // useNavigate для перенаправления
 
   // Получаем проект из Redux
-  const projectData = useSelector((state) => state.project.selectedProject);
+    const {projectData,isLoading} = useSelector((state) => state.project.currentProject);
+    // Если проект еще загружается или не найден
+    if (isLoading) {
+        return <div>Loading...<LoadingDots/></div>;
+    }
 
   const handleOnOpenDeleteModal = () => {
     setOpenDeleteModal(true);
@@ -58,7 +51,7 @@ export default function ProjectDetails() {
 
   return (
     <div className="project-details-container">
-      {/* <div className="project-description">
+      <div className="project-description">
         <h3 className="project-description-title">Description of Project:</h3>
         <p className="project-description-text">{projectData?.description}</p>
       </div>
@@ -68,9 +61,9 @@ export default function ProjectDetails() {
           textValue="Delete project"
           onClick={handleOnOpenDeleteModal}
         />
-      </div> */}
+      </div>
       <ProjectActionsData/>
-      {/* <ConfirmationModal
+      <ConfirmationModal
         isOpen={openDeleteModal}
         title="Do you want to delete the project?"
         message="All internal objects will be removed!"
@@ -79,7 +72,7 @@ export default function ProjectDetails() {
         onConfirm={handleOnConfirm}
         onCancel={handleOnCloseDeleteModal}
       />
-      <ProjectUpdateModal openModal={openUpdateModal} clickOnClose={handleOnCloseUpdateModal} /> */}
+      <ProjectUpdateModal openModal={openUpdateModal} clickOnClose={handleOnCloseUpdateModal} />
     </div>
   );
 }

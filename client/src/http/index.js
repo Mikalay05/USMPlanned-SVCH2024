@@ -36,9 +36,7 @@ $api.interceptors.response.use(
             originalRequest._isRetry = true;
 
             try {
-                alert("ТЕСТИМ")
                 const response = await axios.get(`${API_URL}${API_ENDPOINTS.USER.UPDATE_TOKEN}`, {
-            
                     withCredentials: true,
                 });
                 // Сохраняем новый токен и повторяем запрос

@@ -30,7 +30,9 @@ export const getProjectActions = createAsyncThunk(
   "project/getProjectActions",
   async (projectId) => {
     const response = await ProjectService.getProjectActions(projectId);
-    const result = response.projectActions.map((action) => new ProjectActionsDto(action));
+    const result = response.projectActions.map(
+      (action) => new ProjectActionsDto(action)
+    );
     return result;
   }
 );
@@ -52,10 +54,10 @@ export const createProject = createAsyncThunk(
 );
 
 // Получение проекта по ID
-export const getProjectById = createAsyncThunk(
-  "project/getProjectById",
+export const getProjectDataById = createAsyncThunk(
+  "project/getProjectDataById",
   async (id) => {
-    const response = await ProjectService.getProjectById(id); // Метод для получения данных проекта по ID
+    const response = await ProjectService.getProjectDataById(id); // Метод для получения данных проекта по ID
     return new InformationProjectDto(response);
   }
 );
@@ -72,7 +74,7 @@ export const deleteProject = createAsyncThunk(
 const projectSlice = createSlice({
   name: "project",
   initialState: {
-    projects: [], // Список всех проектов
+    projects: {}, // Список всех проектов
     selectedProject: null, // Выбранный проект
     isLoading: false, // Состояние загрузки
     status: null, // Статус для deleteProject
@@ -84,7 +86,7 @@ const projectSlice = createSlice({
     currentProject: {
       projectData: {},
       isLoading: false,
-    }
+    },
   },
   reducers: {
     setProjects(state, action) {
@@ -111,17 +113,7 @@ const projectSlice = createSlice({
       .addCase(createProject.fulfilled, (state, action) => {
         state.projects.push(action.payload);
       })
-      // Обработка получения проекта по ID
-      .addCase(getProjectById.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getProjectById.fulfilled, (state, action) => {
-        state.selectedProject = action.payload; // Устанавливаем выбранный проект
-        state.isLoading = false;
-      })
-      .addCase(getProjectById.rejected, (state) => {
-        state.isLoading = false;
-      })
+
       // Обработка удаления проекта
       .addCase(deleteProject.pending, (state) => {
         state.isLoading = true; // Добавляем загрузку для удаления
@@ -152,7 +144,7 @@ const projectSlice = createSlice({
         state.selectedProject = action.payload; // Обновляем выбранный проект
       })
       .addCase(updateProject.rejected, (state) => {})
-      // Обработка получения всех проектов
+      // Group getProjectActions
       .addCase(getProjectActions.pending, (state) => {
         state.projectActions.isLoading = true;
       })
@@ -164,6 +156,17 @@ const projectSlice = createSlice({
       })
       .addCase(getProjectActions.rejected, (state) => {
         state.projectActions.isLoading = false;
+      })
+      // Group getProjectActions
+      .addCase(getProjectDataById.pending, (state) => {
+        state.currentProject.isLoading = true;
+      })
+      .addCase(getProjectDataById.fulfilled, (state, action) => {
+        state.currentProject.projectData = action.payload;
+        state.currentProject.isLoading = false;
+      })
+      .addCase(getProjectDataById.rejected, (state) => {
+        state.currentProject.isLoading = false;
       });
   },
 });

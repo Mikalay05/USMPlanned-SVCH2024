@@ -15,10 +15,9 @@ projectInformationRouter.use((req, res, next) => {
     next(); // Передаем управление следующему middleware или обработчику
   });
 
-// Возвращает данные о проекте согласно первичному ключу
-projectInformationRouter.get('/', authMiddleware, projectInformationController.getProjectById);
 // Возвращает данные о проекте (действия) согласно первичному ключу
 projectInformationRouter.get('/actions', authMiddleware, projectInformationController.getProjectActionById);
+projectInformationRouter.get('/data', authMiddleware, projectInformationController.getProjectDataById);
 
 // Создает дочерний элемент (customer) для текущего проекта
 projectInformationRouter.post('/', authMiddleware, projectInformationController.createCustomerForProject);

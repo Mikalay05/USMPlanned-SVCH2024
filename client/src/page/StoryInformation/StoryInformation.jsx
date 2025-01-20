@@ -3,7 +3,7 @@ import './StoryInformation.css'
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"; 
-import { getProjectById } from '../../store/slices/projectSlice';
+import { getProjectDataById } from '../../store/slices/projectSlice';
 import { getCurrentUserData } from '../../store/slices/userSlice';
 import { getStoryActions } from '../../store/slices/storySlice';  
 
@@ -25,7 +25,7 @@ export default function StoryInformation({
             dispatch(getStoryActions(storyId)); 
         }
         if(projectId) {
-            dispatch(getProjectById(projectId));
+            dispatch(getProjectDataById(projectId));
         }
     }, [dispatch, projectId, customerId, epicId,storyId]);  
 

@@ -16,7 +16,6 @@ const formatDate = (dateString) => {
 };
 const ProjectActionsData = () => {
   const { actionsData, isLoading } = useSelector((state) => state.project.projectActions);
-    console.log("TEST", actionsData)
   return (
     <div className="project-actions-section">
       <h3 className="project-actions-title">Actions of Project:</h3>

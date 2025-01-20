@@ -2,7 +2,7 @@ import "./ProjectInformation.css";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"; // Импортируем useParams
-import { getProjectById } from '../../store/slices/projectSlice';
+import { getProjectDataById } from '../../store/slices/projectSlice';
 import { getCurrentUserData } from '../../store/slices/userSlice';
 import { getProjectStatuses } from '../../store/slices/projectStatusSlice';
 import { getProjectActions } from '../../store/slices/projectSlice';
@@ -20,8 +20,8 @@ export default function ProjectInformation() {
         dispatch(getProjectStatuses());
         
         if (projectId) {
+            dispatch(getProjectDataById(projectId));
             dispatch(getProjectActions(projectId));
-            dispatch(getProjectById(projectId));
         }
     }, [dispatch, projectId]);
 

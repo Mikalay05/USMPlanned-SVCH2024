@@ -84,7 +84,7 @@ export default function MainProjectInformation() {
 
   return (
     <>
-      {/* <TitleForProjectInformation onSelectItem={handleOnCreateCustomer} />
+      <TitleForProjectInformation onSelectItem={handleOnCreateCustomer} />
       <CustomerCreationModal
         isModalOpen={openModalForCreationCustomer}
         handleCloseModal={handleCloseModalCreationCustomer}
@@ -120,7 +120,7 @@ export default function MainProjectInformation() {
             No customers found in this project.
           </p>
         )}
-      </CustomerSlider> */}
+      </CustomerSlider>
       <ProjectDetails />
     </>
   );

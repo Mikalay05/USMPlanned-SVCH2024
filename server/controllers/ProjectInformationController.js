@@ -30,12 +30,12 @@ class ProjectInformationController {
             next(err); // Передаем ошибку дальше
         }
     };
-    getProjectById = async (req, res, next) => {
+    getProjectDataById = async (req, res, next) => {
         try {
             // Получаем projectId из параметров
             const projectId = this.getProjectIdFromReqParams(req);
             // Получаем данные о проекте
-            const data = await ProjectService.getProjectById(projectId, false, true); 
+            const data = await ProjectService.getProjectById(projectId); 
             // Создаем DTO для результата
             const resultDto = new InformationProjectDto(data);
 

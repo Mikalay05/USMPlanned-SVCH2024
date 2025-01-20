@@ -43,15 +43,12 @@ class ProjectService {
     }
   }
 
-  async getProjectById(projectId, showPrecent = false, showActions = false) {
-    const NAME_OF_OBJECT_FROM_RESULT_OF_DB = "process_data";
+  async getProjectById(projectId) {
+    const NAME_OF_OBJECT_FROM_RESULT_OF_DB = "process_project";
     try {
       const params = [projectId];
-      const rows = await dbQuery(QUERIES.GET_PROJECT_BY_ID, params);
-      console.log(rows);
+      const rows = await dbQuery(QUERIES.GET_PROJECT_DATA_BY_ID, params);
       const dataResult = rows[0][NAME_OF_OBJECT_FROM_RESULT_OF_DB];
-      console.log(dataResult);
-
       return dataResult;
     } catch (err) {
       console.error("Error executing query:", err);

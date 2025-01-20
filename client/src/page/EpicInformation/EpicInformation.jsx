@@ -3,7 +3,7 @@ import './EpicInformation.css'
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"; // Импортируем useParams
-import { getProjectById } from '../../store/slices/projectSlice';
+import { getProjectDataById } from '../../store/slices/projectSlice';
 import { getCurrentUserData } from '../../store/slices/userSlice';
 import { getEpicActions } from '../../store/slices/epicSlice';
 
@@ -26,7 +26,7 @@ export default function EpicInformation({
             dispatch(getEpicActions(epicId));
         }
         if(projectId) {
-            dispatch(getProjectById(projectId));
+            dispatch(getProjectDataById(projectId));
         }
     }, [dispatch, projectId, customerId, epicId]);
     return (

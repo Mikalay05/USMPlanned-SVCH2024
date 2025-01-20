@@ -2,52 +2,49 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import CustomerModal from "../CustomerModal/CustomerModal";
 import InputDataWithError from "../InputDataWithError/InputDataWithError";
-import CustomerSelectWithError from "../CustomerSelectWithError/CustomerSelectWithError"; // Импортируем компонент выбора с ошибкой
+import CustomerSelectWithError from "../CustomerSelectWithError/CustomerSelectWithError"; 
 import "./ProjectUpdateModal.css";
-import { updateProject } from '../../store/slices/projectSlice';
-import Notification from '../Notification/Notification'; // Добавим компонент уведомления
+import { updateProject } from "../../store/slices/projectSlice";
+import Notification from "../Notification/Notification"; 
+import LoadingDots from "../LoadingDots/LoadingDots";
 
 export default function ProjectUpdateModal({
   openModal = false,
   clickOnClose,
 }) {
-  
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.project.selectedProject);
 
-  // Статусы проекта из Redux
+  const projectSelector = useSelector((state) => state.project.currentProject);
+  const data = projectSelector.projectData;
   const { projectStatuses, isLoading, error } = useSelector(
     (state) => state.projectStatus
   );
 
-  // Проверка на null или undefined для данных проекта
+  // Статусы проекта из Redux
   const [formData, setFormData] = useState({
-    name: data?.projectName || "", // Если data или projectName отсутствуют, установим пустую строку
-    description: data?.description || "", // Если data или description отсутствуют, установим пустую строку
-    status_id: data?.status?.status_id || null, // Если data или status_id отсутствуют, установим null
+    name: data?.projectName || "", 
+    description: data?.description || "", 
+    status_id: data?.status?.status_id || null, 
   });
 
-  // Ошибки формы
   const [formErrors, setFormErrors] = useState({
     projectNameErr: "",
     projectDescriptionErr: "",
     statusIdErr: "",
   });
 
-  // Уведомления
   const [notificationObject, setNotificationObject] = useState({
     textValue: "",
     color: "#fff",
     openModal: false,
   });
 
-  // Эффект для сброса данных формы, когда модальное окно открывается
   useEffect(() => {
     if (openModal) {
       setFormData({
         name: data?.projectName || "",
         description: data?.description || "",
-        status_id: data?.status?.status_id || null, // Обновленная проверка на data?.status?.status_id
+        status_id: data?.status?.status_id || null,
       });
       setFormErrors({
         projectNameErr: "",
@@ -64,40 +61,36 @@ export default function ProjectUpdateModal({
     });
   };
 
-  // Обработчик изменения данных проекта
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     changeFormData(name, value);
   };
 
-  // Обработчик изменения статуса проекта
   const handleStatusChange = (option) => {
     if (option && option.id) {
-      changeFormData("status_id", option.id); // Обновляем только status_id
+      changeFormData("status_id", option.id); 
     } else {
-      // Если option или option.id не существует, можно сбросить status_id в null или выполнить другую логику
       changeFormData("status_id", null);
     }
   };
-  
-  // Обработчик обновления проекта
+
   const handleUpdateClick = async () => {
     try {
-      await dispatch(updateProject({ projectId: data?.projectId, projectData: formData })).unwrap();
+      await dispatch(
+        updateProject({ projectId: data?.projectId, projectData: formData })
+      ).unwrap();
       handleSetNotification("Project updated", "#00FF00");
 
-      // Закрываем модальное окно только при успешном обновлении
-      clickOnClose(); 
+      clickOnClose();
     } catch (err) {
       handleSetNotification(err.message, "#F00");
       if (err.details) {
-        setFormErrors(err.details); // Отображаем ошибки валидации
+        setFormErrors(err.details);
       } else {
         console.error("Ошибка обновления:", err.message);
       }
     }
   };
-  
 
   const handleSetNotification = (message, color = "#F5F24B") => {
     setNotificationObject({
@@ -117,9 +110,19 @@ export default function ProjectUpdateModal({
   const handleClearInput = (name) => {
     setFormData({
       ...formData,
-      [name]: "", // Очистить конкретное поле
+      [name]: "", 
     });
   };
+
+  // Условие для отображения загрузки или данных
+  if (projectSelector.isLoading || isLoading) {
+    return (
+      <div>
+        Loading data...
+        <LoadingDots />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -137,7 +140,7 @@ export default function ProjectUpdateModal({
         clickOnButton={handleUpdateClick}
       >
         <InputDataWithError
-          onClear={handleClearInput} // Передаем обработчик очистки
+          onClear={handleClearInput}
           errorMessage={formErrors.projectNameErr}
           iconName="Login-Icon.svg"
           placeholderValue="Name"
@@ -146,7 +149,7 @@ export default function ProjectUpdateModal({
           onInput={handleInputChange}
         />
         <InputDataWithError
-          onClear={handleClearInput} // Передаем обработчик очистки
+          onClear={handleClearInput}
           errorMessage={formErrors.projectDescriptionErr}
           iconName="Login-Icon.svg"
           placeholderValue="Description"

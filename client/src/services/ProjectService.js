@@ -14,8 +14,8 @@ class ProjectService extends BaseService {
         const response = await BaseService.request("post",API_ENDPOINTS.PROJECT.CREATE_PROJECT, data);
         return response;
     }
-    async getProjectById(projectId) {
-        const endpoint = API_ENDPOINTS.PROJECT.GET_PROJECT_BY_ID.replace(':projectId', projectId);
+    async getProjectDataById(projectId) {
+        const endpoint = API_ENDPOINTS.PROJECT.GET_PROJECT_DATA_BY_ID.replace(':projectId', projectId);
         const response = await BaseService.request("get", endpoint);
         return response;
     }

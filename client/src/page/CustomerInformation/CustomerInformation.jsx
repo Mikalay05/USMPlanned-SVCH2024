@@ -2,7 +2,7 @@ import './CustomerInformation.css'
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"; // Импортируем useParams
-import { getProjectById } from '../../store/slices/projectSlice';
+import { getProjectDataById } from '../../store/slices/projectSlice';
 import { getCurrentUserData } from '../../store/slices/userSlice';
 import { getCustomerActions } from '../../store/slices/customerSlice';
 
@@ -25,7 +25,7 @@ export default function CustomerInformation({
             dispatch(getCustomerActions(customerId));
         }
         if(projectId) {
-            dispatch(getProjectById(projectId));
+            dispatch(getProjectDataById(projectId));
         }
     }, [dispatch, projectId, customerId]);
     return (
