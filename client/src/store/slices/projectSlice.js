@@ -7,7 +7,7 @@ import ProjectService from "../../services/ProjectService";
  * ===============
  */
 import ProjectDTO from "../../DTOs/Data/ProjectDTO";
-import InformationProjectDto from "../../DTOs/Data/InformationProjectDto";
+import InformationProjectDto from "../../DTOs/Data/Information/InformationProjectDto";
 import ChainForSelectionInTheProject from "../../DTOs/Data/ChainForSelect/ChainForSelectionInTheProject";
 import ProjectForUpdateDto from "../../DTOs/ForUpdate/ProjectForUpdateDto";
 import ProjectActionsDto from "../../DTOs/Data/Actions/ProjectActionsDto";

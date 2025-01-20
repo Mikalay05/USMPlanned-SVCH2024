@@ -7,21 +7,36 @@ import CustomerService from "../../services/CustomerService";
  * ===============
  */
 import CustomerActionsDto from "../../DTOs/Data/Actions/CustomerActionsDto";
+import CustomerActionsDto from "../../DTOs/Data/Information/";
 
 // Получение всех actions
 export const getCustomerActions = createAsyncThunk(
-    "project/getCustomerActions",
+    "customer/getCustomerActions",
     async (customerId) => {
       const response = await CustomerService.getCustomerActions(customerId);
       const result = response.customerActions.map((action) => new CustomerActionsDto(action));
       return result;
     }
   );
+
+  // Получение current customer
+export const getCurrentCustomer = createAsyncThunk(
+  "customer/getCurrentCustomer",
+  async (customerId) => {
+    const response = await CustomerService.getCurrentCustomer(customerId);
+    const result = response.customerActions.map((action) => new CustomerActionsDto(action));
+    return result;
+  }
+);
 const customerSlice = createSlice({
   name: "customer",
   initialState: {
     customerActions: {
       actionsData: [],
+      isLoading: false,
+    },
+    currentCustomer: {
+      customerData: {},
       isLoading: false,
     },
   },

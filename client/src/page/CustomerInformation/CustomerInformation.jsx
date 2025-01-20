@@ -23,6 +23,7 @@ export default function CustomerInformation({
         
         if (customerId) {
             dispatch(getCustomerActions(customerId));
+            dispatch(getCustomerActions(customerId));
         }
         if(projectId) {
             dispatch(getProjectDataById(projectId));

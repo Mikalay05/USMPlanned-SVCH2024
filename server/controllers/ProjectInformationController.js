@@ -1,4 +1,4 @@
-const InformationProjectDto = require("../DTOs/Data/InformationProjectDto");
+const InformationProjectDto = require("../DTOs/Data/Information/InformationProjectDto");
 const ProjectActionsDto = require("../DTOs/Data/Actions/ProjectActionsDto");
 const ProjectForUpdateDto = require("../DTOs/ForUpdate/ProjectForUpdateDto");
 const ProjectService = require("../services/ProjectService");
@@ -11,10 +11,6 @@ class ProjectInformationController {
     getProjectIdFromReqParams = (req) => {
         const projectId = req.params[this.PROJECT_ID_PROPERTY];
         return projectId;
-    }
-    getCustomerData = (req,projectId) => {
-        const customerData =  req.body;
-
     }
     getProjectActionById = async (req, res, next) => {
         try {

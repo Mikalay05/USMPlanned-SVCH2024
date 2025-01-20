@@ -14,10 +14,7 @@ class CustomerService {
       return actions;
     } catch (err) {
       console.error("Error executing query:", err);
-      throw ApiError.internal("Ошибка получения actions для customer", {
-        customerId,
-        error: err.message
-      });
+      throw err;
     }
   }
   async getChainForSelect(customerId) {
@@ -29,13 +26,21 @@ class CustomerService {
       return dataResult;
     } catch (err) {
       console.error("Error executing query:", err);
-      throw ApiError.internal(ERROR_MESSAGES.getProjectByIdError, {
-        projectId,
-        error: err.message
-      });
+      throw err;
     }
   }
-
+  async getCustomerDataById(customerId) {
+    const NAME_OF_OBJECT_FROM_RESULT_OF_DB = "process_customer";
+    try {
+      const params = [customerId];
+      const rows = await dbQuery(QUERIES.GET_CUSTOMER_DATA_BY_ID, params);
+      const dataResult = rows[0][NAME_OF_OBJECT_FROM_RESULT_OF_DB];
+      return dataResult;
+    } catch (err) {
+      console.error("Error executing query:", err);
+      throw err;
+    }
+  }
 }
 
 module.exports = new CustomerService();

@@ -1,6 +1,7 @@
-const CustomerService = require('../services/CustomerService')
-const CustomerActionsDto = require('../DTOs/Data/Actions/CustomerActionsDto');
-const ChainForSelectionInTheCustomer = require('../DTOs/Data/ChainForSelect/ChainForSelectionInTheCustomer');
+const CustomerService = require("../services/CustomerService");
+const CustomerActionsDto = require("../DTOs/Data/Actions/CustomerActionsDto");
+const ChainForSelectionInTheCustomer = require("../DTOs/Data/ChainForSelect/ChainForSelectionInTheCustomer");
+const InformationCustomerDto = require("../DTOs/Data/Information/InformationCustomerDto");
 
 class CustomerInformationController {
   constructor(
@@ -12,20 +13,25 @@ class CustomerInformationController {
     this.CUSTOMER_ID_PROPERTY = customerIdProperty;
     this.EPIC_ID_PROPERTY = epicIdProperty;
   }
-  async getCustomerById(req, res, next) {
-    try {
-      //TODO Add a method implementation
-      throw new Error("Not implemented");
-    } catch (err) {
-      console.log("Error in getCustomerById:", err);
-      next(err);
-    }
-  }
-
   getCustomerIdFromReqParams = (req) => {
     const customerId = req.params[this.CUSTOMER_ID_PROPERTY];
     return customerId;
   };
+  getCustomerDataById = async(req, res, next)=> {
+    try {
+      const customerId = this.getCustomerIdFromReqParams(req);
+      const data = await CustomerService.getCustomerDataById(customerId);
+      console.log(data)
+      const resultDto = new InformationCustomerDto(data);
+      return res.status(200).json(resultDto);
+
+    } catch (err) {
+      console.log("Error in getCustomerDataById:", err);
+      next(err);
+    }
+  }
+
+
   getCustomerActionById = async (req, res, next) => {
     try {
       // Получаем projectId из параметров
@@ -82,18 +88,20 @@ class CustomerInformationController {
   }
   getChainForSelect = async (req, res, next) => {
     try {
-        // Получаем projectId из параметров
-        const customerId = this.getCustomerIdFromReqParams(req);
-        // Получаем данные о проекте
-        const data = await CustomerService.getChainForSelect(customerId); 
-        // Создаем DTO для результата
-        const resultDto = data.map((item)=>new ChainForSelectionInTheCustomer(item));
-        return res.status(200).json(resultDto);
+      // Получаем projectId из параметров
+      const customerId = this.getCustomerIdFromReqParams(req);
+      // Получаем данные о проекте
+      const data = await CustomerService.getChainForSelect(customerId);
+      // Создаем DTO для результата
+      const resultDto = data.map(
+        (item) => new ChainForSelectionInTheCustomer(item)
+      );
+      return res.status(200).json(resultDto);
     } catch (err) {
-        console.log("Error in catch", err); // Логирование ошибки
-        next(err); // Передаем ошибку дальше
+      console.log("Error in catch", err); // Логирование ошибки
+      next(err); // Передаем ошибку дальше
     }
-};
+  };
 }
 
 module.exports = new CustomerInformationController();
