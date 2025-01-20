@@ -12,10 +12,10 @@ export default function CustomerSlider({
   nameOfSliderIndexFile = "Icon-SliderIndex.svg", // Иконка для кнопок
   notFoundMessage = "Not found elements", // Сообщение, если элементов нет
   onHandleNextId, // Callback для обновления next_id
+  onIndexChange,
   localStorageKey = "customerSliderKey", // Ключ для localStorage
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
-
   // Загружаем индекс из localStorage при первом рендере
   useEffect(() => {
     const savedIndex = localStorage.getItem(localStorageKey);
@@ -28,10 +28,11 @@ export default function CustomerSlider({
   // Функция для обновления индекса и next_id
   const updateIndex = (newIndex) => {
     const nextCustomerId = children[newIndex + 1]?.props.customerId || null;
-
     setCurrentIndex(newIndex);
     localStorage.setItem(localStorageKey, newIndex); // Сохраняем текущий индекс в localStorage
-    onHandleNextId(nextCustomerId); // Передаем next_id в родительский компонент
+
+    onHandleNextId(newIndex); // Передаем next_id в родительский компонент
+    onIndexChange(newIndex);
   };
 
   // Переключение на предыдущий слайд

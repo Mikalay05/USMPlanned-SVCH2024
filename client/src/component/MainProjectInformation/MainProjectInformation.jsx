@@ -19,9 +19,9 @@ export default function MainProjectInformation() {
   const isLoading = useSelector((state) => state.project.isLoading);
 
   const [formForCreationCustomer, setFormForCreationCustomer] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0); // Храним текущий индекс
-
+  const [currentIndex, setCurrentIndex] = useState(1); // Храним текущий индекс
   const handleDecomposition = (customerId) => {
+    
     navigate(`/information/${projectId}/${customerId}`);
   };
 

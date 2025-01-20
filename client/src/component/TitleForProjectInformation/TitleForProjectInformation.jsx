@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import LoadingDots from '../LoadingDots/LoadingDots';
 
 export default function TitleForProjectInformation({
-    filterKey = 'customerName',
+    filterKey = 'name',
 }) {
     const navigate = useNavigate(); // Хук для навигации
 
@@ -15,12 +15,14 @@ export default function TitleForProjectInformation({
 
     // Получаем selectedProject и isLoading из Redux
     const {projectData,isLoading} = useSelector((state) => state.project.currentProject);
-
+    const selectedProject = useSelector(
+      (state) => state.project.customersForSelectInTheProject
+    );
     // Функция для обработки выбора элемента
     const handleSelectItem = (selectedItem) => {
-        if (selectedItem && selectedItem.customerId) {
+        if (selectedItem && selectedItem.id) {
             // Перенаправление на нужную страницу с customerId
-            navigate(`/information/${projectData.projectId}/${selectedItem.customerId}`);
+            navigate(`/information/${projectData.projectId}/${selectedItem.id}`);
         }
     };
 
@@ -35,12 +37,13 @@ export default function TitleForProjectInformation({
           <h3>{projectData?.status?.status_name || 'Status Not Available'}</h3>
           <div className="selected-in-TitleForProjectInformation">
             <CustomerSelect
-              options={projectData?.dataForSelect || []}
+              options={selectedProject?.customersData || []}
               filterKey={filterKey}
               onSelectItem={handleSelectItem}
             />
           </div>
           <CustomerButton textValue="Export USM" />
+          <CustomerButton textValue="Get Gantt chart" />
         </div>
     );
 }
