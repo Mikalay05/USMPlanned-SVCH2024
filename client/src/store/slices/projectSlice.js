@@ -8,6 +8,7 @@ import ProjectService from "../../services/ProjectService";
  */
 import ProjectDTO from "../../DTOs/Data/ProjectDTO";
 import InformationProjectDto from "../../DTOs/Data/InformationProjectDto";
+import ChainForSelectionInTheProject from "../../DTOs/Data/ChainForSelect/ChainForSelectionInTheProject";
 import ProjectForUpdateDto from "../../DTOs/ForUpdate/ProjectForUpdateDto";
 import ProjectActionsDto from "../../DTOs/Data/Actions/ProjectActionsDto";
 
@@ -61,6 +62,15 @@ export const getProjectDataById = createAsyncThunk(
     return new InformationProjectDto(response);
   }
 );
+// Получение проекта по ID
+export const getChainForSelectionInTheProject = createAsyncThunk(
+  "project/getChainForSelectionInTheProject",
+  async (id) => {
+    const response = await ProjectService.getChainForSelectionInTheProject(id); // Метод для получения данных проекта по ID4
+    const result = response.map((item) => new ChainForSelectionInTheProject(item))
+    return result;
+  }
+);
 
 export const deleteProject = createAsyncThunk(
   "project/deleteProject",
@@ -74,10 +84,7 @@ export const deleteProject = createAsyncThunk(
 const projectSlice = createSlice({
   name: "project",
   initialState: {
-    projects: {}, // Список всех проектов
-    selectedProject: null, // Выбранный проект
-    isLoading: false, // Состояние загрузки
-    status: null, // Статус для deleteProject
+    projects: [], // Список всех проектов
     error: null, // Ошибка для отображения в случае неудачи
     projectActions: {
       actionsData: [],
@@ -85,6 +92,10 @@ const projectSlice = createSlice({
     },
     currentProject: {
       projectData: {},
+      isLoading: false,
+    },
+    customersForSelectInTheProject: {
+      customersData: {},
       isLoading: false,
     },
   },
@@ -167,6 +178,18 @@ const projectSlice = createSlice({
       })
       .addCase(getProjectDataById.rejected, (state) => {
         state.currentProject.isLoading = false;
+      })
+      // Group getChainForSelectionInTheProject
+      .addCase(getChainForSelectionInTheProject.pending, (state) => {
+        state.customersForSelectInTheProject.isLoading = true;
+      })
+      .addCase(getChainForSelectionInTheProject.fulfilled, (state, action) => {
+        console.log(action)
+        state.customersForSelectInTheProject.customersData = action.payload;
+        state.customersForSelectInTheProject.isLoading = false;
+      })
+      .addCase(getChainForSelectionInTheProject.rejected, (state) => {
+        state.customersForSelectInTheProject.isLoading = false;
       });
   },
 });

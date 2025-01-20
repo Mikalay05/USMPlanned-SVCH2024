@@ -35,6 +35,11 @@ class ProjectService extends BaseService {
         const response = await BaseService.request("get", endpoint);
         return response;
     }
+    async getChainForSelectionInTheProject(projectId) {
+        const endpoint = API_ENDPOINTS.PROJECT.GET_CHAIN_FOR_SELECT.replace(':projectId', projectId);
+        const response = await BaseService.request("get", endpoint);
+        return response;
+    }
 }
 
 const projectServiceInstance = new ProjectService();

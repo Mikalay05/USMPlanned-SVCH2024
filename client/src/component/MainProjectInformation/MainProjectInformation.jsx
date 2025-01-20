@@ -14,9 +14,9 @@ export default function MainProjectInformation() {
   const dispatch = useDispatch();
 
   // Получаем данные о выбранном проекте из Redux
-  const selectedProject = useSelector((state) => state.project.selectedProject);
+  const selectedProject = useSelector((state) => state.project.customersForSelectInTheProject);
   const isLoading = useSelector((state) => state.project.isLoading);
-
+  
   const [formForCreationCustomer, setFormForCreationCustomer] = useState(null);
 
   // Функция для обновления next_id в форме
@@ -80,8 +80,8 @@ export default function MainProjectInformation() {
   // }
 
   // Данные для селекта из выбранного проекта
-  const dataForSelect = selectedProject?.dataForSelect || [];
-
+  const dataForSelect = selectedProject?.customersData || [];
+  console.log("dataForSelect",dataForSelect)
   return (
     <>
       <TitleForProjectInformation onSelectItem={handleOnCreateCustomer} />
@@ -110,9 +110,9 @@ export default function MainProjectInformation() {
         {Array.isArray(dataForSelect) && dataForSelect.length > 0 ? (
           dataForSelect.map((item) => (
             <CardForCustomers
-              key={item.customerId}
-              customerId={item.customerId}
-              customerName={item.customerName}
+              key={item.id}
+              customerId={item.id}
+              customerName={item.name}
             />
           ))
         ) : (

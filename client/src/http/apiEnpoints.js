@@ -6,6 +6,7 @@ export const API_ENDPOINTS = {
         DELETE_PROJECT: 'information/:projectId',
         UPDATE_PROJECT_DATA: 'information/:projectId',
         GET_PROJECT_ACTIONS_BY_ID: 'information/:projectId/actions',
+        GET_CHAIN_FOR_SELECT: 'information/:projectId/getChainForSelect',
     },
     CUSTOMER: {
         GET_CUSTOMER_ACTIONS_BY_ID: 'information/:projectId/:customerId/actions',

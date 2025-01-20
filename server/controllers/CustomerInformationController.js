@@ -1,5 +1,6 @@
 const CustomerService = require('../services/CustomerService')
-const CustomerActionsDto = require('../DTOs/Data/Actions/CustomerActionsDto')
+const CustomerActionsDto = require('../DTOs/Data/Actions/CustomerActionsDto');
+const ChainForSelectionInTheCustomer = require('../DTOs/Data/ChainForSelect/ChainForSelectionInTheCustomer');
 
 class CustomerInformationController {
   constructor(
@@ -79,6 +80,20 @@ class CustomerInformationController {
       next(err);
     }
   }
+  getChainForSelect = async (req, res, next) => {
+    try {
+        // Получаем projectId из параметров
+        const customerId = this.getCustomerIdFromReqParams(req);
+        // Получаем данные о проекте
+        const data = await CustomerService.getChainForSelect(customerId); 
+        // Создаем DTO для результата
+        const resultDto = data.map((item)=>new ChainForSelectionInTheCustomer(item));
+        return res.status(200).json(resultDto);
+    } catch (err) {
+        console.log("Error in catch", err); // Логирование ошибки
+        next(err); // Передаем ошибку дальше
+    }
+};
 }
 
 module.exports = new CustomerInformationController();

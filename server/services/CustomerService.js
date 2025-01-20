@@ -20,6 +20,22 @@ class CustomerService {
       });
     }
   }
+  async getChainForSelect(customerId) {
+    const NAME_OF_OBJECT_FROM_RESULT_OF_DB = "get_chain_of_epics_for_customer";
+    try {
+      const params = [customerId];
+      const rows = await dbQuery(QUERIES.GET_CHAIN_OF_EPICS_FOR_CUSTOMER, params);
+      const dataResult = rows[0][NAME_OF_OBJECT_FROM_RESULT_OF_DB];
+      return dataResult;
+    } catch (err) {
+      console.error("Error executing query:", err);
+      throw ApiError.internal(ERROR_MESSAGES.getProjectByIdError, {
+        projectId,
+        error: err.message
+      });
+    }
+  }
+
 }
 
 module.exports = new CustomerService();

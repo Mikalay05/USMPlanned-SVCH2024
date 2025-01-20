@@ -2,7 +2,7 @@ const ApiError = require("../error/ApiError");
 const ProjectDTO = require("../DTOs/Data/ProjectDTO");
 const QUERIES = require("../queries/queries");
 const { dbQuery } = require("../dbUtils");
-const { ProjectStatus, Project } = require('../models/models');
+const { ProjectStatus, Project } = require("../models/models");
 
 const ERROR_MESSAGES = {
   getAllProjectsError: "Ошибка при получении проектов",
@@ -17,19 +17,17 @@ const ERROR_MESSAGES = {
   projectNotExistError: "Проекта с таким ID не существует",
   createProjectError: "Ошибка при создании проекта",
   updateProjectError: "Ошибка при обновлении проекта",
-  deleteProjectError: "Ошибка при удалении проекта"
+  deleteProjectError: "Ошибка при удалении проекта",
 };
 
 const DETAILS = {
-  nameErrorField: 'projectNameErr',
-  descriptionErrorField: 'projectDescriptionErr',
-  statusIdErrorField: 'statusIdErr',
-  projectIdErrorField: 'projectIdErr'
+  nameErrorField: "projectNameErr",
+  descriptionErrorField: "projectDescriptionErr",
+  statusIdErrorField: "statusIdErr",
+  projectIdErrorField: "projectIdErr",
 };
 
 class ProjectService {
-
-
   async getAllProjects(showActive, showPrecent) {
     try {
       const params = [null, showPrecent, showActive];
@@ -38,7 +36,7 @@ class ProjectService {
     } catch (err) {
       console.error("Error executing query:", err);
       throw ApiError.internal(ERROR_MESSAGES.getAllProjectsError, {
-        error: err.message
+        error: err.message,
       });
     }
   }
@@ -54,7 +52,7 @@ class ProjectService {
       console.error("Error executing query:", err);
       throw ApiError.internal(ERROR_MESSAGES.getProjectByIdError, {
         projectId,
-        error: err.message
+        error: err.message,
       });
     }
   }
@@ -62,13 +60,13 @@ class ProjectService {
     try {
       const params = [projectId];
       const rows = await dbQuery(QUERIES.GET_PROJECT_ACTIONS_BY_ID, params);
-      const actions = rows[0].get_project_actions;  // Извлекаем внутренний массив
+      const actions = rows[0].get_project_actions; // Извлекаем внутренний массив
       return actions;
     } catch (err) {
       console.error("Error executing query:", err);
       throw ApiError.internal(ERROR_MESSAGES.getProjectActionByIdError, {
         projectId,
-        error: err.message
+        error: err.message,
       });
     }
   }
@@ -76,22 +74,26 @@ class ProjectService {
   // Валидация названия проекта
   validateName(name) {
     ApiError.validateNotEmptyObject(name, ERROR_MESSAGES.nameRequiredError, {
-      [DETAILS.nameErrorField]: 'Name required'
+      [DETAILS.nameErrorField]: "Name required",
     });
   }
 
   // Валидация описания проекта
   validateDescription(description) {
-    ApiError.validateNotEmptyObject(description, ERROR_MESSAGES.descriptionRequiredError, {
-      [DETAILS.descriptionErrorField]: 'Description required'
-    });
+    ApiError.validateNotEmptyObject(
+      description,
+      ERROR_MESSAGES.descriptionRequiredError,
+      {
+        [DETAILS.descriptionErrorField]: "Description required",
+      }
+    );
   }
 
   async checkExistStatucProjectId(status_id) {
     const result = await ProjectStatus.findOne({ where: { id: status_id } });
     if (!result) {
       throw ApiError.badRequest(ERROR_MESSAGES.invalidStatusIdError, {
-        [DETAILS.statusIdErrorField]: 'Invalid status ID'
+        [DETAILS.statusIdErrorField]: "Invalid status ID",
       });
     }
     return result;
@@ -100,9 +102,13 @@ class ProjectService {
   // Валидация ID статуса проекта с проверкой наличия статуса в базе
   async validateStatusProjectId(status_id) {
     try {
-      ApiError.validateNotEmptyObject(status_id, ERROR_MESSAGES.statusRequiredError, {
-        [DETAILS.statusIdErrorField]: 'Status ID is required'
-      });
+      ApiError.validateNotEmptyObject(
+        status_id,
+        ERROR_MESSAGES.statusRequiredError,
+        {
+          [DETAILS.statusIdErrorField]: "Status ID is required",
+        }
+      );
       await this.checkExistStatucProjectId(status_id);
     } catch (err) {
       console.error("Error executing validateStatusProjectId:", err);
@@ -121,7 +127,7 @@ class ProjectService {
     const result = await Project.findOne({ where: { id: projectId } });
     if (!result) {
       throw ApiError.badRequest(ERROR_MESSAGES.projectNotExistError, {
-        [DETAILS.projectIdErrorField]: 'Project not found'
+        [DETAILS.projectIdErrorField]: "Project not found",
       });
     }
     return result;
@@ -129,11 +135,15 @@ class ProjectService {
 
   async validateProjectId(projectId) {
     try {
-      ApiError.validateNotEmptyObject(projectId, ERROR_MESSAGES.projectIdRequiredError, {
-        [DETAILS.projectIdErrorField]: 'Project ID is required'
-      });
+      ApiError.validateNotEmptyObject(
+        projectId,
+        ERROR_MESSAGES.projectIdRequiredError,
+        {
+          [DETAILS.projectIdErrorField]: "Project ID is required",
+        }
+      );
       await this.checkExistProjectId(projectId);
-    } catch (err)      {
+    } catch (err) {
       console.error("Error executing validateProjectId:", err);
       throw err;
     }
@@ -141,50 +151,51 @@ class ProjectService {
 
   async validateProjectForUpdateDto(projectFormDto) {
     const errors = {}; // Объект для хранения ошибок
-    console.log(projectFormDto);
     try {
       // Валидация project_id
       try {
         await this.validateProjectId(projectFormDto.project_id);
       } catch (err) {
-        errors[DETAILS.projectIdErrorField] = err.details?.[DETAILS.projectIdErrorField] || "Invalid project ID.";
+        errors[DETAILS.projectIdErrorField] =
+          err.details?.[DETAILS.projectIdErrorField] || "Invalid project ID.";
       }
-  
+
       // Валидация name
       try {
         this.validateName(projectFormDto.name);
       } catch (err) {
-        errors[DETAILS.nameErrorField] = err.details?.[DETAILS.nameErrorField] || "Invalid name.";
+        errors[DETAILS.nameErrorField] =
+          err.details?.[DETAILS.nameErrorField] || "Invalid name.";
       }
-  
+
       // Валидация description
       try {
         this.validateDescription(projectFormDto.description);
       } catch (err) {
-        errors[DETAILS.descriptionErrorField] = err.details?.[DETAILS.descriptionErrorField] || "Invalid description.";
+        errors[DETAILS.descriptionErrorField] =
+          err.details?.[DETAILS.descriptionErrorField] ||
+          "Invalid description.";
       }
-  
+
       // Валидация status_id
       try {
         await this.validateStatusProjectId(projectFormDto.status_id);
       } catch (err) {
         errors.statusIdErr = err.details?.statusIdErr || "Invalid status ID.";
       }
-  
+
       // Если есть ошибки, выбрасываем исключение с объектом ошибок
       if (Object.keys(errors).length > 0) {
         throw ApiError.badRequest("Ошибка валидации", errors);
       }
-  
+
       // Если ошибок нет, возвращаем успешный результат
       return projectFormDto;
-  
     } catch (err) {
-      console.log("Project not pass validation")
+      console.log("Project not pass validation");
       throw err;
     }
   }
-  
 
   // Запрос на создание проекта в базе данных
   async dbQueryCreateProject(projectForm, whoCreateProject) {
@@ -193,18 +204,17 @@ class ProjectService {
         projectForm.name,
         projectForm.description,
         projectForm.status_id,
-        'Created project',
+        "Created project",
         whoCreateProject,
       ];
 
       const result = await dbQuery(QUERIES.CREATE_PROJECT, params);
-      console.log("result",result)
       return result;
     } catch (err) {
       console.error("Error executing dbQueryCreateProject:", err);
       throw ApiError.internal(ERROR_MESSAGES.createProjectError, {
         projectForm,
-        error: err.message
+        error: err.message,
       });
     }
   }
@@ -216,9 +226,11 @@ class ProjectService {
       await this.validateProjectForCreationDto(projectForm);
 
       // Создать проект в базе данных
-      const resultFromDb = await this.dbQueryCreateProject(projectForm, whoCreateProject);
+      const resultFromDb = await this.dbQueryCreateProject(
+        projectForm,
+        whoCreateProject
+      );
       const extractedData = Object.values(resultFromDb[0])[0];
-      console.log('extractedData',extractedData)
 
       return extractedData;
     } catch (err) {
@@ -231,12 +243,12 @@ class ProjectService {
   async dbQueryUpdateProject(projectForm, whoUpdateProject) {
     try {
       const params = [
-        projectForm.name,  // Пример полей объекта projectForm
+        projectForm.name, // Пример полей объекта projectForm
         projectForm.description,
         projectForm.project_id,
         projectForm.status_id,
-        'Updated description for the project',
-        whoUpdateProject
+        "Updated description for the project",
+        whoUpdateProject,
       ];
 
       const result = await dbQuery(QUERIES.UPDATE_PROJECT, params);
@@ -245,7 +257,7 @@ class ProjectService {
       console.error("Error executing dbQueryUpdateProject:", err);
       throw ApiError.internal(ERROR_MESSAGES.updateProjectError, {
         projectForm,
-        error: err.message
+        error: err.message,
       });
     }
   }
@@ -254,9 +266,11 @@ class ProjectService {
     try {
       // Пройти валидацию объекта
       await this.validateProjectForUpdateDto(projectFormDto);
-      const resultFromDb = await this.dbQueryUpdateProject(projectFormDto, whoUpdateProject);
-      const result = await this.getProjectById(projectFormDto.project_id)
-      console.log("TEST result",result)
+      const resultFromDb = await this.dbQueryUpdateProject(
+        projectFormDto,
+        whoUpdateProject
+      );
+      const result = await this.getProjectById(projectFormDto.project_id);
       return result;
     } catch (err) {
       console.error("Error executing updateProject:", err);
@@ -272,6 +286,21 @@ class ProjectService {
     } catch (err) {
       console.error("Error executing deleteProject:", err);
       throw ApiError.internal(ERROR_MESSAGES.deleteProjectError, {
+        projectId,
+        error: err.message,
+      });
+    }
+  }
+  async getChainForSelect(projectId) {
+    const NAME_OF_OBJECT_FROM_RESULT_OF_DB = "get_chain_of_customers_for_project";
+    try {
+      const params = [projectId];
+      const rows = await dbQuery(QUERIES.GET_CHAIN_OF_CUSTOMERS_FOR_PROJECT, params);
+      const dataResult = rows[0][NAME_OF_OBJECT_FROM_RESULT_OF_DB];
+      return dataResult;
+    } catch (err) {
+      console.error("Error executing query:", err);
+      throw ApiError.internal(ERROR_MESSAGES.getProjectByIdError, {
         projectId,
         error: err.message
       });

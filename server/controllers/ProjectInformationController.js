@@ -2,6 +2,7 @@ const InformationProjectDto = require("../DTOs/Data/InformationProjectDto");
 const ProjectActionsDto = require("../DTOs/Data/Actions/ProjectActionsDto");
 const ProjectForUpdateDto = require("../DTOs/ForUpdate/ProjectForUpdateDto");
 const ProjectService = require("../services/ProjectService");
+const ChainForSelectionInTheProject = require("../DTOs/Data/ChainForSelect/ChainForSelectionInTheProject");
 
 class ProjectInformationController {
     constructor(projectIdProperty = "projectId") {
@@ -45,7 +46,20 @@ class ProjectInformationController {
             next(err); // Передаем ошибку дальше
         }
     };
-    
+    getChainForSelect = async (req, res, next) => {
+        try {
+            // Получаем projectId из параметров
+            const projectId = this.getProjectIdFromReqParams(req);
+            // Получаем данные о проекте
+            const data = await ProjectService.getChainForSelect(projectId); 
+            // Создаем DTO для результата
+            const resultDto = data.map((item)=>new ChainForSelectionInTheProject(item));
+            return res.status(200).json(resultDto);
+        } catch (err) {
+            console.log("Error in catch", err); // Логирование ошибки
+            next(err); // Передаем ошибку дальше
+        }
+    };
     async createCustomerForProject(req,res,next) {
         try {
             const projectId = this.getProjectIdFromReqParams(req);

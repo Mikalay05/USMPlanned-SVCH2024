@@ -10,6 +10,10 @@ const QUERIES = {
     GET_EPIC_ACTIONS_BY_ID: 'SELECT * FROM get_epic_actions($1);',
     GET_STORY_ACTIONS_BY_ID: 'SELECT * FROM get_story_actions($1);',
     GET_TASK_ACTIONS_BY_ID: 'SELECT * FROM get_task_actions($1);',
+    GET_CHAIN_OF_CUSTOMERS_FOR_PROJECT: 'SELECT * FROM get_chain_of_customers_for_project($1);', // Цепочка заказчиков для проекта
+    GET_CHAIN_OF_EPICS_FOR_CUSTOMER: 'SELECT * FROM get_chain_of_epics_for_customer($1);', // Цепочка эпиков для заказчика
+    GET_CHAIN_OF_STORIES_FOR_EPIC: 'SELECT * FROM get_chain_of_stories_for_epic($1);', // Цепочка историй для эпика
+    GET_CHAIN_OF_TASKS_FOR_STORY: 'SELECT * FROM get_chain_of_tasks_for_story($1);', // Цепочка задач для истории
 };
 
 module.exports = QUERIES;

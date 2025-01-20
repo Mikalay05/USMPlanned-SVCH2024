@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom"; // Импортируем useParam
 import { getProjectDataById } from '../../store/slices/projectSlice';
 import { getCurrentUserData } from '../../store/slices/userSlice';
 import { getProjectStatuses } from '../../store/slices/projectStatusSlice';
+import { getChainForSelectionInTheProject } from '../../store/slices/projectSlice';
 import { getProjectActions } from '../../store/slices/projectSlice';
 
 import Header from "../../component/Header/Header";
@@ -21,6 +22,7 @@ export default function ProjectInformation() {
         
         if (projectId) {
             dispatch(getProjectDataById(projectId));
+            dispatch(getChainForSelectionInTheProject(projectId));
             dispatch(getProjectActions(projectId));
         }
     }, [dispatch, projectId]);

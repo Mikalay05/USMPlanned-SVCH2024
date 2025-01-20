@@ -82,6 +82,20 @@ class StoryInformationController {
             next(err);
         }
     }
+    getChainForSelect = async (req, res, next) => {
+        try {
+            // Получаем projectId из параметров
+            const storyId = this.getStoryIdFromReqParams(req);
+            // Получаем данные о проекте
+            const data = await StoryService.getChainForSelect(storyId); 
+            // Создаем DTO для результата
+            const resultDto = data.map((item)=>new ChainForSelectionInTheProject(item));
+            return res.status(200).json(resultDto);
+        } catch (err) {
+            console.log("Error in catch", err); // Логирование ошибки
+            next(err); // Передаем ошибку дальше
+        }
+    };
 }
 
 module.exports = new StoryInformationController();

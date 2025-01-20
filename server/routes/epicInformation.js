@@ -18,6 +18,7 @@ epicInformationRouter.use((req, res, next) => {
 epicInformationRouter.get(`/`, authMiddleware, epicInformationController.getEpicById);
 // Возвращает данные о epic (действия) согласно первичному ключу
 epicInformationRouter.get(`/actions`, authMiddleware, epicInformationController.getEpicActionById);
+epicInformationRouter.get('/getChainForSelect', authMiddleware, epicInformationController.getChainForSelect);
 
 //Создает дочерний элемент (story) для текущего epic
 epicInformationRouter.post(`/`, authMiddleware, epicInformationController.createStoryForEpic);

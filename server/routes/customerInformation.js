@@ -19,6 +19,7 @@ customerInformationRouter.use((req, res, next) => {
 customerInformationRouter.get(`/`, authMiddleware, customerInformationController.getCustomerById);
 // Возвращает данные о customer (действия) согласно первичному ключу
 customerInformationRouter.get(`/actions`, authMiddleware, customerInformationController.getCustomerActionById);
+customerInformationRouter.get('/getChainForSelect', authMiddleware, customerInformationController.getChainForSelect);
 
 //Создает дочерний элемент (epic) для текущего customer
 customerInformationRouter.post(`/`, authMiddleware, customerInformationController.createEpicForCustomer);

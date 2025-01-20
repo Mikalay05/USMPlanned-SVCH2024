@@ -18,6 +18,7 @@ projectInformationRouter.use((req, res, next) => {
 // Возвращает данные о проекте (действия) согласно первичному ключу
 projectInformationRouter.get('/actions', authMiddleware, projectInformationController.getProjectActionById);
 projectInformationRouter.get('/data', authMiddleware, projectInformationController.getProjectDataById);
+projectInformationRouter.get('/getChainForSelect', authMiddleware, projectInformationController.getChainForSelect);
 
 // Создает дочерний элемент (customer) для текущего проекта
 projectInformationRouter.post('/', authMiddleware, projectInformationController.createCustomerForProject);

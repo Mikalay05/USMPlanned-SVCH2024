@@ -19,6 +19,7 @@ storyInformationRouter.use((req, res, next) => {
 storyInformationRouter.get(`/`,authMiddleware, storyInformationController.getStoryById);
 // Возвращает данные о story (действия) согласно первичному ключу
 storyInformationRouter.get(`/actions`, authMiddleware, storyInformationController.getStoryActionById);
+storyInformationRouter.get('/getChainForSelect', authMiddleware, storyInformationController.getChainForSelect);
 
 //Создает дочерний элемент (task) для текущего story
 storyInformationRouter.post(`/`,authMiddleware, storyInformationController.createTaskForStory);
