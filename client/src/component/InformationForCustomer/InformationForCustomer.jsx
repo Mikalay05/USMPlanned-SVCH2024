@@ -12,10 +12,14 @@ export default function InformationForCustomer({
   filterKeyForCustomers = "name",
   filterKeyForEpics = "name",
 }) {
-  const { projectId,customerId } = useParams(); // Получение customerId из params
+  const { projectId, customerId } = useParams(); // Получение customerId из params
   const dispatch = useDispatch(); // Если нужно будет диспатчить экшены
+  const navigate = useNavigate(); // Хук для навигации
+
   const currentProject = useSelector((state) => state.project.currentProject);
-  const currentCustomer = useSelector((state) => state.customer.currentCustomer);
+  const currentCustomer = useSelector(
+    (state) => state.customer.currentCustomer
+  );
   const projectData = currentProject.projectData;
   const customerData = currentCustomer.customerData;
   const selectedProject = useSelector(
@@ -39,38 +43,36 @@ export default function InformationForCustomer({
       </div>
     );
   }
-
+  // Обработчик выбора клиента
   const handleSelectCustomer = (selectedCustomer) => {
     console.log("Selected Customer:", selectedCustomer);
-    // Добавьте логику для обработки выбранного клиента
-  };
+    // Проверяем, выбран ли клиент
+    if (selectedCustomer) {
+      navigate(`/information/${projectId}/${selectedCustomer.id}`);
+  } else {
+      navigate(`/information/${projectId}`); // Переход без customerId
+  }  };
 
+  // Обработчик выбора эпика
   const handleSelectEpic = (selectedEpic) => {
     console.log("Selected Epic:", selectedEpic);
-    // Добавьте логику для обработки выбранного эпика
+    navigate(`/information/${projectId}/${customerId.id}/${selectedEpic.id}`);
   };
-
-  // TODO: классы стилизация
-  // TODO: маршрутизация через select
-
-  console.log("TESTED selectedProject[projectId]", selectedProject)
-  console.log("TESTED selectedProject[projectId]", projectId)
-  console.log("TESTED selectedProject[projectId]", projectData[projectId])
   return (
     <div className="container-InformationForCustomer">
       <h1>{projectData?.projectName || "Project Name Not Available"}</h1>
       <h3>{projectData?.status?.status_name || "Status Not Available"}</h3>
       <div className="selected-in-InformationForCustomer">
         <CustomerSelect
-          defaultValue={selectedProject?.customersData[projectId]} 
+          defaultValue={selectedProject?.customersData[projectId]} // Устанавливаем значение по умолчанию
           options={selectedProject?.customersData || []}
           filterKey={filterKeyForCustomers}
-          onSelectItem={handleSelectCustomer}
+          onSelectItem={handleSelectCustomer} // Передаем обработчик выбора клиента
         />
         <CustomerSelect
           options={selectedProject?.customersData || []}
           filterKey={filterKeyForEpics}
-          onSelectItem={handleSelectEpic}
+          onSelectItem={handleSelectEpic} // Передаем обработчик выбора эпика
         />
       </div>
       <CustomerCard

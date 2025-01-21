@@ -59,8 +59,14 @@ const CustomerSelect = ({
         setFilteredOptions(options);
         setIsOptionsVisible(false);
         setIsIconRotated(false);
+        // Вызываем основной обработчик, если он передан
         if (typeof onSelect === "function") {
             onSelect(null);
+        }
+
+        // Вызываем обработчик выбора элемента, если он передан
+        if (typeof onSelectItem === "function") {
+            onSelectItem(null);  // Вызываем переименованный обработчик
         }
     };
 

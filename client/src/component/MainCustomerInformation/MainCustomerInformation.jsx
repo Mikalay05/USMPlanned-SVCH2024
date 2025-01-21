@@ -4,7 +4,7 @@ import CustomerDetails from '../CustomerDetails/CustomerDetails'
 import InformationForCustomer from '../InformationForCustomer/InformationForCustomer'
 export default function MainCustomerInformation() {
     return (
-        <main>
+        <main className='conteiner-MainCustomerInformation'>
             <InformationForCustomer/>
             <CustomerDetails />
             <CustomerActionsData />
