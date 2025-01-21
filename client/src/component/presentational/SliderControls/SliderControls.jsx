@@ -3,9 +3,11 @@ import ActionIconsForSlider from "../ActionIconsForSlider/ActionIconsForSlider";
 import CustomerSlider from "../../CustomerSlider/CustomerSlider";
 import ButtonNavigationSlider from "../ButtonNavigationSlider/ButtonNavigationSlider";
 import CustomerCard from "../CustomerCard/CustomerCard";
+import DecisionIcons from "../DecisionIcons/DecisionIcons";
 export default function SliderControls({
   children = [],
   currentIndex,
+  isElementDragged = false,
   handleOpenModalForCreationCustomer = () => {},
   handleDecomposition = () => {},
   handleMoveElement = () => {},
@@ -14,17 +16,25 @@ export default function SliderControls({
   onClickOnElement = () => {},
   onClickOnEmptyElement = () => {},
   onClickCurrentElement = () => {},
+  onSetIsElementDragged = () => {},
   nameOfSliderIndexFile = "Icon-SliderIndex.svg",
   alphaInactiveOnEmptyElement = 0.1,
   emptyCardComponent = CustomerCard,
 }) {
   return (
     <div className="">
-      <ActionIconsForSlider
-        handleMoveElement={handleMoveElement}
-        handleDecomposition={handleDecomposition}
-        handleOpenModalForCreationCustomer={handleOpenModalForCreationCustomer}
-      />
+      {isElementDragged ? (
+        <DecisionIcons/>
+      ) : (
+        <ActionIconsForSlider
+          handleMoveElement={onSetIsElementDragged}
+          handleDecomposition={handleDecomposition}
+          handleOpenModalForCreationCustomer={
+            handleOpenModalForCreationCustomer
+          }
+        />
+      )}
+
       <ButtonNavigationSlider
         currentIndex={currentIndex}
         handlePrev={handlePrev}

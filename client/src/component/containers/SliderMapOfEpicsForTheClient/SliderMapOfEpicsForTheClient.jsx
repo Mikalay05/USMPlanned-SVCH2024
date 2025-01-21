@@ -32,15 +32,14 @@ export default function SliderMapOfEpicsForTheClient() {
   const handleNext = () => {
     setCurrentIndex((prevIndex) => Math.min(data.length - 1, prevIndex + 1));
   };
-  // Клик на элементе
   const onClickOnElement = (index) => {
     setCurrentIndex(index); 
-
   };
-
-  const onClickOnEmptyElement = (index) => {
-    console.log(`Клик на пустом элементе с индексом: ${index}`);
+  const onClickOnEmptyElement = () => {
     setOpenCreationModal(true); 
+  };
+  const handleMoveElement = (fromIndex, toIndex) => {
+    setIsElementDragged(true);
   };
   /*
   ===============
@@ -82,11 +81,10 @@ export default function SliderMapOfEpicsForTheClient() {
       `/information/${projectId}/${customerId}/${data[currentIndex].id}`
     );
   };
-  const handleMoveElement = (fromIndex, toIndex) => {
-    console.log(`Перемещение элемента с индекса ${fromIndex} на ${toIndex}`);
-    //TODO Логика перемещения элементов
-  };
-
+  const [isElementDragged , setIsElementDragged ] = useState(false);
+  const handleOnSetIsElementDragged = () => {
+    setIsElementDragged(true);
+  }
   const handleOpenModalForCreationCustomer = () => {
     setOpenCreationModal(true);
   };
@@ -109,7 +107,9 @@ export default function SliderMapOfEpicsForTheClient() {
         currentIndex={currentIndex}
         handleOpenModalForCreationCustomer={handleOpenModalForCreationCustomer}
         handleDecomposition={handleDecomposition}
-        handleMoveElement={handleMoveElement}
+        onSetIsElementDragged={handleOnSetIsElementDragged}
+        isElementDragged={isElementDragged}
+
         handlePrev={handlePrev}
         handleNext={handleNext}
         onClickOnElement={onClickOnElement}

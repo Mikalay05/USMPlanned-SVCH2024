@@ -1,0 +1,12 @@
+.icons-decision {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-self: stretch;
+}
+.icons-decision > .icon-agree {
+    width: 30px;
+}
+.icons-decision > .icon-disagree {
+    width: 30px;
+}
