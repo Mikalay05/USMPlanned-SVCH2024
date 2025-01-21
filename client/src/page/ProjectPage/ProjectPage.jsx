@@ -1,7 +1,7 @@
 import "./ProjectPage.css";
 import Header from '../../component/containers/Header/Header'
 import Footer from "../../component/Footer/Footer";
-import ProjectComponent from "../../component/ProjectsComponent/ProjectComponent";
+import ProjectComponent from "../../component/containers/ProjectsComponent/ProjectComponent";
 
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";

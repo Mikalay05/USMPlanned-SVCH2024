@@ -1,5 +1,5 @@
 import "./CustomerModal.css";
-import CustomerButton from "../CustomerButton/CustomerButton";
+import CustomerButton from "../../CustomerButton/CustomerButton";
 
 export default function CustomerModal({
   textTitle = "Modal Window",

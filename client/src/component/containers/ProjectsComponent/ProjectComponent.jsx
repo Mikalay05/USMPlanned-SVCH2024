@@ -1,14 +1,14 @@
 import { useState } from "react";
 
-import CardProject from "../presentational/CardProject/CardProject";
-import CustomerModal from "../CustomerModal/CustomerModal";
-import CommonSliderWithButton from "../CommonSliderWithButton/CommonSliderWithButton";
-import CustomerSelect from "../CustomerSelect/CustomerSelect";
-import InputData from "../InputData/InputData";
+import CardProject from "../../presentational/CardProject/CardProject";
+import CustomerModal from "../../presentational/CustomerModal/CustomerModal";
+import CommonSliderWithButton from "../../CommonSliderWithButton/CommonSliderWithButton";
+import CustomerSelect from "../../CustomerSelect/CustomerSelect";
+import InputData from "../../InputData/InputData";
 import ProjectCreationModal from "../ProjectCreationModal/ProjectCreationModal";
 import { useNavigate } from "react-router-dom";
 
-import Notification from "../Notification/Notification";
+import Notification from "../../Notification/Notification";
 
 import "./ProjectComponent.css";
 

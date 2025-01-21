@@ -1,5 +1,5 @@
 import './PasswordUpdateModal.css';
-import CustomerModal from '../CustomerModal/CustomerModal';
+import CustomerModal from "../presentational/CustomerModal/CustomerModal";
 import InputPassword from '../InputPassword/InputPassword';
 import { useState } from 'react';
 import { useDispatch } from "react-redux";

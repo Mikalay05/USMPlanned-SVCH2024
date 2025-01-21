@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import CustomerModal from "../../CustomerModal/CustomerModal";
+import CustomerModal from "../../presentational/CustomerModal/CustomerModal";
 import InputDataWithError from "../../InputDataWithError/InputDataWithError";
 import CustomerSelectWithError from "../../CustomerSelectWithError/CustomerSelectWithError"; 
 import "./ProjectUpdateModal.css";

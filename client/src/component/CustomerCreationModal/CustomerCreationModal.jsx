@@ -1,7 +1,7 @@
 import "./CustomerCreationModal.css";
 import { useState } from "react";
 
-import CustomerModal from "../CustomerModal/CustomerModal";
+import CustomerModal from "../presentational/CustomerModal/CustomerModal";
 import InputData from "../InputData/InputData";
 export default function CustomerCreationModal({
   titleName = "Create customer",

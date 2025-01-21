@@ -1,11 +1,11 @@
 import "./ProjectCreationModal.css";
 import { useState } from "react";
 
-import CustomerModal from "../CustomerModal/CustomerModal";
-import CustomerSelect from "../CustomerSelect/CustomerSelect";
-import InputData from "../InputData/InputData";
+import CustomerModal from "../../presentational/CustomerModal/CustomerModal";
+import CustomerSelect from "../../CustomerSelect/CustomerSelect";
+import InputData from "../../InputData/InputData";
 
-import ProjectForCreationDTO from "../../DTOs/ForCreation/ProjectForCreationDTO";
+import ProjectForCreationDTO from "../../../DTOs/ForCreation/ProjectForCreationDTO";
 
 export default function ProjectCreationModal({
   titleName = "Create project",

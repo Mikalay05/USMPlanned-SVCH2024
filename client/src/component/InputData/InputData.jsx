@@ -9,11 +9,10 @@ export default function InputData({
 
   withIcon = true, //Будет отображаться иконка
   iconName = 'IconSearch.svg', //Базовая иконка, если текст не введен
-  onClickIcon, // обработчик на очистку значения
 
   withClearIcon = true, //Будет отображаться иконка при введенои тексте
   closeIconPath = "CloseIconInInput.svg", //Иконка, когда введен текст
-  onClear, //обработчик собития при нажати на кнопку очищения
+  onClear = () => {}, //обработчик собития при нажати на кнопку очищения
 
   placeholderValue = '',
   widthIcon = "15px",
@@ -21,13 +20,6 @@ export default function InputData({
   type = "text-with-icon", 
   
 }) {
-  //Обработчик очистки
-  const handleClearClick = () => {
-    //Если есть обработчик от родители и значения свойство для очистки -
-    if(onClear) {
-      onClear(nameOfInput)
-    }
-  }
 
   //FIXME
   /*hook.js:608 Warning: You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`. Error Component Stack
@@ -48,14 +40,13 @@ export default function InputData({
             height={heightIcon}
             src={`/${closeIconPath}`}
             alt="Close"
-            onClick={handleClearClick}
+            onClick={()=>{onClear(nameOfInput)}}
             
           />
         ) : (
           <img
             width={widthIcon}
             height={heightIcon}
-            onClick={handleClearClick}
             src={`/${iconName}`}
             alt="icon"
           />
