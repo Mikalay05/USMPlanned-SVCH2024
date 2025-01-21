@@ -4,7 +4,7 @@ import SliderButton from "../SliderButton/SliderButton";
 import CustomerCard from "../CustomerCard/CustomerCard";
 
 export default function CustomerSlider({
-  children = [], // Массив карточек (дочерние элементы)
+  children = [],
   alphaInactiveOnEmptyElement = 0.1, // Прозрачность для пустого элемента
   emptyCardComponent = CustomerCard, // Компонент для пустых карточек
   onClickOnElement = () => {}, // Callback на клик по карточке
@@ -20,7 +20,10 @@ export default function CustomerSlider({
   useEffect(() => {
     const savedIndex = localStorage.getItem(localStorageKey);
     if (savedIndex !== null && !isNaN(savedIndex)) {
-      const index = Math.min(Math.max(0, parseInt(savedIndex, 10)), children.length - 1);
+      const index = Math.min(
+        Math.max(0, parseInt(savedIndex, 10)),
+        children.length - 1
+      );
       setCurrentIndex(index);
     }
   }, [children.length, localStorageKey]);
@@ -37,13 +40,15 @@ export default function CustomerSlider({
 
   // Переключение на предыдущий слайд
   const handlePrev = () => {
-    const newIndex = currentIndex === 0 ? children.length - 1 : currentIndex - 1;
+    const newIndex =
+      currentIndex === 0 ? children.length - 1 : currentIndex - 1;
     updateIndex(newIndex); // Обновляем индекс и передаем next_id
   };
 
   // Переключение на следующий слайд
   const handleNext = () => {
-    const newIndex = currentIndex === children.length - 1 ? 0 : currentIndex + 1;
+    const newIndex =
+      currentIndex === children.length - 1 ? 0 : currentIndex + 1;
     updateIndex(newIndex); // Обновляем индекс и передаем next_id
   };
 
@@ -61,7 +66,11 @@ export default function CustomerSlider({
 
   // Генерация карточки по индексу
   const getCardByIndex = (index, isActive) => {
-    if (index < 0 || index >= children.length || !React.isValidElement(children[index])) {
+    if (
+      index < 0 ||
+      index >= children.length ||
+      !React.isValidElement(children[index])
+    ) {
       return createEmptyCard();
     }
     return React.cloneElement(children[index], {
@@ -81,26 +90,28 @@ export default function CustomerSlider({
   }
 
   return (
-    <div className="slider-container">
-      <SliderButton
-        direction="prev"
-        onClick={handlePrev}
-        isDisabled={isPrevDisabled}
-        icon={`/${nameOfSliderIndexFile}`}
-        rotation={90}
-      />
-      <div className="slider">
-        {getCardByIndex(currentIndex - 1, false)} {/* Левая карточка */}
-        {getCardByIndex(currentIndex, true)} {/* Активная карточка */}
-        {getCardByIndex(currentIndex + 1, false)} {/* Правая карточка */}
+    <>
+      <div className="slider-container">
+        <SliderButton
+          direction="prev"
+          onClick={handlePrev}
+          isDisabled={isPrevDisabled}
+          icon={`/${nameOfSliderIndexFile}`}
+          rotation={90}
+        />
+        <div className="slider">
+          {getCardByIndex(currentIndex - 1, false)} {/* Левая карточка */}
+          {getCardByIndex(currentIndex, true)} {/* Активная карточка */}
+          {getCardByIndex(currentIndex + 1, false)} {/* Правая карточка */}
+        </div>
+        <SliderButton
+          direction="next"
+          onClick={handleNext}
+          isDisabled={isNextDisabled}
+          icon={`/${nameOfSliderIndexFile}`}
+          rotation={-90}
+        />
       </div>
-      <SliderButton
-        direction="next"
-        onClick={handleNext}
-        isDisabled={isNextDisabled}
-        icon={`/${nameOfSliderIndexFile}`}
-        rotation={-90}
-      />
-    </div>
+    </>
   );
 }

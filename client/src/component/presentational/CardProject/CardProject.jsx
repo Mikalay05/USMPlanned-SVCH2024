@@ -1,5 +1,5 @@
-import ProgressTab from "../ProgressTab/ProgressTab";
-import CustomerButton from "../CustomerButton/CustomerButton";
+import ProgressTab from "../../ProgressTab/ProgressTab";
+import CustomerButton from "../../CustomerButton/CustomerButton";
 import "./CardProject.css";
 export default function CardProject({
   projectName,

@@ -11,7 +11,7 @@ import { getChainForSelectionInTheProject } from '../../store/slices/projectSlic
 
 import Header from "../../component/Header/Header";
 import Footer from "../../component/Footer/Footer";
-import MainCustomerInformation from '../../component/MainCustomerInformation/MainCustomerInformation';
+import MainCustomerInformation from '../../component/containers/MainCustomerInformation/MainCustomerInformation';
 
 export default function CustomerInformation({
 

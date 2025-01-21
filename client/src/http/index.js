@@ -25,7 +25,7 @@ $api.interceptors.response.use(
     },
     async (error) => {
         const originalRequest = error.config;
-
+        
         // Проверяем, что ошибка — 401, запрос ещё не был повторён, и ошибка не вызвана сетевой проблемой
         if (
             error.response &&

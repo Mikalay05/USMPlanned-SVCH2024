@@ -1,5 +1,5 @@
 import React from "react";
-import CustomerCard from "../CustomerCard/CustomerCard"; // Импортируем кастомную карточку
+import CustomerCard from "../../CustomerCard/CustomerCard"; // Импортируем кастомную карточку
 import "./CardForCustomers.css";
 
 export default function CardForCustomers({

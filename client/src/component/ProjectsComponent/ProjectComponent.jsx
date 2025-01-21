@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import CardProject from "../CardProject/CardProject";
+import CardProject from "../presentational/CardProject/CardProject";
 import CustomerModal from "../CustomerModal/CustomerModal";
 import CommonSliderWithButton from "../CommonSliderWithButton/CommonSliderWithButton";
 import CustomerSelect from "../CustomerSelect/CustomerSelect";

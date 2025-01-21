@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom"; // Импорт useNavigate
 import "./MainProjectInformation.css";
 import CustomerSlider from "../CustomerSlider/CustomerSlider";
-import CardForCustomers from "../CardForCustomers/CardForCustomers";
+import CardForCustomers from "../presentational/CardForCustomers/CardForCustomers";
 import CustomerCreationModal from "../CustomerCreationModal/CustomerCreationModal";
 import TitleForProjectInformation from "../TitleForProjectInformation/TitleForProjectInformation";
 import ProjectDetails from "../ProjectDetails/ProjectDetails";
