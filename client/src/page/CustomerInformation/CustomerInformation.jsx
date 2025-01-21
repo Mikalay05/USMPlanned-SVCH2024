@@ -5,9 +5,10 @@ import { useParams } from "react-router-dom"; // Импортируем useParam
 import { getProjectDataById } from '../../store/slices/projectSlice';
 import { getCurrentUserData } from '../../store/slices/userSlice';
 import { getCustomerActions } from '../../store/slices/customerSlice';
+import { getCurrentCustomer } from '../../store/slices/customerSlice';
+import { getChainForSelectionInTheProject } from '../../store/slices/projectSlice';
 
 import Header from "../../component/Header/Header";
-import MainProjectInformation from '../../component/MainProjectInformation/MainProjectInformation'
 import Footer from "../../component/Footer/Footer";
 import MainCustomerInformation from '../../component/MainCustomerInformation/MainCustomerInformation';
 
@@ -23,9 +24,10 @@ export default function CustomerInformation({
         
         if (customerId) {
             dispatch(getCustomerActions(customerId));
-            dispatch(getCustomerActions(customerId));
+            dispatch(getCurrentCustomer(customerId));
         }
         if(projectId) {
+            dispatch(getChainForSelectionInTheProject(projectId));
             dispatch(getProjectDataById(projectId));
         }
     }, [dispatch, projectId, customerId]);

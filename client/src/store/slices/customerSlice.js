@@ -7,24 +7,26 @@ import CustomerService from "../../services/CustomerService";
  * ===============
  */
 import CustomerActionsDto from "../../DTOs/Data/Actions/CustomerActionsDto";
-import CustomerActionsDto from "../../DTOs/Data/Information/";
+import InformationCustomerDto from "../../DTOs/Data/Information/InformationCustomerDto";
 
 // Получение всех actions
 export const getCustomerActions = createAsyncThunk(
-    "customer/getCustomerActions",
-    async (customerId) => {
-      const response = await CustomerService.getCustomerActions(customerId);
-      const result = response.customerActions.map((action) => new CustomerActionsDto(action));
-      return result;
-    }
-  );
+  "customer/getCustomerActions",
+  async (customerId) => {
+    const response = await CustomerService.getCustomerActions(customerId);
+    const result = response.customerActions.map(
+      (action) => new CustomerActionsDto(action)
+    );
+    return result;
+  }
+);
 
-  // Получение current customer
+// Получение current customer
 export const getCurrentCustomer = createAsyncThunk(
   "customer/getCurrentCustomer",
   async (customerId) => {
     const response = await CustomerService.getCurrentCustomer(customerId);
-    const result = response.customerActions.map((action) => new CustomerActionsDto(action));
+    const result = new InformationCustomerDto(response);
     return result;
   }
 );
@@ -40,12 +42,11 @@ const customerSlice = createSlice({
       isLoading: false,
     },
   },
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
+      //GROUP getCustomerActions
       .addCase(getCustomerActions.pending, (state) => {
-
         state.customerActions.isLoading = true;
       })
       .addCase(getCustomerActions.fulfilled, (state, action) => {
@@ -55,11 +56,20 @@ const customerSlice = createSlice({
         state.customerActions.isLoading = false;
       })
       .addCase(getCustomerActions.rejected, (state) => {
-
         state.customerActions.isLoading = false;
+      })
+      //GROUP getCurrentCustomer
+      .addCase(getCurrentCustomer.pending, (state) => {
+        state.currentCustomer.isLoading = true;
+      })
+      .addCase(getCurrentCustomer.fulfilled, (state, action) => {
+        state.currentCustomer.customerData=action.payload;
+        state.currentCustomer.isLoading = false;
+      })
+      .addCase(getCurrentCustomer.rejected, (state) => {
+        state.currentCustomer.isLoading = false;
       });
   },
 });
-
 
 export default customerSlice.reducer;
