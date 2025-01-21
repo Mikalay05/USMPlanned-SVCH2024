@@ -4,6 +4,7 @@ import CustomerSlider from "../../CustomerSlider/CustomerSlider";
 import ButtonNavigationSlider from "../ButtonNavigationSlider/ButtonNavigationSlider";
 import CustomerCard from "../CustomerCard/CustomerCard";
 import DecisionIcons from "../DecisionIcons/DecisionIcons";
+import ButtonMoveSlider from "../ButtonMoveSlider/ButtonMoveSlider";
 export default function SliderControls({
   children = [],
   currentIndex,
@@ -20,11 +21,17 @@ export default function SliderControls({
   nameOfSliderIndexFile = "Icon-SliderIndex.svg",
   alphaInactiveOnEmptyElement = 0.1,
   emptyCardComponent = CustomerCard,
+  onClickToAgreeMove = () => {},
+  onClickToDisagreeMove = () => {},
+  draggedIndex = -1,
 }) {
   return (
     <div className="">
       {isElementDragged ? (
-        <DecisionIcons/>
+        <DecisionIcons
+          onAgreeClick={onClickToAgreeMove}
+          onDisagreeClick={onClickToDisagreeMove}
+        />
       ) : (
         <ActionIconsForSlider
           handleMoveElement={onSetIsElementDragged}
@@ -34,20 +41,28 @@ export default function SliderControls({
           }
         />
       )}
-
-      <ButtonNavigationSlider
-        currentIndex={currentIndex}
-        handlePrev={handlePrev}
-        handleNext={handleNext}
-        onClickOnElement={onClickOnElement}
-        onClickOnEmptyElement={onClickOnEmptyElement}
-        onClickCurrentElement={onClickCurrentElement}
-        nameOfSliderIndexFile={nameOfSliderIndexFile}
-        alphaInactiveOnEmptyElement={alphaInactiveOnEmptyElement}
-        emptyCardComponent={emptyCardComponent}
-      >
-        {children}
-      </ButtonNavigationSlider>
+      {isElementDragged ? (
+        <ButtonMoveSlider 
+        draggedIndex={draggedIndex}
+        
+        >{children}</ButtonMoveSlider>
+      ) : (
+        <ButtonNavigationSlider
+          currentIndex={currentIndex}
+          handlePrev={handlePrev}
+          handleNext={handleNext}
+          onClickOnElement={onClickOnElement}
+          onClickOnEmptyElement={onClickOnEmptyElement}
+          onClickCurrentElement={onClickCurrentElement}
+          nameOfSliderIndexFile={nameOfSliderIndexFile}
+          alphaInactiveOnEmptyElement={alphaInactiveOnEmptyElement}
+          emptyCardComponent={emptyCardComponent}
+          draggedIndex={draggedIndex}
+          isElementDragged={isElementDragged}
+        >
+          {children}
+        </ButtonNavigationSlider>
+      )}
     </div>
   );
 }

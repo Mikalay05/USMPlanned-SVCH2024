@@ -13,6 +13,8 @@ export default function ButtonNavigationSlider({
   nameOfSliderIndexFile = "Icon-SliderIndex.svg",
   alphaInactiveOnEmptyElement = 0.1, 
   emptyCardComponent = CustomerCard,
+
+
 }) {
   const isPrevDisabled = currentIndex === 0;
   const isNextDisabled = currentIndex === children.length - 1;

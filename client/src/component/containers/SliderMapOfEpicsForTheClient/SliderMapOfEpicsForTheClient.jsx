@@ -25,6 +25,7 @@ export default function SliderMapOfEpicsForTheClient() {
     const storedIndex = localStorage.getItem("currentIndex");
     return storedIndex !== null ? Number(storedIndex) : 0;
   });
+  const [draggedIndex, setDraggedIndex] = useState(-1); 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) => Math.max(0, prevIndex - 1));
   };
@@ -38,9 +39,14 @@ export default function SliderMapOfEpicsForTheClient() {
   const onClickOnEmptyElement = () => {
     setOpenCreationModal(true); 
   };
-  const handleMoveElement = (fromIndex, toIndex) => {
-    setIsElementDragged(true);
-  };
+
+  const handleOnClickToDisagreeMove = () => {
+    setIsElementDragged(false);
+    setDraggedIndex(-1);
+  }
+  const handleOnClickToAgreeMove = () => {
+    alert("MOVE")
+  }
   /*
   ===============
   CREATION MODAL
@@ -83,6 +89,7 @@ export default function SliderMapOfEpicsForTheClient() {
   };
   const [isElementDragged , setIsElementDragged ] = useState(false);
   const handleOnSetIsElementDragged = () => {
+    setDraggedIndex(currentIndex)
     setIsElementDragged(true);
   }
   const handleOpenModalForCreationCustomer = () => {
@@ -109,13 +116,15 @@ export default function SliderMapOfEpicsForTheClient() {
         handleDecomposition={handleDecomposition}
         onSetIsElementDragged={handleOnSetIsElementDragged}
         isElementDragged={isElementDragged}
-
         handlePrev={handlePrev}
         handleNext={handleNext}
         onClickOnElement={onClickOnElement}
         onClickOnEmptyElement={onClickOnEmptyElement}
         onClickCurrentElement={handleDecomposition}
         emptyCardComponent={CardForEpic}
+        onClickToAgreeMove={handleOnClickToAgreeMove}
+        onClickToDisagreeMove={handleOnClickToDisagreeMove}
+        draggedIndex={draggedIndex}
       >
         {data.map((item) => (
           <CardForEpic key={item.id} dataOfObject={item} />
