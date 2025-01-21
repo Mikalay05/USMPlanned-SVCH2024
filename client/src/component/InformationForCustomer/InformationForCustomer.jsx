@@ -25,6 +25,9 @@ export default function InformationForCustomer({
   const selectedProject = useSelector(
     (state) => state.project.customersForSelectInTheProject
   );
+  const selectedCustomer = useSelector(
+    (state) => state.customer.epicsForSelectInTheCustomer
+  );
 
   if (currentProject.isLoading) {
     return (
@@ -43,6 +46,15 @@ export default function InformationForCustomer({
       </div>
     );
   }
+  console.log(selectedCustomer)
+  if (selectedCustomer.isLoading) {
+    return (
+      <div>
+        Loading selected customer...
+        <LoadingDots />
+      </div>
+    );
+  }
   // Обработчик выбора клиента
   const handleSelectCustomer = (selectedCustomer) => {
     console.log("Selected Customer:", selectedCustomer);
@@ -56,7 +68,7 @@ export default function InformationForCustomer({
   // Обработчик выбора эпика
   const handleSelectEpic = (selectedEpic) => {
     console.log("Selected Epic:", selectedEpic);
-    navigate(`/information/${projectId}/${customerId.id}/${selectedEpic.id}`);
+    navigate(`/information/${projectId}/${customerId}/${selectedEpic.id}`);
   };
   return (
     <div className="container-InformationForCustomer">
@@ -70,7 +82,7 @@ export default function InformationForCustomer({
           onSelectItem={handleSelectCustomer} // Передаем обработчик выбора клиента
         />
         <CustomerSelect
-          options={selectedProject?.customersData || []}
+          options={selectedCustomer?.epicsData || []}
           filterKey={filterKeyForEpics}
           onSelectItem={handleSelectEpic} // Передаем обработчик выбора эпика
         />
