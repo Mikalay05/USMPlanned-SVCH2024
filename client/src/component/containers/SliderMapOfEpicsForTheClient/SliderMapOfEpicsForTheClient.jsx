@@ -1,38 +1,27 @@
 import "./SliderMapOfEpicsForTheClient.css";
 import { useDispatch, useSelector } from "react-redux";
 
+import SliderControls from "../../presentational/SliderControls/SliderControls";
 import CardForEpic from "../../presentational/CardForEpic/CardForEpic";
-import CustomerSlider from "../../CustomerSlider/CustomerSlider";
-
-
-export default function SliderMapOfEpicsForTheClient({
-  handleNextId = () => {},
-  handleIndexChange = () => {},
-}) {
-  const selectedCustomer = useSelector(
+import LoadingDots from '../../presentational/LoadingDots/LoadingDots'
+export default function SliderMapOfEpicsForTheClient({}) {
+  const epicsForSelectFotTheCustomer = useSelector(
     (state) => state.customer.epicsForSelectInTheCustomer
   );
-  const dataForSelect = selectedCustomer.epicsData;
-  
-  return (  
-    <CustomerSlider
-      localStorageKey="currentEpicIndex"
-      onHandleNextId={handleNextId}
-      onIndexChange={handleIndexChange} // Передаем callback для изменения индекса
-      notFoundMessage="Not found Epics in this customer"
-      emptyCardComponent={CardForEpic}
-    >
-      {Array.isArray(dataForSelect) && dataForSelect.length > 0 ? (
-        dataForSelect.map((item) => (
-          <CardForEpic
-            key={item.id}
-            epicId={item.id}
-            epicName={item.name}
-          />
-        ))
-      ) : (
-        <p className="not-found-message">No customers found in this project.</p>
-      )}
-    </CustomerSlider>
+  const data = epicsForSelectFotTheCustomer.epicsData ;
+  if (epicsForSelectFotTheCustomer.isLoading) {
+    return (
+      <div>
+        Loading...
+        <LoadingDots />
+      </div>
+    );
+  }
+  return (
+    <SliderControls>
+      {data.map((item, index) => (
+        <CardForEpic key={index} dataOfObject={item} />
+      ))}
+    </SliderControls>
   );
 }

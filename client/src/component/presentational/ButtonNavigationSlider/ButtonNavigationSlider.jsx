@@ -1,6 +1,7 @@
 import "./ButtonNavigationSlider.css";
 import SliderButton from "../../SliderButton/SliderButton";
 import React, { useState, useEffect } from "react";
+import CustomerCard from "../CustomerCard/CustomerCard";
 export default function ButtonNavigationSlider({
   currentIndex,
   children = [],
@@ -10,7 +11,7 @@ export default function ButtonNavigationSlider({
   onClickOnEmptyElement = () => {},
   nameOfSliderIndexFile = "Icon-SliderIndex.svg",
   alphaInactiveOnEmptyElement = 0.1, 
-  emptyCardComponent,
+  emptyCardComponent = CustomerCard,
 }) {
   const isPrevDisabled = currentIndex === 0;
   const isNextDisabled = currentIndex === children.length - 1;
@@ -62,3 +63,4 @@ export default function ButtonNavigationSlider({
     </div>
   );
 }
+

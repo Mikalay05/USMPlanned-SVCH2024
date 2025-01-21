@@ -1,7 +1,7 @@
 import React from 'react';
-import './TaskActionsData.css';
+import './ProjectActionsData.css';
 import { useSelector } from 'react-redux';
-import LoadingDots from '../LoadingDots/LoadingDots';
+import LoadingDots from '../../presentational/LoadingDots/LoadingDots';
 
 // Функция для форматирования даты
 const formatDate = (dateString) => {
@@ -14,17 +14,17 @@ const formatDate = (dateString) => {
 
   return `${day}.${month}.${year} ${hours}:${minutes}`;
 };
-const TaskActionsData = () => {
-  const { actionsData, isLoading } = useSelector((state) => state.task.taskActions);
+const ProjectActionsData = () => {
+  const { actionsData, isLoading } = useSelector((state) => state.project.projectActions);
   return (
-    <div className="task-actions-section">
-      <h3 className="task-actions-title">Actions of Task:</h3>
-      <div className="task-actions-list">
+    <div className="project-actions-section">
+      <h3 className="project-actions-title">Actions of Project:</h3>
+      <div className="project-actions-list">
         {isLoading ? (
           <p className="loading-text"><LoadingDots/>Loading actions...</p>
         ) : actionsData?.length > 0 ? (
           actionsData.map((action) => (
-            <p key={action.actionId} className="task-action-item">
+            <p key={action.actionId} className="project-action-item">
               {formatDate(action.created_at)} | {action.user.login} ({action.user.fullName}) DID {action.description}
             </p>
           ))
@@ -36,4 +36,4 @@ const TaskActionsData = () => {
   );
 };
 
-export default TaskActionsData;
+export default ProjectActionsData;

@@ -1,8 +1,8 @@
-import UserDataCard from "../UserDataCard/UserDataCard";
+import UserDataCard from "../../UserDataCard/UserDataCard";
 import "./MainUsersComponent.css";
 import { useSelector } from "react-redux";
 import React from 'react';
-import LoadingDots from "../LoadingDots/LoadingDots";
+import LoadingDots from '../../presentational/LoadingDots/LoadingDots';
 import { Link } from "react-router-dom"; 
 
 export default function MainUsersComponent({

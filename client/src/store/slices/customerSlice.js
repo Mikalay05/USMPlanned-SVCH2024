@@ -56,7 +56,7 @@ const customerSlice = createSlice({
       isLoading: false,
     },
     epicsForSelectInTheCustomer: {
-      epicsData: {},
+      epicsData: [],
       isLoading: false,
     },
   },

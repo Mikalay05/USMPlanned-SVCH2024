@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import LoadingDots from "../LoadingDots/LoadingDots";
-import CustomerSelect from "../CustomerSelect/CustomerSelect";
-import CustomerButton from "../CustomerButton/CustomerButton";
-import CustomerCard from "../CustomerCard/CustomerCard";
+import LoadingDots from "../../presentational/LoadingDots/LoadingDots";
+import CustomerSelect from "../../CustomerSelect/CustomerSelect";
+import CustomerButton from "../../CustomerButton/CustomerButton";
+import CustomerCard from "../../presentational/CustomerCard/CustomerCard";
 
 export default function InformationForCustomer({
   filterKeyForCustomers = "name",

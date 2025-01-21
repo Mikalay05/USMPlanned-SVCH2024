@@ -1,6 +1,6 @@
 import './ChangeDataForUser.css'
 import Footer from '../../component/Footer/Footer'
-import Header from '../../component/Header/Header'
+import Header from '../../component/containers/Header/Header'
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserDataById } from "../../store/slices/userSlice";
 import { getCurrentUserData } from "../../store/slices/userSlice";

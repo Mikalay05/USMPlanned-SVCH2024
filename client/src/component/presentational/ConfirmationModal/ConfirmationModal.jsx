@@ -1,6 +1,6 @@
 import React from 'react';
 import './ConfirmationModal.css';
-import CustomerButton from '../CustomerButton/CustomerButton'; // Ensure to import your CustomerButton component
+import CustomerButton from '../../CustomerButton/CustomerButton'; // Ensure to import your CustomerButton component
 
 export default function ConfirmationModal({
     title = "Confirm?",

@@ -7,9 +7,9 @@ import { getProjectDataById } from '../../store/slices/projectSlice';
 import { getCurrentUserData } from '../../store/slices/userSlice';
 import { getEpicActions } from '../../store/slices/epicSlice';
 
-import Header from "../../component/Header/Header";
+import Header from '../../component/containers/Header/Header'
 import Footer from "../../component/Footer/Footer";
-import MainEpicInformation from '../../component/MainEpicInformation/MainEpicInformation';
+import MainEpicInformation from '../../component/containers/MainEpicInformation/MainEpicInformation';
 
 
 export default function EpicInformation({

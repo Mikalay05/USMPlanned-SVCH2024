@@ -1,13 +1,13 @@
 import "./ProjectDetails.css";
-import CustomerButton from "../CustomerButton/CustomerButton";
-import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
+import CustomerButton from "../../CustomerButton/CustomerButton";
+import ConfirmationModal from "../../presentational/ConfirmationModal/ConfirmationModal";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProject } from "../../store/slices/projectSlice";
+import { deleteProject } from "../../../store/slices/projectSlice";
 import { useNavigate } from "react-router-dom"; // Импортируем useNavigate
 import ProjectUpdateModal from "../ProjectUpdateModal/ProjectUpdateModal";
 import ProjectActionsData from "../ProjectActionsData/ProjectActionsData";
-import LoadingDots from '../LoadingDots/LoadingDots';
+import LoadingDots from '../../presentational/LoadingDots/LoadingDots';
 
 export default function ProjectDetails() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);

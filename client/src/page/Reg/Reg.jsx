@@ -1,7 +1,7 @@
 import './Reg.css';
 
 import MainReg from '../../component/MainReg/MainReg';
-import Header from '../../component/Header/Header';
+import Header from '../../component/containers/Header/Header'
 import Footer from '../../component/Footer/Footer';
 
 import { useEffect } from 'react';

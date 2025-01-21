@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./CustomerSlider.css";
 import SliderButton from "../SliderButton/SliderButton";
-import CustomerCard from "../CustomerCard/CustomerCard";
+import CustomerCard from "../presentational/CustomerCard/CustomerCard";
 
 export default function CustomerSlider({
   children = [],

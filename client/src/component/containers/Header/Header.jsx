@@ -1,8 +1,8 @@
-import BurgerMenu from "../BurgerMenu/BurgerMenu";
+import BurgerMenu from "../../presentational/BurgerMenu/BurgerMenu";
 import { Link } from 'react-router-dom';
 import "./Header.css";
 import { useSelector } from "react-redux";
-import LoginIconMenu from "../LoginIconMenu/LoginIconMenu"; // Импортируем новый компонент
+import LoginIconMenu from "../../LoginIconMenu/LoginIconMenu"; // Импортируем новый компонент
 import { useNavigate } from "react-router-dom";
 //TODO функционал бургер меню
 const roles = {

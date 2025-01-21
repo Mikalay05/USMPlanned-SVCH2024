@@ -9,7 +9,7 @@ import { getCurrentCustomer } from '../../store/slices/customerSlice';
 import { getChainForSelectionInTheCustomer } from '../../store/slices/customerSlice';
 import { getChainForSelectionInTheProject } from '../../store/slices/projectSlice';
 
-import Header from "../../component/Header/Header";
+import Header from '../../component/containers/Header/Header'
 import Footer from "../../component/Footer/Footer";
 import MainCustomerInformation from '../../component/containers/MainCustomerInformation/MainCustomerInformation';
 

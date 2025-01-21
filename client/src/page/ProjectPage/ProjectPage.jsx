@@ -1,5 +1,5 @@
 import "./ProjectPage.css";
-import Header from "../../component/Header/Header";
+import Header from '../../component/containers/Header/Header'
 import Footer from "../../component/Footer/Footer";
 import ProjectComponent from "../../component/ProjectsComponent/ProjectComponent";
 

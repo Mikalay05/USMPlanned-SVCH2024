@@ -7,9 +7,9 @@ import { getProjectDataById } from '../../store/slices/projectSlice';
 import { getCurrentUserData } from '../../store/slices/userSlice';
 import { getTaskActions } from '../../store/slices/taskSlice';  
 
-import Header from "../../component/Header/Header";
+import Header from '../../component/containers/Header/Header'
 import Footer from "../../component/Footer/Footer";
-import MainTaskInformation from '../../component/MainTaskInformation/MainTaskInformation';  
+import MainTaskInformation from '../../component/containers/MainTaskInformation/MainTaskInformation';  
 
 export default function TaskInformation({
     

@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom"; // Импорт useNavigate
 import "./MainProjectInformation.css";
-import CustomerSlider from "../CustomerSlider/CustomerSlider";
-import CardForCustomers from "../presentational/CardForCustomers/CardForCustomers";
-import CustomerCreationModal from "../CustomerCreationModal/CustomerCreationModal";
+import CustomerSlider from "../../CustomerSlider/CustomerSlider";
+import CardForCustomers from "../../presentational/CardForCustomers/CardForCustomers";
+import CustomerCreationModal from "../../CustomerCreationModal/CustomerCreationModal";
 import TitleForProjectInformation from "../TitleForProjectInformation/TitleForProjectInformation";
 import ProjectDetails from "../ProjectDetails/ProjectDetails";
-import LoadingDots from "../LoadingDots/LoadingDots";
+import LoadingDots from '../../presentational/LoadingDots/LoadingDots';
 export default function MainProjectInformation() {
   const { projectId } = useParams();
   const dispatch = useDispatch();

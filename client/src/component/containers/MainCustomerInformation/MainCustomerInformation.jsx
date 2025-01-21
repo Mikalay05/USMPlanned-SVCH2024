@@ -1,14 +1,15 @@
 import "./MainCustomerInformation.css";
 import CustomerActionsData from "../CustomerActionsData/CustomerActionsData";
 import CustomerDetails from "../../CustomerDetails/CustomerDetails";
-import InformationForCustomer from "../../InformationForCustomer/InformationForCustomer";
-import SliderControls from "../../SliderControls/SliderControls";
+import InformationForCustomer from "../InformationForCustomer/InformationForCustomer";
+import SliderControls from "../../presentational/SliderControls/SliderControls";
+import SliderMapOfEpicsForTheClient from "../SliderMapOfEpicsForTheClient/SliderMapOfEpicsForTheClient";
 
 export default function MainCustomerInformation() {
   return (
     <main className="conteiner-MainCustomerInformation">
       <InformationForCustomer />
-      <SliderControls />
+      <SliderMapOfEpicsForTheClient/>
       <CustomerDetails />
       <CustomerActionsData />
     </main>

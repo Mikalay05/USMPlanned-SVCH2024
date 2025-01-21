@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './TitleForProjectInformation.css';
-import CustomerSelect from '../CustomerSelect/CustomerSelect';
-import CustomerButton from '../CustomerButton/CustomerButton';
+import CustomerSelect from '../../CustomerSelect/CustomerSelect';
+import CustomerButton from '../../CustomerButton/CustomerButton';
 import { useDispatch, useSelector } from "react-redux";
-import LoadingDots from '../LoadingDots/LoadingDots';
+import LoadingDots from '../../presentational/LoadingDots/LoadingDots';
 
 export default function TitleForProjectInformation({
     filterKey = 'name',

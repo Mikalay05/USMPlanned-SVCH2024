@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import CustomerModal from "../CustomerModal/CustomerModal";
-import InputDataWithError from "../InputDataWithError/InputDataWithError";
-import CustomerSelectWithError from "../CustomerSelectWithError/CustomerSelectWithError"; 
+import CustomerModal from "../../CustomerModal/CustomerModal";
+import InputDataWithError from "../../InputDataWithError/InputDataWithError";
+import CustomerSelectWithError from "../../CustomerSelectWithError/CustomerSelectWithError"; 
 import "./ProjectUpdateModal.css";
-import { updateProject } from "../../store/slices/projectSlice";
-import Notification from "../Notification/Notification"; 
-import LoadingDots from "../LoadingDots/LoadingDots";
+import { updateProject } from "../../../store/slices/projectSlice";
+import Notification from "../../Notification/Notification"; 
+import LoadingDots from '../../presentational/LoadingDots/LoadingDots';
 
 export default function ProjectUpdateModal({
   openModal = false,

@@ -1,7 +1,7 @@
 import React from 'react';
 import './StoryActionsData.css';
 import { useSelector } from 'react-redux';
-import LoadingDots from '../LoadingDots/LoadingDots';
+import LoadingDots from '../../presentational/LoadingDots/LoadingDots'
 
 // Функция для форматирования даты
 const formatDate = (dateString) => {
