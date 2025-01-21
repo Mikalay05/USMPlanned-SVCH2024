@@ -6,6 +6,7 @@ import { getProjectDataById } from '../../store/slices/projectSlice';
 import { getCurrentUserData } from '../../store/slices/userSlice';
 import { getCustomerActions } from '../../store/slices/customerSlice';
 import { getCurrentCustomer } from '../../store/slices/customerSlice';
+import { getChainForSelectionInTheCustomer } from '../../store/slices/customerSlice';
 import { getChainForSelectionInTheProject } from '../../store/slices/projectSlice';
 
 import Header from "../../component/Header/Header";
@@ -25,6 +26,7 @@ export default function CustomerInformation({
         if (customerId) {
             dispatch(getCustomerActions(customerId));
             dispatch(getCurrentCustomer(customerId));
+            dispatch(getChainForSelectionInTheCustomer(customerId));
         }
         if(projectId) {
             dispatch(getChainForSelectionInTheProject(projectId));

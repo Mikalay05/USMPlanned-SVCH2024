@@ -19,6 +19,14 @@ class CustomerService extends BaseService {
     const response = await BaseService.request("get", endpoint);
     return response;
   }
+  async getChainForSelectionInTheCustomer(customerId) {
+    const endpoint = API_ENDPOINTS.CUSTOMER.GET_CHAIN_FOR_SELECT.replace(
+      ":customerId",
+      customerId
+    );
+    const response = await BaseService.request("get", endpoint);
+    return response;
+  }
 }
 
 const customerServicenstance = new CustomerService();

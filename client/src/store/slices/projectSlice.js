@@ -184,7 +184,6 @@ const projectSlice = createSlice({
         state.customersForSelectInTheProject.isLoading = true;
       })
       .addCase(getChainForSelectionInTheProject.fulfilled, (state, action) => {
-        console.log(action)
         state.customersForSelectInTheProject.customersData = action.payload;
         state.customersForSelectInTheProject.isLoading = false;
       })

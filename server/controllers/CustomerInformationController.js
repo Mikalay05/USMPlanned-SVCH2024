@@ -88,9 +88,7 @@ class CustomerInformationController {
   }
   getChainForSelect = async (req, res, next) => {
     try {
-      // Получаем projectId из параметров
       const customerId = this.getCustomerIdFromReqParams(req);
-      // Получаем данные о проекте
       const data = await CustomerService.getChainForSelect(customerId);
       // Создаем DTO для результата
       const resultDto = data.map(

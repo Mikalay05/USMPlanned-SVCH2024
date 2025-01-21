@@ -8,6 +8,7 @@ import CustomerService from "../../services/CustomerService";
  */
 import CustomerActionsDto from "../../DTOs/Data/Actions/CustomerActionsDto";
 import InformationCustomerDto from "../../DTOs/Data/Information/InformationCustomerDto";
+import ChainForSelectionInTheCustomer from "../../DTOs/Data/ChainForSelect/ChainForSelectionInTheCustomer";
 
 // Получение всех actions
 export const getCustomerActions = createAsyncThunk(
@@ -30,6 +31,19 @@ export const getCurrentCustomer = createAsyncThunk(
     return result;
   }
 );
+// Получение получить цепт epic for customer
+export const getChainForSelectionInTheCustomer = createAsyncThunk(
+  "customer/getChainForSelectionInTheCustomer",
+  async (customerId) => {
+    const response = await CustomerService.getChainForSelectionInTheCustomer(
+      customerId
+    );
+    const result = response.map(
+      (item) => new ChainForSelectionInTheCustomer(item)
+    );
+    return result;
+  }
+);
 const customerSlice = createSlice({
   name: "customer",
   initialState: {
@@ -39,6 +53,10 @@ const customerSlice = createSlice({
     },
     currentCustomer: {
       customerData: {},
+      isLoading: false,
+    },
+    epicsForSelectInTheCustomer: {
+      epicsData: {},
       isLoading: false,
     },
   },
@@ -63,11 +81,22 @@ const customerSlice = createSlice({
         state.currentCustomer.isLoading = true;
       })
       .addCase(getCurrentCustomer.fulfilled, (state, action) => {
-        state.currentCustomer.customerData=action.payload;
+        state.currentCustomer.customerData = action.payload;
         state.currentCustomer.isLoading = false;
       })
       .addCase(getCurrentCustomer.rejected, (state) => {
         state.currentCustomer.isLoading = false;
+      })
+      //GROUP getChainForSelectionInTheCustomer
+      .addCase(getChainForSelectionInTheCustomer.pending, (state) => {
+        state.epicsForSelectInTheCustomer.isLoading = true;
+      })
+      .addCase(getChainForSelectionInTheCustomer.fulfilled, (state, action) => {
+        state.epicsForSelectInTheCustomer.epicsData = action.payload;
+        state.epicsForSelectInTheCustomer.isLoading = false;
+      })
+      .addCase(getChainForSelectionInTheCustomer.rejected, (state) => {
+        state.epicsForSelectInTheCustomer.isLoading = false;
       });
   },
 });

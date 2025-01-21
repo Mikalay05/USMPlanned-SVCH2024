@@ -44,7 +44,7 @@ $api.interceptors.response.use(
                 originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`;
                 return $api.request(originalRequest);
             } catch (e) {
-                alert(e)
+                console.log(e)
                 window.location.href = '/login';
             }
         }

@@ -11,19 +11,23 @@ export const API_ENDPOINTS = {
     CUSTOMER: {
         GET_CUSTOMER_ACTIONS_BY_ID: 'information/:projectId/:customerId/actions',
         GET_CUSTOMER_DATA_BY_ID: 'information/:projectId/:customerId/data',
+        GET_CHAIN_FOR_SELECT: 'information/:projectId/:customerId/getChainForSelect',
     },
     EPIC: {
         GET_EPIC_ACTIONS_BY_ID: 'information/:projectId/:customerId/:epic/actions',
         GET_EPIC_DATA_BY_ID: 'information/:projectId/:customerId/:epic/data',
+        GET_CHAIN_FOR_SELECT: 'information/:projectId/:customerId/:epic/getChainForSelect',
     },
     STORY: {
         GET_STORY_ACTIONS_BY_ID: 'information/:projectId/:customerId/:epic/:storyId/actions',
         GET_STORY_DATA_BY_ID: 'information/:projectId/:customerId/:epic/:storyId/data',
+        GET_CHAIN_FOR_SELECT: 'information/:projectId/:customerId/:epic/:storyId/getChainForSelect',
 
     },
     TASK: {
         GET_TASK_ACTIONS_BY_ID: 'information/:projectId/:customerId/:epic/:storyId/:taskId/actions',
         GET_TASK_DATA_BY_ID: 'information/:projectId/:customerId/:epic/:storyId/:taskId/data',
+        GET_CHAIN_FOR_SELECT: 'information/:projectId/:customerId/:epic/:storyId/:taskId/getChainForSelect',
     },
     PROJECT_STATUS: {
         GET_ALL_PROJECT_STATUSES: 'projectStatus/',
