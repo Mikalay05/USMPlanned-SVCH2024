@@ -12,14 +12,15 @@ export default function SliderMapOfEpicsForTheClient() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { projectId, customerId } = useParams();
-
-  // Данные из Redux
+  /*
+  ===============
+  SLIDER
+  ===============
+  */
   const epicsForSelectFotTheCustomer = useSelector(
     (state) => state.customer.epicsForSelectInTheCustomer
   );
   const data = epicsForSelectFotTheCustomer?.epicsData;
-
-  // Состояние текущего индекса
   const [currentIndex, setCurrentIndex] = useState(() => {
     const storedIndex = localStorage.getItem("currentIndex");
     return storedIndex !== null ? Number(storedIndex) : 0;
@@ -31,8 +32,21 @@ export default function SliderMapOfEpicsForTheClient() {
   const handleNext = () => {
     setCurrentIndex((prevIndex) => Math.min(data.length - 1, prevIndex + 1));
   };
+  // Клик на элементе
+  const onClickOnElement = (index) => {
+    setCurrentIndex(index); 
 
-  /*Creation Modal*/
+  };
+
+  const onClickOnEmptyElement = (index) => {
+    console.log(`Клик на пустом элементе с индексом: ${index}`);
+    setOpenCreationModal(true); 
+  };
+  /*
+  ===============
+  CREATION MODAL
+  ===============
+  */
   const [openCreationModal, setOpenCreationModal] = useState(false);
   const customerNameField = "nameOfEpic";
   const [сreationData, setСreationData] = useState({
@@ -42,14 +56,12 @@ export default function SliderMapOfEpicsForTheClient() {
     setСreationData({
       [customerNameField]: "",
     });
-  }
-  const handleOpenModalForCreationCustomer = () => {
-    setOpenCreationModal(true);
   };
+
   const handleOnCloseInCreationalModal = () => {
     setOpenCreationModal(false);
     setEmptyCreationData();
-  }
+  };
   const handleOnInputInCreationModal = (propertyName, value) => {
     setСreationData((prev) => ({
       ...prev,
@@ -57,36 +69,32 @@ export default function SliderMapOfEpicsForTheClient() {
     }));
   };
   const handleOnClearInCreationModal = (propertyName) => {
-    console.log("TESt", propertyName)
-    handleOnInputInCreationModal(propertyName, "")
-  }
-  // Обработчик для декомпозиции элемента
+    handleOnInputInCreationModal(propertyName, "");
+  };
+
+  /*
+  ===============
+  ACTION ICONS
+  ===============
+  */
   const handleDecomposition = () => {
     navigate(
       `/information/${projectId}/${customerId}/${data[currentIndex].id}`
     );
   };
-
-  // Обработчик для перемещения элемента
   const handleMoveElement = (fromIndex, toIndex) => {
     console.log(`Перемещение элемента с индекса ${fromIndex} на ${toIndex}`);
     //TODO Логика перемещения элементов
   };
 
-  // Клик на элементе
-  const onClickOnElement = (epic) => {
-    console.log(`Клик на эпике:`, epic);
-    // Логика для обработки клика на элементе
+  const handleOpenModalForCreationCustomer = () => {
+    setOpenCreationModal(true);
   };
 
-  // Клик на пустом элементе
-  const onClickOnEmptyElement = () => {
-    console.log("Клик на пустом элементе");
-    // Логика для обработки клика на пустом элементе
-  };
+
 
   // Проверка на загрузку или отсутствие данных
-  if (epicsForSelectFotTheCustomer.isLoading || !data) {
+  if (epicsForSelectFotTheCustomer.isLoading) {
     return (
       <div>
         Loading...
@@ -106,6 +114,7 @@ export default function SliderMapOfEpicsForTheClient() {
         handleNext={handleNext}
         onClickOnElement={onClickOnElement}
         onClickOnEmptyElement={onClickOnEmptyElement}
+        onClickCurrentElement={handleDecomposition}
         emptyCardComponent={CardForEpic}
       >
         {data.map((item) => (
@@ -118,7 +127,7 @@ export default function SliderMapOfEpicsForTheClient() {
         dataOfValues={сreationData}
         onCloseModal={handleOnCloseInCreationalModal}
         onInputChange={handleOnInputInCreationModal}
-        onClear = {handleOnClearInCreationModal}
+        onClear={handleOnClearInCreationModal}
       />
     </>
   );

@@ -13,6 +13,7 @@ export default function SliderControls({
   handleNext = () => {},
   onClickOnElement = () => {},
   onClickOnEmptyElement = () => {},
+  onClickCurrentElement = () => {},
   nameOfSliderIndexFile = "Icon-SliderIndex.svg",
   alphaInactiveOnEmptyElement = 0.1,
   emptyCardComponent = CustomerCard,
@@ -30,6 +31,7 @@ export default function SliderControls({
         handleNext={handleNext}
         onClickOnElement={onClickOnElement}
         onClickOnEmptyElement={onClickOnEmptyElement}
+        onClickCurrentElement={onClickCurrentElement}
         nameOfSliderIndexFile={nameOfSliderIndexFile}
         alphaInactiveOnEmptyElement={alphaInactiveOnEmptyElement}
         emptyCardComponent={emptyCardComponent}

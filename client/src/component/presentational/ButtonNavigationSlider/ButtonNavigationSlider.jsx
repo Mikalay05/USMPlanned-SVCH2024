@@ -9,6 +9,7 @@ export default function ButtonNavigationSlider({
   handleNext = () => {},
   onClickOnElement = () => {},
   onClickOnEmptyElement = () => {},
+  onClickCurrentElement = () => {},
   nameOfSliderIndexFile = "Icon-SliderIndex.svg",
   alphaInactiveOnEmptyElement = 0.1, 
   emptyCardComponent = CustomerCard,
@@ -21,10 +22,11 @@ export default function ButtonNavigationSlider({
       <EmptyCard
         alphaInactive={alphaInactiveOnEmptyElement}
         isEmpty={true}
-        onClick={onClickOnEmptyElement}
+        onClick={onClickOnEmptyElement} // Передаём индекс
       />
     );
   };
+  
   const getCardByIndex = (index, isActive) => {
     if (
       index < 0 ||
@@ -34,10 +36,13 @@ export default function ButtonNavigationSlider({
       return createEmptyCard();
     }
     return React.cloneElement(children[index], {
-      isActive, // Передаем информацию, что это активный элемент
-      onClick: () => onClickOnElement(index), // Передаем callback для обработки клика
-    });
+      isActive, // Передаём информацию, что это активный элемент
+      onClick: isActive
+      ? () => onClickCurrentElement(index) // Если элемент активный, используем onClickCurrentElement
+      : () => onClickOnElement(index), // Иначе используем стандартный обработчик
+  });
   };
+  
 
   return (
     <div className="slider-container">
