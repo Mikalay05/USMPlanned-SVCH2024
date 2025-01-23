@@ -64,10 +64,10 @@ export default function SliderMapOfEpicsForTheClient() {
   const handleOnClickToAgreeMove = () => {
     //получить next_id
     const nextIndex =
-      draggedIndex + 1 > draggedData.length ? null : draggedIndex + 1;
-    const nextId = draggedData[nextIndex].id;
+    draggedIndex + 1 >= draggedData.length ? null : draggedIndex + 1;
+
     //отправить запрос
-    
+
   };
 
   const handleNextToDragged = () => {
