@@ -62,7 +62,12 @@ export default function SliderMapOfEpicsForTheClient() {
   };
 
   const handleOnClickToAgreeMove = () => {
-    alert("MOVE");
+    //получить next_id
+    const nextIndex =
+      draggedIndex + 1 > draggedData.length ? null : draggedIndex + 1;
+    const nextId = draggedData[nextIndex].id;
+    //отправить запрос
+    
   };
 
   const handleNextToDragged = () => {
