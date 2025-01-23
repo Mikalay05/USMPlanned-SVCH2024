@@ -23,7 +23,9 @@ export default function SliderControls({
   emptyCardComponent = CustomerCard,
   onClickToAgreeMove = () => {},
   onClickToDisagreeMove = () => {},
-  draggedIndex = -1,
+  handlePrevToDragged = () => {},
+  handleNextToDragged = () => {},
+  draggedIndex,
 }) {
   return (
     <div className="">
@@ -42,10 +44,15 @@ export default function SliderControls({
         />
       )}
       {isElementDragged ? (
-        <ButtonMoveSlider 
+        <ButtonMoveSlider
+        handleNext={handleNextToDragged}
+        handlePrev={handlePrevToDragged}
         draggedIndex={draggedIndex}
-        
-        >{children}</ButtonMoveSlider>
+        emptyCardComponent={emptyCardComponent}
+
+        >
+          {children}
+        </ButtonMoveSlider>
       ) : (
         <ButtonNavigationSlider
           currentIndex={currentIndex}
@@ -57,7 +64,6 @@ export default function SliderControls({
           nameOfSliderIndexFile={nameOfSliderIndexFile}
           alphaInactiveOnEmptyElement={alphaInactiveOnEmptyElement}
           emptyCardComponent={emptyCardComponent}
-          draggedIndex={draggedIndex}
           isElementDragged={isElementDragged}
         >
           {children}

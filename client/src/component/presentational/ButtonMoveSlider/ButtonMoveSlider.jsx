@@ -6,16 +6,14 @@ import React from "react";
 export default function ButtonMoveSlider({
   children = [],
   draggedIndex,
-  prevIndex,
-  nextIndex, //Index, относительно которо
   handlePrev = () => {},
   handleNext = () => {},
   nameOfSliderIndexFile = "Icon-SliderIndex.svg",
   alphaInactiveOnEmptyElement = 0.1,
   emptyCardComponent = CustomerCard,
 }) {
-  const isPrevDisabled = prevIndex === -1;
-  const isNextDisabled = nextIndex === null;
+  const isPrevDisabled = draggedIndex === 0;
+  const isNextDisabled = draggedIndex === children.length;
   const createEmptyCard = () => {
     const EmptyCard = emptyCardComponent;
     return (
@@ -25,15 +23,16 @@ export default function ButtonMoveSlider({
       />
     );
   };
-
   const getCardByIndex = (index, isActive) => {
     if (
       index === -1 ||
       index === null ||
       !React.isValidElement(children[index])
     ) {
+
       return createEmptyCard();
     }
+
     return React.cloneElement(children[index], {
       isActive,
     });
@@ -48,9 +47,9 @@ export default function ButtonMoveSlider({
         rotation={90}
       />
       <div className="slider">
-        {getCardByIndex(prevIndex, false)}
+        {getCardByIndex(draggedIndex-1, false)}
         {getCardByIndex(draggedIndex, true)}
-        {getCardByIndex(nextIndex, false)}
+        {getCardByIndex(draggedIndex+1, false)}
       </div>
       <SliderButton
         direction="next"

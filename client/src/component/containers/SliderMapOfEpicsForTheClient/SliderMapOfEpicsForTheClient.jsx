@@ -7,15 +7,12 @@ import SliderControls from "../../presentational/SliderControls/SliderControls";
 import CardForEpic from "../../presentational/CardForEpic/CardForEpic";
 import LoadingDots from "../../presentational/LoadingDots/LoadingDots";
 import EpicCreationalModal from "../EpicCreationalModal/EpicCreationalModal";
-
 export default function SliderMapOfEpicsForTheClient() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { projectId, customerId } = useParams();
   /*
-  ===============
-  SLIDER
-  ===============
+  =============== SLIDER ===============
   */
   const epicsForSelectFotTheCustomer = useSelector(
     (state) => state.customer.epicsForSelectInTheCustomer
@@ -25,32 +22,63 @@ export default function SliderMapOfEpicsForTheClient() {
     const storedIndex = localStorage.getItem("currentIndex");
     return storedIndex !== null ? Number(storedIndex) : 0;
   });
-  const [draggedIndex, setDraggedIndex] = useState(-1); 
+
+  const [draggedIndex, setDraggedIndex] = useState(-1);
+
+  // Функция получения индексов prev и next
+  function getNewDraggedArr(data, draggedIndex, currentIndex) {
+    const modifiedData = [...data];
+    const draggedItem = modifiedData.splice(currentIndex, 1)[0]; // Убираем элемент
+    modifiedData.splice(draggedIndex, 0, draggedItem); // Вставляем элемент на новое место
+    return modifiedData;
+  }
+
+  const draggedData = getNewDraggedArr(data, draggedIndex, currentIndex);
+
+  // Логирование действий с слайдером
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) => Math.max(0, prevIndex - 1));
+    setCurrentIndex((prevIndex) => {
+      const newIndex = Math.max(0, prevIndex - 1);
+      return newIndex;
+    });
   };
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => Math.min(data.length - 1, prevIndex + 1));
-  };
-  const onClickOnElement = (index) => {
-    setCurrentIndex(index); 
-  };
-  const onClickOnEmptyElement = () => {
-    setOpenCreationModal(true); 
+    setCurrentIndex((prevIndex) => {
+      const newIndex = Math.min(data.length - 1, prevIndex + 1);
+      return newIndex;
+    });
   };
 
+  const onClickOnElement = (index) => {
+    setCurrentIndex(index);
+  };
+  const onClickOnEmptyElement = () => {
+    setOpenCreationModal(true);
+  };
   const handleOnClickToDisagreeMove = () => {
     setIsElementDragged(false);
     setDraggedIndex(-1);
-  }
+  };
+
   const handleOnClickToAgreeMove = () => {
-    alert("MOVE")
-  }
+    alert("MOVE");
+  };
+
+  const handleNextToDragged = () => {
+    if (draggedIndex !== data.length - 1) {
+      setDraggedIndex(draggedIndex + 1);
+    }
+  };
+
+  const handlePrevToDragged = () => {
+    if (draggedIndex !== 0) {
+      setDraggedIndex(draggedIndex - 1);
+    }
+  };
+
   /*
-  ===============
-  CREATION MODAL
-  ===============
+  =============== CREATION MODAL ===============
   */
   const [openCreationModal, setOpenCreationModal] = useState(false);
   const customerNameField = "nameOfEpic";
@@ -78,25 +106,23 @@ export default function SliderMapOfEpicsForTheClient() {
   };
 
   /*
-  ===============
-  ACTION ICONS
-  ===============
+  =============== ACTION ICONS ===============
   */
   const handleDecomposition = () => {
     navigate(
       `/information/${projectId}/${customerId}/${data[currentIndex].id}`
     );
   };
-  const [isElementDragged , setIsElementDragged ] = useState(false);
+
+  const [isElementDragged, setIsElementDragged] = useState(false);
   const handleOnSetIsElementDragged = () => {
-    setDraggedIndex(currentIndex)
+    setDraggedIndex(currentIndex);
     setIsElementDragged(true);
-  }
+  };
+
   const handleOpenModalForCreationCustomer = () => {
     setOpenCreationModal(true);
   };
-
-
 
   // Проверка на загрузку или отсутствие данных
   if (epicsForSelectFotTheCustomer.isLoading) {
@@ -107,7 +133,6 @@ export default function SliderMapOfEpicsForTheClient() {
       </div>
     );
   }
-
   return (
     <>
       <SliderControls
@@ -124,11 +149,17 @@ export default function SliderMapOfEpicsForTheClient() {
         emptyCardComponent={CardForEpic}
         onClickToAgreeMove={handleOnClickToAgreeMove}
         onClickToDisagreeMove={handleOnClickToDisagreeMove}
+        handlePrevToDragged={handlePrevToDragged}
+        handleNextToDragged={handleNextToDragged}
         draggedIndex={draggedIndex}
       >
-        {data.map((item) => (
-          <CardForEpic key={item.id} dataOfObject={item} />
-        ))}
+        {isElementDragged
+          ? draggedData.map((item) => (
+              <CardForEpic key={item.id} dataOfObject={item} />
+            ))
+          : data.map((item) => (
+              <CardForEpic key={item.id} dataOfObject={item} />
+            ))}
       </SliderControls>
       <EpicCreationalModal
         isModalOpen={openCreationModal}
