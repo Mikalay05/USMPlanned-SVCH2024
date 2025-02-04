@@ -19,7 +19,7 @@ const QUERIES = {
     GET_CHAIN_OF_STORIES_FOR_EPIC: 'SELECT * FROM get_chain_of_stories_for_epic($1);', // Цепочка историй для эпика
     GET_CHAIN_OF_TASKS_FOR_STORY: 'SELECT * FROM get_chain_of_tasks_for_story($1);', // Цепочка задач для истории
     REOREDR_EPICS: 'SELECT * FROM reorder_epics_with_log_action($1,$2,$3,$4,$5);',
-    CREATE_CUSTOMER: 'SELECT * FROM create_customer_and_log_action($1,$2,$3);'
+    CREATE_CUSTOMER: 'SELECT * FROM create_customer_and_log_action($1,$2,$3, $4,$5);'
 };
 
 module.exports = QUERIES;

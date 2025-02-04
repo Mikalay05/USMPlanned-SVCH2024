@@ -306,10 +306,10 @@ class ProjectService {
       });
     }
   }
-  async createCustomer(projectId, customerDataForCreate) {
+  async createCustomer(projectId, customerDataForCreate, userId) {
     const NAME_OF_OBJECT_FROM_RESULT_OF_DB = "create_customer_and_log_action";
     try {
-      const params = [customerDataForCreate.name, projectId, customerDataForCreate.nextId];
+      const params = [customerDataForCreate.name, projectId, 'Create customer',userId, customerDataForCreate.nextId];
       const rows = await dbQuery(QUERIES.CREATE_CUSTOMER, params);
       const dataResult = rows[0][NAME_OF_OBJECT_FROM_RESULT_OF_DB];
       return dataResult;

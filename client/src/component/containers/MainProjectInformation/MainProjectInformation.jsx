@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom"; // Импорт useNavigate
 import "./MainProjectInformation.css";
-
-import {createCustomer} from '../../../store/slices/customerSlice'
+//FIXME При создании customer обновляется actions
+import {createCustomer} from '../../../store/slices/projectSlice'
 import CustomerSlider from "../../CustomerSlider/CustomerSlider";
 import CardForCustomers from "../../presentational/CardForCustomers/CardForCustomers";
 import CustomerCreationModal from "../../CustomerCreationModal/CustomerCreationModal";
@@ -60,10 +60,9 @@ export default function MainProjectInformation() {
       name: customerName,
       next_id: getNextId(currentIndex),
     };
-
     setFormForCreationCustomer(newCustomerData);
     handleCloseModalCreationCustomer();
-    dispatch(createCustomer(projectId, newCustomerData))
+    dispatch(createCustomer({projectId, data:newCustomerData}))
     handleClearForm();
   };
 

@@ -11,7 +11,16 @@ import InformationProjectDto from "../../DTOs/Data/Information/InformationProjec
 import ChainForSelectionInTheProject from "../../DTOs/Data/ChainForSelect/ChainForSelectionInTheProject";
 import ProjectForUpdateDto from "../../DTOs/ForUpdate/ProjectForUpdateDto";
 import ProjectActionsDto from "../../DTOs/Data/Actions/ProjectActionsDto";
+import CustomerForCreationDTO from "../../DTOs/ForCreation/CustomerForCreationDTO";
 
+export const createCustomer = createAsyncThunk(
+  "customer/create",
+  async ({ projectId, data }) => {
+    const dataOfDto = new CustomerForCreationDTO(data);
+    const response = await ProjectService.createCustomer(projectId, dataOfDto);
+    return response;
+  }
+);
 // Обновление проекта
 export const updateProject = createAsyncThunk(
   "project/updateProject",
@@ -67,7 +76,9 @@ export const getChainForSelectionInTheProject = createAsyncThunk(
   "project/getChainForSelectionInTheProject",
   async (id) => {
     const response = await ProjectService.getChainForSelectionInTheProject(id); // Метод для получения данных проекта по ID4
-    const result = response.map((item) => new ChainForSelectionInTheProject(item))
+    const result = response.map(
+      (item) => new ChainForSelectionInTheProject(item)
+    );
     return result;
   }
 );
@@ -188,6 +199,17 @@ const projectSlice = createSlice({
         state.customersForSelectInTheProject.isLoading = false;
       })
       .addCase(getChainForSelectionInTheProject.rejected, (state) => {
+        state.customersForSelectInTheProject.isLoading = false;
+      })
+      // Group createCustomer
+      .addCase(createCustomer.pending, (state) => {
+        state.customersForSelectInTheProject.isLoading = true;
+      })
+      .addCase(createCustomer.fulfilled, (state, action) => {
+        state.customersForSelectInTheProject.customersData = action.payload;
+        state.customersForSelectInTheProject.isLoading = false;
+      })
+      .addCase(createCustomer.rejected, (state) => {
         state.customersForSelectInTheProject.isLoading = false;
       });
   },

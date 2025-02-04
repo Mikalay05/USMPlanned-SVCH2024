@@ -57,11 +57,14 @@ class ProjectInformationController {
             next(err); // Передаем ошибку дальше
         }
     };
-    async createCustomerForProject(req,res,next) {
+    createCustomerForProject = async (req,res,next)=> {
         try {
+            
             const projectId = this.getProjectIdFromReqParams(req);
             const customerDataForCreate = new CustomerForCreationDTO(req.body);
-            const result = await ProjectService.createCustomer(projectId, customerDataForCreate);
+            const userId = req.userIdFromToken;
+            const result = await ProjectService.createCustomer(projectId, customerDataForCreate, userId);
+            await this.getChainForSelect(req,res,next);
         }
         catch (err) {
             console.log("Error in catch", err)

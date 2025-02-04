@@ -9,16 +9,8 @@ import CustomerService from "../../services/CustomerService";
 import CustomerActionsDto from "../../DTOs/Data/Actions/CustomerActionsDto";
 import InformationCustomerDto from "../../DTOs/Data/Information/InformationCustomerDto";
 import ChainForSelectionInTheCustomer from "../../DTOs/Data/ChainForSelect/ChainForSelectionInTheCustomer";
-import CustomerForCreationDTO from "../../DTOs/ForCreation/CustomerForCreationDTO";
 
-export const createCustomer = createAsyncThunk(
-  "customer/create",
-  async(projectId, data) =>{
-    const dataOfDto = new CustomerForCreationDTO (data);
-    const response = await CustomerService.createCustomer(projectId, dataOfDto);
-    return response;  
-  }
-);
+
 // Получение всех actions
 export const getCustomerActions = createAsyncThunk(
   "customer/getCustomerActions",
