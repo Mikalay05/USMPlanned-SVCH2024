@@ -8,7 +8,7 @@ async function dbQuery(query, params = []) {
         return  result;
     } catch (err) {
         console.error("Database query failed:", err);
-        throw ApiError.internal("Ошибка выполнения запроса к базе данных");
+        throw ApiError.internal("Ошибка выполнения запроса к базе данных", err);
     }
 }
 

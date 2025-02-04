@@ -306,6 +306,18 @@ class ProjectService {
       });
     }
   }
+  async createCustomer(projectId, customerDataForCreate) {
+    const NAME_OF_OBJECT_FROM_RESULT_OF_DB = "create_customer_and_log_action";
+    try {
+      const params = [customerDataForCreate.name, projectId, customerDataForCreate.nextId];
+      const rows = await dbQuery(QUERIES.CREATE_CUSTOMER, params);
+      const dataResult = rows[0][NAME_OF_OBJECT_FROM_RESULT_OF_DB];
+      return dataResult;
+    } catch (err) {
+      console.error("Error executing query:", err);
+      throw ApiError.internal("My error");
+    } 
+  }
 }
 
 module.exports = new ProjectService();

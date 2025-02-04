@@ -87,8 +87,6 @@ class ApiError extends Error {
 
   static validateNotEmptyObject(obj, errorMessage = "Object request", details = {}) {
     if (!obj || (typeof obj === "object" && Object.keys(obj).length === 0)) {
-      console.log("TEST TEST TEST TEST TEST TEST TEST TEST")
-      console.log(errorMessage, details)
       throw ApiError.badRequest(errorMessage, details);
     }
   }

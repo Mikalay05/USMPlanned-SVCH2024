@@ -7,7 +7,7 @@ import { getCurrentUserData } from '../../store/slices/userSlice';
 import { getProjectStatuses } from '../../store/slices/projectStatusSlice';
 import { getProjectActions } from '../../store/slices/projectSlice';
 import { getChainForSelectionInTheProject } from '../../store/slices/projectSlice';
-
+// FIXME undifine on select
 import Header from '../../component/containers/Header/Header'
 import MainProjectInformation from '../../component/containers/MainProjectInformation/MainProjectInformation'
 import Footer from "../../component/Footer/Footer";

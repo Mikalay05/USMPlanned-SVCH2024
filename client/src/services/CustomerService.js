@@ -27,6 +27,14 @@ class CustomerService extends BaseService {
     const response = await BaseService.request("get", endpoint);
     return response;
   }
+  async createCustomer(projectId,dataOfCustomer) {
+    const endpoint = API_ENDPOINTS.CUSTOMER.CREATE_CUSTOMER.replace(
+      ":projectId",
+      projectId
+    );
+    const response = await BaseService.request("post", endpoint, dataOfCustomer);
+    return response;
+  }
 }
 
 const customerServicenstance = new CustomerService();

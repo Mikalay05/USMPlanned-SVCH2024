@@ -12,6 +12,7 @@ export const API_ENDPOINTS = {
         GET_CUSTOMER_ACTIONS_BY_ID: 'information/:projectId/:customerId/actions',
         GET_CUSTOMER_DATA_BY_ID: 'information/:projectId/:customerId/data',
         GET_CHAIN_FOR_SELECT: 'information/:projectId/:customerId/getChainForSelect',
+        CREATE_CUSTOMER: 'information/:projectId',
     },
     EPIC: {
         GET_EPIC_ACTIONS_BY_ID: 'information/:projectId/:customerId/:epic/actions',

@@ -2,6 +2,7 @@ const CustomerService = require("../services/CustomerService");
 const CustomerActionsDto = require("../DTOs/Data/Actions/CustomerActionsDto");
 const ChainForSelectionInTheCustomer = require("../DTOs/Data/ChainForSelect/ChainForSelectionInTheCustomer");
 const InformationCustomerDto = require("../DTOs/Data/Information/InformationCustomerDto");
+const EpicsOrderUpdateDto = require("../DTOs/ForUpdate/EpicsOrderUpdateDto");
 
 class CustomerInformationController {
   constructor(
@@ -11,31 +12,29 @@ class CustomerInformationController {
   ) {
     this.PROJECT_ID_PROPERTY = projectIdProperty;
     this.CUSTOMER_ID_PROPERTY = customerIdProperty;
-    this.EPIC_ID_PROPERTY = epicIdProperty;
   }
-  getCustomerIdFromReqParams = (req) => {
+  getParamsIdFromReq = (req) => {
+    const projectId = req.params[this.PROJECT_ID_PROPERTY];
     const customerId = req.params[this.CUSTOMER_ID_PROPERTY];
-    return customerId;
+    return { customerId, projectId };
   };
-  getCustomerDataById = async(req, res, next)=> {
+  getCustomerDataById = async (req, res, next) => {
     try {
-      const customerId = this.getCustomerIdFromReqParams(req);
+      const { customerId } = this.getParamsIdFromReq(req);
       const data = await CustomerService.getCustomerDataById(customerId);
-      console.log(data)
+      console.log(data);
       const resultDto = new InformationCustomerDto(data);
       return res.status(200).json(resultDto);
-
     } catch (err) {
       console.log("Error in getCustomerDataById:", err);
       next(err);
     }
-  }
-
+  };
 
   getCustomerActionById = async (req, res, next) => {
     try {
       // Получаем projectId из параметров
-      const customerId = this.getCustomerIdFromReqParams(req);
+      const { customerId } = this.getParamsIdFromReq(req);
       // Получаем данные о проекте
       const data = await CustomerService.getCustomerActionById(customerId);
       // Создаем DTO для результата
@@ -67,15 +66,24 @@ class CustomerInformationController {
     }
   }
 
-  async updateEpicsOrder(req, res, next) {
+  updateEpicsOrder = async (req, res, next) => {
     try {
-      //TODO Add a method implementation
-      throw new Error("Not implemented");
+      const { projectId, customerId } = this.getParamsIdFromReq(req);
+      const { userIdFromToken } = req;
+      const dataOfBodyRequest = new EpicsOrderUpdateDto(req.body);
+      const resultOfUpdate = await CustomerService.updateEpicsOrder(
+        dataOfBodyRequest.epicId,
+        dataOfBodyRequest.nextEpicId,
+        customerId,
+        projectId,
+        userIdFromToken
+      );
+      const newEpicsArr = await this.getChainForSelect(req, res, next);
     } catch (err) {
       console.log("Error in updateEpicsOrder:", err);
       next(err);
     }
-  }
+  };
 
   async deleteCustomerById(req, res, next) {
     try {
@@ -86,9 +94,10 @@ class CustomerInformationController {
       next(err);
     }
   }
+
   getChainForSelect = async (req, res, next) => {
     try {
-      const customerId = this.getCustomerIdFromReqParams(req);
+      const { customerId } = this.getParamsIdFromReq(req);
       const data = await CustomerService.getChainForSelect(customerId);
       // Создаем DTO для результата
       const resultDto = data.map(

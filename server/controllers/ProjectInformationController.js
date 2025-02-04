@@ -3,6 +3,7 @@ const ProjectActionsDto = require("../DTOs/Data/Actions/ProjectActionsDto");
 const ProjectForUpdateDto = require("../DTOs/ForUpdate/ProjectForUpdateDto");
 const ProjectService = require("../services/ProjectService");
 const ChainForSelectionInTheProject = require("../DTOs/Data/ChainForSelect/ChainForSelectionInTheProject");
+const CustomerForCreationDTO = require("../DTOs/ForCreation/CustomerForCreationDto");
 
 class ProjectInformationController {
     constructor(projectIdProperty = "projectId") {
@@ -59,7 +60,8 @@ class ProjectInformationController {
     async createCustomerForProject(req,res,next) {
         try {
             const projectId = this.getProjectIdFromReqParams(req);
-            const customerDataForCreate = this.getCustomerData(req,projectId);
+            const customerDataForCreate = new CustomerForCreationDTO(req.body);
+            const result = await ProjectService.createCustomer(projectId, customerDataForCreate);
         }
         catch (err) {
             console.log("Error in catch", err)

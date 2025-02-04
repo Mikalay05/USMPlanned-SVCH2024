@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom"; // Импорт useNavigate
 import "./MainProjectInformation.css";
+
+import {createCustomer} from '../../../store/slices/customerSlice'
 import CustomerSlider from "../../CustomerSlider/CustomerSlider";
 import CardForCustomers from "../../presentational/CardForCustomers/CardForCustomers";
 import CustomerCreationModal from "../../CustomerCreationModal/CustomerCreationModal";
 import TitleForProjectInformation from "../TitleForProjectInformation/TitleForProjectInformation";
 import ProjectDetails from "../ProjectDetails/ProjectDetails";
-import LoadingDots from '../../presentational/LoadingDots/LoadingDots';
 export default function MainProjectInformation() {
   const { projectId } = useParams();
   const dispatch = useDispatch();
@@ -16,10 +17,14 @@ export default function MainProjectInformation() {
   const selectedProject = useSelector(
     (state) => state.project.customersForSelectInTheProject
   );
+  const dataForSelect = selectedProject?.customersData || [];
+
   const isLoading = useSelector((state) => state.project.isLoading);
 
-  const [formForCreationCustomer, setFormForCreationCustomer] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(1); // Храним текущий индекс
+  const [formForCreationCustomer, setFormForCreationCustomer] = useState({
+    project_id: projectId
+  });
+  const [currentIndex, setCurrentIndex] = useState(0); // Храним текущий индекс
   const handleDecomposition = (customerId) => {
     
     navigate(`/information/${projectId}/${customerId}`);
@@ -38,7 +43,12 @@ export default function MainProjectInformation() {
       name: "",
     }));
   };
-
+  const getNextId = (currentIndex)=> {
+    if(currentIndex+1>=dataForSelect.length) {
+      return null;
+    }
+    return currentIndex+1; 
+  }
   const handleOnCreateCustomer = (customerName) => {
     if (!customerName || customerName.trim() === "") {
       alert("Customer name is required");
@@ -48,15 +58,12 @@ export default function MainProjectInformation() {
     const newCustomerData = {
       ...formForCreationCustomer,
       name: customerName,
+      next_id: getNextId(currentIndex),
     };
 
     setFormForCreationCustomer(newCustomerData);
     handleCloseModalCreationCustomer();
-
-    alert(
-      `${newCustomerData.name} ${newCustomerData.project_id} ${newCustomerData.next_id}`
-    );
-
+    dispatch(createCustomer(projectId, newCustomerData))
     handleClearForm();
   };
 
@@ -71,7 +78,6 @@ export default function MainProjectInformation() {
     setOpenModalForCreationCustomer(true);
   };
 
-  const dataForSelect = selectedProject?.customersData || [];
 
   const handleIndexChange = (index) => {
     setCurrentIndex(index); // Обновляем индекс в родительском компоненте
