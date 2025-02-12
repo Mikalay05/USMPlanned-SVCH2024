@@ -2,7 +2,7 @@ import "./SliderMapOfEpicsForTheClient.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom"; // Импорт useNavigate
 import { useState } from "react";
-
+import {createEpic} from '../../../store/slices/customerSlice'
 import SliderControls from "../../presentational/SliderControls/SliderControls";
 import CardForEpic from "../../presentational/CardForEpic/CardForEpic";
 import LoadingDots from "../../presentational/LoadingDots/LoadingDots";
@@ -42,7 +42,12 @@ export default function SliderMapOfEpicsForTheClient() {
       return newIndex;
     });
   };
-
+  const getNextIdOfArray = (currentIndex, arr) => {
+    if(currentIndex+1>=arr.length) {
+      return null;
+    }
+    return currentIndex+1; 
+  }
   const handleNext = () => {
     setCurrentIndex((prevIndex) => {
       const newIndex = Math.min(data.length - 1, prevIndex + 1);
@@ -129,6 +134,18 @@ export default function SliderMapOfEpicsForTheClient() {
     setOpenCreationModal(true);
   };
 
+  const handleCreateCustomer = () => {
+    const pathObject = {
+      projectId,
+      customerId,
+    };
+
+    const dataOfObject = {
+      name: сreationData.nameOfEpic,
+      next_id: getNextIdOfArray(currentIndex, data),
+    };
+    dispatch(createEpic({pathObject, dataOfObject}));
+  }
   // Проверка на загрузку или отсутствие данных
   if (epicsForSelectFotTheCustomer.isLoading) {
     return (
@@ -173,6 +190,7 @@ export default function SliderMapOfEpicsForTheClient() {
         onCloseModal={handleOnCloseInCreationalModal}
         onInputChange={handleOnInputInCreationModal}
         onClear={handleOnClearInCreationModal}
+        onCreateCustomer={handleCreateCustomer}
       />
     </>
   );

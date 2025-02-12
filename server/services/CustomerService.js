@@ -58,6 +58,19 @@ class CustomerService {
       throw err;
     }
   }
+  createEpic = async(paths, data) => {
+    try {
+      //TODO validate paths
+      //TODO validate data
+      
+      // const params = [epicId, nextEpicId, customerId, projectId, userIdFromToken];
+      // const result = await dbQuery(QUERIES.REOREDR_EPICS, params);
+      // return result;
+    } catch (err) {
+      console.error("Error executing query:", err);
+      throw err;
+    }
+  }
 }
 
 module.exports = new CustomerService();

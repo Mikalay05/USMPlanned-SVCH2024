@@ -7,10 +7,18 @@ import CustomerService from "../../services/CustomerService";
  * ===============
  */
 import CustomerActionsDto from "../../DTOs/Data/Actions/CustomerActionsDto";
+import EpicForCreationDTO from "../../DTOs/ForCreation/EpicForCreationDTO";
 import InformationCustomerDto from "../../DTOs/Data/Information/InformationCustomerDto";
 import ChainForSelectionInTheCustomer from "../../DTOs/Data/ChainForSelect/ChainForSelectionInTheCustomer";
 
-
+export const createEpic = createAsyncThunk(
+  "customer/createEpic",
+  async ({paths,dataForCreate}) => {
+    const dataDto = new EpicForCreationDTO(dataForCreate);
+    const response = await CustomerService.createEpic(paths, dataForCreate);
+    //Вернуть обььект или ошибку
+  }
+)
 // Получение всех actions
 export const getCustomerActions = createAsyncThunk(
   "customer/getCustomerActions",

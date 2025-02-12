@@ -3,6 +3,7 @@ const CustomerActionsDto = require("../DTOs/Data/Actions/CustomerActionsDto");
 const ChainForSelectionInTheCustomer = require("../DTOs/Data/ChainForSelect/ChainForSelectionInTheCustomer");
 const InformationCustomerDto = require("../DTOs/Data/Information/InformationCustomerDto");
 const EpicsOrderUpdateDto = require("../DTOs/ForUpdate/EpicsOrderUpdateDto");
+const EpicForCreationDTO = require("../DTOs/ForCreation/EpicForCreationDTO");
 
 class CustomerInformationController {
   constructor(
@@ -48,8 +49,12 @@ class CustomerInformationController {
   };
   async createEpicForCustomer(req, res, next) {
     try {
-      //TODO Add a method implementation
-      throw new Error("Not implemented");
+      const {userIdFromToken} = req;
+      const dataDto = new EpicForCreationDTO(req.body.dataForCreation);
+      const {projectId, customerId} = this.getParamsIdFromReq();
+
+      const result = await CustomerService.createEpic();
+
     } catch (err) {
       console.log("Error in createEpicForCustomer:", err);
       next(err);

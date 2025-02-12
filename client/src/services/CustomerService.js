@@ -27,7 +27,19 @@ class CustomerService extends BaseService {
     const response = await BaseService.request("get", endpoint);
     return response;
   }
-
+  async createEpic(paths, dataForCreate) {
+    const endpoint = API_ENDPOINTS.CUSTOMER.CREATE_EPIC
+    .replace(
+      ":projectId",
+      paths.projectId
+    )
+    .replace(
+      ":customerId",
+      paths.customerId
+    );
+    const response = await BaseService.request("post", endpoint, dataForCreate);
+    return response;
+  }
 }
 
 const customerServicenstance = new CustomerService();
