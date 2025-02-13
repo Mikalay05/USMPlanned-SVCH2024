@@ -14,7 +14,11 @@ import ChainForSelectionInTheCustomer from "../../DTOs/Data/ChainForSelect/Chain
 export const createEpic = createAsyncThunk(
   "customer/createEpic",
   async ({paths,dataForCreate}) => {
+    console.log("Test1")
+    console.log(paths)
+
     const dataDto = new EpicForCreationDTO(dataForCreate);
+    console.log("Test")
     const response = await CustomerService.createEpic(paths, dataForCreate);
     //Вернуть обььект или ошибку
   }

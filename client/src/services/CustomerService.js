@@ -37,6 +37,7 @@ class CustomerService extends BaseService {
       ":customerId",
       paths.customerId
     );
+    console.log("endpoint",endpoint)
     const response = await BaseService.request("post", endpoint, dataForCreate);
     return response;
   }

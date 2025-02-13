@@ -10,7 +10,11 @@ import EpicCreationalModal from "../EpicCreationalModal/EpicCreationalModal";
 export default function SliderMapOfEpicsForTheClient() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { projectId, customerId } = useParams();
+  const { projectId: projectIdString, customerId: customerIdString } = useParams();
+
+  // Преобразуем строки в числа
+  const projectId = Number(projectIdString);
+  const customerId = Number(customerIdString);
   /*
   =============== SLIDER ===============
   */
@@ -144,7 +148,8 @@ export default function SliderMapOfEpicsForTheClient() {
       name: сreationData.nameOfEpic,
       next_id: getNextIdOfArray(currentIndex, data),
     };
-    dispatch(createEpic({pathObject, dataOfObject}));
+    console.log(dataOfObject)
+    dispatch(createEpic({ paths: pathObject, dataForCreate: dataOfObject }));
   }
   // Проверка на загрузку или отсутствие данных
   if (epicsForSelectFotTheCustomer.isLoading) {

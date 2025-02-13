@@ -58,14 +58,20 @@ class CustomerService {
       throw err;
     }
   }
-  createEpic = async(paths, data) => {
+  createEpic = async(paths, data, userId) => {
     try {
-      //TODO validate paths
-      //TODO validate data
-      
-      // const params = [epicId, nextEpicId, customerId, projectId, userIdFromToken];
-      // const result = await dbQuery(QUERIES.REOREDR_EPICS, params);
-      // return result;
+     
+      const params = [
+        data.name,
+        paths.customerId,
+        paths.projectId,
+        "Create epic",
+        userId,
+        data.nextId
+      ];
+      console.log("params",params)
+      const result = await dbQuery(QUERIES.CREATE_EPIC, params);
+      return result;
     } catch (err) {
       console.error("Error executing query:", err);
       throw err;

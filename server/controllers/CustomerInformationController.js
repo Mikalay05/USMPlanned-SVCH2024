@@ -15,8 +15,8 @@ class CustomerInformationController {
     this.CUSTOMER_ID_PROPERTY = customerIdProperty;
   }
   getParamsIdFromReq = (req) => {
-    const projectId = req.params[this.PROJECT_ID_PROPERTY];
-    const customerId = req.params[this.CUSTOMER_ID_PROPERTY];
+    const projectId =Number(req.params[this.PROJECT_ID_PROPERTY]);
+    const customerId = Number(req.params[this.CUSTOMER_ID_PROPERTY]);
     return { customerId, projectId };
   };
   getCustomerDataById = async (req, res, next) => {
@@ -47,13 +47,12 @@ class CustomerInformationController {
       next(err); // Передаем ошибку дальше
     }
   };
-  async createEpicForCustomer(req, res, next) {
+  createEpicForCustomer= async(req, res, next)=> {
     try {
       const {userIdFromToken} = req;
-      const dataDto = new EpicForCreationDTO(req.body.dataForCreation);
-      const {projectId, customerId} = this.getParamsIdFromReq();
-
-      const result = await CustomerService.createEpic();
+      const dataDto = new EpicForCreationDTO(req.body);
+      const {projectId, customerId} = this.getParamsIdFromReq(req);
+      const result = await CustomerService.createEpic({projectId, customerId},dataDto,userIdFromToken);
 
     } catch (err) {
       console.log("Error in createEpicForCustomer:", err);

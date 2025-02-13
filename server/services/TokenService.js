@@ -11,14 +11,12 @@ class TokenService {
   NAME_TOKEN_VALUE_COLUME_IN_DB = "value";
 
   generateRefreshToken(payload) {
-    console.log(payload);
     const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET_KEY, {
       expiresIn: this.EXPRES_IN_REFRESH,
     });
     return refreshToken;
   }
   generateAccessToken(payload) {
-    console.log(payload);
     const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET_KEY, {
       expiresIn: this.EXPRES_IN_ASSECC,
     });
@@ -60,11 +58,7 @@ class TokenService {
     
     const tokens = this.generateTokens(payload);
 
-    console.log("getTokenForUser");
-    console.log(user);
     const tokenInDb = await this.saveToken(user.id, tokens.refreshToken);
-    console.log("getTokenForUser End");
-    console.log(tokens)
     if (!tokenInDb) {
       throw ApiError.badRequest("Failed to create the token");
     }
