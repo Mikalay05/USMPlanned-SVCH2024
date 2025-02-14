@@ -53,7 +53,7 @@ class CustomerInformationController {
       const dataDto = new EpicForCreationDTO(req.body);
       const {projectId, customerId} = this.getParamsIdFromReq(req);
       const result = await CustomerService.createEpic({projectId, customerId},dataDto,userIdFromToken);
-
+      return await this.getChainForSelect(req,res,next);
     } catch (err) {
       console.log("Error in createEpicForCustomer:", err);
       next(err);
@@ -107,6 +107,7 @@ class CustomerInformationController {
       const resultDto = data.map(
         (item) => new ChainForSelectionInTheCustomer(item)
       );
+      console.log(resultDto)
       return res.status(200).json(resultDto);
     } catch (err) {
       console.log("Error in catch", err); // Логирование ошибки

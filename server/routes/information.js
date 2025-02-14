@@ -1,5 +1,6 @@
 const express = require("express");
-const informationRouter = express.Router();
+
+const informationRouter = express.Router({ mergeParams: true });
 const projectInformation = require('./projectInformation');
 
 // Middleware для логирования параметров

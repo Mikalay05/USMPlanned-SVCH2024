@@ -13,16 +13,13 @@ import ChainForSelectionInTheCustomer from "../../DTOs/Data/ChainForSelect/Chain
 
 export const createEpic = createAsyncThunk(
   "customer/createEpic",
-  async ({paths,dataForCreate}) => {
-    console.log("Test1")
-    console.log(paths)
-
+  async ({ paths, dataForCreate }) => {
     const dataDto = new EpicForCreationDTO(dataForCreate);
-    console.log("Test")
     const response = await CustomerService.createEpic(paths, dataForCreate);
+    return response;
     //Вернуть обььект или ошибку
   }
-)
+);
 // Получение всех actions
 export const getCustomerActions = createAsyncThunk(
   "customer/getCustomerActions",
@@ -109,6 +106,17 @@ const customerSlice = createSlice({
         state.epicsForSelectInTheCustomer.isLoading = false;
       })
       .addCase(getChainForSelectionInTheCustomer.rejected, (state) => {
+        state.epicsForSelectInTheCustomer.isLoading = false;
+      })
+      //GROUP createEpic
+      .addCase(createEpic.pending, (state) => {
+        state.epicsForSelectInTheCustomer.isLoading = true;
+      })
+      .addCase(createEpic.fulfilled, (state, action) => {
+        state.epicsForSelectInTheCustomer.epicsData = action.payload;
+        state.epicsForSelectInTheCustomer.isLoading = false;
+      })
+      .addCase(createEpic.rejected, (state) => {
         state.epicsForSelectInTheCustomer.isLoading = false;
       });
   },

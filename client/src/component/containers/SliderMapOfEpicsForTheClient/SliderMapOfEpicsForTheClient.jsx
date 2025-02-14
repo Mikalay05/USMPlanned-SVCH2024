@@ -7,6 +7,7 @@ import SliderControls from "../../presentational/SliderControls/SliderControls";
 import CardForEpic from "../../presentational/CardForEpic/CardForEpic";
 import LoadingDots from "../../presentational/LoadingDots/LoadingDots";
 import EpicCreationalModal from "../EpicCreationalModal/EpicCreationalModal";
+//Текущий currentIndex = 
 export default function SliderMapOfEpicsForTheClient() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ export default function SliderMapOfEpicsForTheClient() {
   const epicsForSelectFotTheCustomer = useSelector(
     (state) => state.customer.epicsForSelectInTheCustomer
   );
-  const data = epicsForSelectFotTheCustomer?.epicsData;
+  const data = epicsForSelectFotTheCustomer?.epicsData || [];
   const [currentIndex, setCurrentIndex] = useState(() => {
     const storedIndex = localStorage.getItem("currentIndex");
     return storedIndex !== null ? Number(storedIndex) : 0;
@@ -50,7 +51,7 @@ export default function SliderMapOfEpicsForTheClient() {
     if(currentIndex+1>=arr.length) {
       return null;
     }
-    return currentIndex+1; 
+    return data[currentIndex+1].id; 
   }
   const handleNext = () => {
     setCurrentIndex((prevIndex) => {
@@ -149,8 +150,18 @@ export default function SliderMapOfEpicsForTheClient() {
       next_id: getNextIdOfArray(currentIndex, data),
     };
     console.log(dataOfObject)
-    dispatch(createEpic({ paths: pathObject, dataForCreate: dataOfObject }));
-  }
+    dispatch(createEpic({ paths: pathObject, dataForCreate: dataOfObject }))
+    .unwrap() 
+    .then(() => {
+      //TODO установка currentIndex
+
+      // Закрываем модальное окно и очищаем данные
+      setOpenCreationModal(false);
+      setEmptyCreationData();
+    })
+    .catch((error) => {
+      console.error("Ошибка при создании эпика:", error);
+    });  }
   // Проверка на загрузку или отсутствие данных
   if (epicsForSelectFotTheCustomer.isLoading) {
     return (
