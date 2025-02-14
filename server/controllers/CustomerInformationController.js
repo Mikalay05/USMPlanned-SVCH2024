@@ -72,6 +72,7 @@ class CustomerInformationController {
 
   updateEpicsOrder = async (req, res, next) => {
     try {
+      console.log("TESTTTES")
       const { projectId, customerId } = this.getParamsIdFromReq(req);
       const { userIdFromToken } = req;
       const dataOfBodyRequest = new EpicsOrderUpdateDto(req.body);
@@ -82,7 +83,7 @@ class CustomerInformationController {
         projectId,
         userIdFromToken
       );
-      const newEpicsArr = await this.getChainForSelect(req, res, next);
+      return await this.getChainForSelect(req, res, next);
     } catch (err) {
       console.log("Error in updateEpicsOrder:", err);
       next(err);
@@ -107,7 +108,6 @@ class CustomerInformationController {
       const resultDto = data.map(
         (item) => new ChainForSelectionInTheCustomer(item)
       );
-      console.log(resultDto)
       return res.status(200).json(resultDto);
     } catch (err) {
       console.log("Error in catch", err); // Логирование ошибки

@@ -2,18 +2,16 @@ import "./SliderMapOfEpicsForTheClient.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom"; // Импорт useNavigate
 import { useState } from "react";
-import {createEpic} from '../../../store/slices/customerSlice'
+import { createEpic, reorderEpics } from "../../../store/slices/customerSlice";
 import SliderControls from "../../presentational/SliderControls/SliderControls";
 import CardForEpic from "../../presentational/CardForEpic/CardForEpic";
 import LoadingDots from "../../presentational/LoadingDots/LoadingDots";
 import EpicCreationalModal from "../EpicCreationalModal/EpicCreationalModal";
-//Текущий currentIndex = 
 export default function SliderMapOfEpicsForTheClient() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { projectId: projectIdString, customerId: customerIdString } = useParams();
-
-  // Преобразуем строки в числа
+  const { projectId: projectIdString, customerId: customerIdString } =
+    useParams();
   const projectId = Number(projectIdString);
   const customerId = Number(customerIdString);
   /*
@@ -48,11 +46,11 @@ export default function SliderMapOfEpicsForTheClient() {
     });
   };
   const getNextIdOfArray = (currentIndex, arr) => {
-    if(currentIndex+1>=arr.length) {
+    if (currentIndex + 1 >= arr.length) {
       return null;
     }
-    return data[currentIndex+1].id; 
-  }
+    return data[currentIndex + 1].id;
+  };
   const handleNext = () => {
     setCurrentIndex((prevIndex) => {
       const newIndex = Math.min(data.length - 1, prevIndex + 1);
@@ -72,12 +70,25 @@ export default function SliderMapOfEpicsForTheClient() {
   };
 
   const handleOnClickToAgreeMove = () => {
-    //получить next_id
-    const nextIndex =
-    draggedIndex + 1 >= draggedData.length ? null : draggedIndex + 1;
-
-    //отправить запрос
-
+    const nextId = getNextIdOfArray(draggedIndex, data);
+    const epicId = data[currentIndex].id;
+    const dataOfBody = {
+      nextId: nextId,
+      epicId: epicId,
+    };
+    const pathObject = {
+      projectId,
+      customerId,
+    };
+    dispatch(reorderEpics({ paths: pathObject, data: dataOfBody }))
+      .unwrap()
+      .then(() => {
+        
+        setIsElementDragged(false);
+      })
+      .catch((error) => {
+        console.error("Ошибка при обновление порядка эпика:", error);
+      });
   };
 
   const handleNextToDragged = () => {
@@ -149,19 +160,20 @@ export default function SliderMapOfEpicsForTheClient() {
       name: сreationData.nameOfEpic,
       next_id: getNextIdOfArray(currentIndex, data),
     };
-    console.log(dataOfObject)
+    console.log(dataOfObject);
     dispatch(createEpic({ paths: pathObject, dataForCreate: dataOfObject }))
-    .unwrap() 
-    .then(() => {
-      //TODO установка currentIndex
+      .unwrap()
+      .then(() => {
+        //TODO установка currentIndex
 
-      // Закрываем модальное окно и очищаем данные
-      setOpenCreationModal(false);
-      setEmptyCreationData();
-    })
-    .catch((error) => {
-      console.error("Ошибка при создании эпика:", error);
-    });  }
+        // Закрываем модальное окно и очищаем данные
+        setOpenCreationModal(false);
+        setEmptyCreationData();
+      })
+      .catch((error) => {
+        console.error("Ошибка при создании эпика:", error);
+      });
+  };
   // Проверка на загрузку или отсутствие данных
   if (epicsForSelectFotTheCustomer.isLoading) {
     return (

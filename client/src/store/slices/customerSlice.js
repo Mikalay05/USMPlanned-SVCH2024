@@ -10,7 +10,19 @@ import CustomerActionsDto from "../../DTOs/Data/Actions/CustomerActionsDto";
 import EpicForCreationDTO from "../../DTOs/ForCreation/EpicForCreationDTO";
 import InformationCustomerDto from "../../DTOs/Data/Information/InformationCustomerDto";
 import ChainForSelectionInTheCustomer from "../../DTOs/Data/ChainForSelect/ChainForSelectionInTheCustomer";
+import ReorderEpicsUpdateDto from "../../DTOs/ForUpdate/ReorderEpicsUpdateDto";
 
+export const reorderEpics = createAsyncThunk(
+  "customer/reorderEpics",
+  async ({paths, data }) => {
+    const dataDto = new ReorderEpicsUpdateDto(data);
+    console.log(data)
+    alert(data)
+    const response = await CustomerService.reorderEpics(paths,dataDto);
+    return response;
+    //Вернуть обььект или ошибку
+  }
+);
 export const createEpic = createAsyncThunk(
   "customer/createEpic",
   async ({ paths, dataForCreate }) => {

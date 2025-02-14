@@ -37,8 +37,21 @@ class CustomerService extends BaseService {
       ":customerId",
       paths.customerId
     );
-    console.log("endpoint",endpoint)
     const response = await BaseService.request("post", endpoint, dataForCreate);
+    return response;
+  }
+  
+  async reorderEpics(paths, data) {
+    const endpoint = API_ENDPOINTS.CUSTOMER.REORDER_EPICS
+    .replace(
+      ":projectId",
+      paths.projectId
+    )
+    .replace(
+      ":customerId",
+      paths.customerId
+    );
+    const response = await BaseService.request("patch", endpoint, data);
     return response;
   }
 }

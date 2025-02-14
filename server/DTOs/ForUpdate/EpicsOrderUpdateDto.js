@@ -1,10 +1,10 @@
 class EpicsOrderUpdateDto {
     constructor({
         epicId,
-        nextEpicId
+        nextId
     }) {
         this.epicId = epicId;
-        this.nextEpicId = nextEpicId;
+        this.nextEpicId = nextId;
     }
 }
 
