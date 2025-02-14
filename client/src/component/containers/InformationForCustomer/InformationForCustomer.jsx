@@ -12,7 +12,12 @@ export default function InformationForCustomer({
   filterKeyForCustomers = "name",
   filterKeyForEpics = "name",
 }) {
-  const { projectId, customerId } = useParams(); // Получение customerId из params
+  const { projectId: projectIdString, customerId: customerIdString } =
+    useParams();
+
+  // Преобразуем строки в числа
+  const projectId = Number(projectIdString);
+  const customerId = Number(customerIdString);
   const dispatch = useDispatch(); // Если нужно будет диспатчить экшены
   const navigate = useNavigate(); // Хук для навигации
 
@@ -46,7 +51,7 @@ export default function InformationForCustomer({
       </div>
     );
   }
-  console.log(selectedCustomer)
+  console.log(selectedCustomer);
   if (selectedCustomer.isLoading) {
     return (
       <div>
@@ -61,23 +66,29 @@ export default function InformationForCustomer({
     // Проверяем, выбран ли клиент
     if (selectedCustomer) {
       navigate(`/information/${projectId}/${selectedCustomer.id}`);
-  } else {
+    } else {
       navigate(`/information/${projectId}`); // Переход без customerId
-  }  };
-
+    }
+  };
   // Обработчик выбора эпика
   const handleSelectEpic = (selectedEpic) => {
     console.log("Selected Epic:", selectedEpic);
     navigate(`/information/${projectId}/${customerId}/${selectedEpic.id}`);
   };
+  const customersArray = Array.isArray(selectedProject?.customersData)
+    ? selectedProject.customersData
+    : [];
+  const defaultValueOfCustomer = customersArray.find(
+    (customer) => customer.id === customerId
+  );
   return (
     <div className="container-InformationForCustomer">
       <h1>{projectData?.projectName || "Project Name Not Available"}</h1>
       <h3>{projectData?.status?.status_name || "Status Not Available"}</h3>
       <div className="selected-in-InformationForCustomer">
         <CustomerSelect
-          defaultValue={selectedProject?.customersData[projectId]} // Устанавливаем значение по умолчанию
-          options={selectedProject?.customersData || []}
+          defaultValue={defaultValueOfCustomer} // Устанавливаем значение по умолчанию
+          options={customersArray}
           filterKey={filterKeyForCustomers}
           onSelectItem={handleSelectCustomer} // Передаем обработчик выбора клиента
         />
