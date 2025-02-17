@@ -17,7 +17,7 @@ export const API_ENDPOINTS = {
         REORDER_EPICS: 'information/:projectId/:customerId',
     },
     EPIC: {
-        GET_EPIC_ACTIONS_BY_ID: 'information/:projectId/:customerId/:epic/actions',
+        GET_EPIC_ACTIONS_BY_ID: 'information/:projectId/:customerId/:epicId/actions',
         GET_EPIC_DATA_BY_ID: 'information/:projectId/:customerId/:epic/data',
         GET_CHAIN_FOR_SELECT: 'information/:projectId/:customerId/:epic/getChainForSelect',
         

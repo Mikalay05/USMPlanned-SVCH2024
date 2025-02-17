@@ -12,8 +12,9 @@ import EpicActionsDto from "../../DTOs/Data/Actions/EpicActionsDto";
 // Получение всех actions
 export const getEpicActions = createAsyncThunk(
     "project/getEpicActions",
-    async (epicId) => {
-      const response = await EpicService.getEpicActions(epicId);
+    async ({paths}) => {
+      const response = await EpicService.getEpicActions(paths);
+      console.log(response);
       const result = response.epicActions.map((action) => new EpicActionsDto(action));
       return result;
     }
@@ -23,6 +24,14 @@ const epicSlice = createSlice({
   initialState: {
     epicActions: {
       actionsData: [],
+      isLoading: false,
+    },
+    currentEpic: {
+      epicData: {},
+      isLoading: false,
+    },
+    storiesForSelectInTheEpic: {
+      storiesData: [],
       isLoading: false,
     },
   },

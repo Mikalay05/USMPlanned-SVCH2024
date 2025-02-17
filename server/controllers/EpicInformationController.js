@@ -14,6 +14,8 @@ class EpicInformationController {
       }
     getEpicIdFromReqParams = (req) => {
         const epicId = req.params[this.EPIC_ID_PROPERTY];
+        console.log("para", req.params)
+        console.log("epicId", epicId)
         return epicId;
       };
     getEpicActionById = async (req, res, next) => {

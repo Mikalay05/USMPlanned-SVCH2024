@@ -16,14 +16,13 @@ export default function EpicInformation({
     
 })
 {
-    const { projectId, customerId, epicId } = useParams(); // Получаем projectId из URL
+    const { projectId, customerId, epicId } = useParams();
     const dispatch = useDispatch();
-
     useEffect(() => {
         dispatch(getCurrentUserData());
         
         if (epicId) {
-            dispatch(getEpicActions(epicId));
+            dispatch(getEpicActions({paths: {projectId, customerId, epicId  }}));
         }
         if(projectId) {
             dispatch(getProjectDataById(projectId));

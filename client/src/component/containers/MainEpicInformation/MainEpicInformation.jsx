@@ -3,6 +3,7 @@ import './MainEpicInformation.css'
 export default function MainEpicInformation() {
     return (
         <main>
+            
             <EpicActionsData/>
         </main>
     )
