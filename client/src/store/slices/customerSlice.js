@@ -14,13 +14,10 @@ import ReorderEpicsUpdateDto from "../../DTOs/ForUpdate/ReorderEpicsUpdateDto";
 
 export const reorderEpics = createAsyncThunk(
   "customer/reorderEpics",
-  async ({paths, data }) => {
+  async ({ paths, data }) => {
     const dataDto = new ReorderEpicsUpdateDto(data);
-    console.log(data)
-    alert(data)
-    const response = await CustomerService.reorderEpics(paths,dataDto);
+    const response = await CustomerService.reorderEpics(paths, dataDto);
     return response;
-    //Вернуть обььект или ошибку
   }
 );
 export const createEpic = createAsyncThunk(
@@ -29,7 +26,6 @@ export const createEpic = createAsyncThunk(
     const dataDto = new EpicForCreationDTO(dataForCreate);
     const response = await CustomerService.createEpic(paths, dataForCreate);
     return response;
-    //Вернуть обььект или ошибку
   }
 );
 // Получение всех actions
@@ -129,6 +125,17 @@ const customerSlice = createSlice({
         state.epicsForSelectInTheCustomer.isLoading = false;
       })
       .addCase(createEpic.rejected, (state) => {
+        state.epicsForSelectInTheCustomer.isLoading = false;
+      })
+      //GROUP reorderEpics
+      .addCase(reorderEpics.pending, (state) => {
+        state.epicsForSelectInTheCustomer.isLoading = true;
+      })
+      .addCase(reorderEpics.fulfilled, (state, action) => {
+        state.epicsForSelectInTheCustomer.epicsData = action.payload;
+        state.epicsForSelectInTheCustomer.isLoading = false;
+      })
+      .addCase(reorderEpics.rejected, (state) => {
         state.epicsForSelectInTheCustomer.isLoading = false;
       });
   },

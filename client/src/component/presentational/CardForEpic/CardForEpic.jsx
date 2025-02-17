@@ -9,10 +9,12 @@ export default function CardForEpic({
   isEmpty = false,
   key,
 }) {
+  console.log("TEST")
+  console.log("TEST",dataOfObject)
   if (isEmpty) {
     return (
       <CustomerCard
-        key={dataOfObject.id}
+        key={key}
         textValue="" // Имя клиента отображается в заголовке
         styleColor="#333" // Цвет текста
         backgroundColor={{ r: 245, g: 242, b: 75 }} // Светло-голубой фон
@@ -25,7 +27,7 @@ export default function CardForEpic({
   }
   return (
     <CustomerCard
-      key={dataOfObject.id}
+      key={key}
       textValue={dataOfObject.name} // Имя клиента отображается в заголовке
       styleColor="#333" // Цвет текста
       backgroundColor={{ r: 245, g: 242, b: 75 }} // Светло-голубой фон

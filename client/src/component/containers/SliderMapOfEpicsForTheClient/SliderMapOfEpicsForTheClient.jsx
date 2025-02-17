@@ -7,7 +7,9 @@ import SliderControls from "../../presentational/SliderControls/SliderControls";
 import CardForEpic from "../../presentational/CardForEpic/CardForEpic";
 import LoadingDots from "../../presentational/LoadingDots/LoadingDots";
 import EpicCreationalModal from "../EpicCreationalModal/EpicCreationalModal";
-export default function SliderMapOfEpicsForTheClient() {
+export default function SliderMapOfEpicsForTheClient({
+  customerLocalStorage = "currentEpicIndex",
+}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { projectId: projectIdString, customerId: customerIdString } =
@@ -22,9 +24,16 @@ export default function SliderMapOfEpicsForTheClient() {
   );
   const data = epicsForSelectFotTheCustomer?.epicsData || [];
   const [currentIndex, setCurrentIndex] = useState(() => {
-    const storedIndex = localStorage.getItem("currentIndex");
-    return storedIndex !== null ? Number(storedIndex) : 0;
+    const storedIndex = localStorage.getItem(customerLocalStorage);
+    const index = storedIndex !== null ? Number(storedIndex) : 0;
+    return isNaN(index) ? 0 : index; // Если значение NaN, вернуть 0
   });
+  
+  const handleSetCurrentIndex = (newIndex) => {
+    console.log("newIndex",newIndex)
+    setCurrentIndex(newIndex);
+    localStorage.setItem(customerLocalStorage, newIndex);
+  };
 
   const [draggedIndex, setDraggedIndex] = useState(-1);
 
@@ -59,7 +68,7 @@ export default function SliderMapOfEpicsForTheClient() {
   };
 
   const onClickOnElement = (index) => {
-    setCurrentIndex(index);
+    handleSetCurrentIndex(index);
   };
   const onClickOnEmptyElement = () => {
     setOpenCreationModal(true);
@@ -83,7 +92,7 @@ export default function SliderMapOfEpicsForTheClient() {
     dispatch(reorderEpics({ paths: pathObject, data: dataOfBody }))
       .unwrap()
       .then(() => {
-        
+        handleSetCurrentIndex(draggedIndex);
         setIsElementDragged(false);
       })
       .catch((error) => {
@@ -160,7 +169,6 @@ export default function SliderMapOfEpicsForTheClient() {
       name: сreationData.nameOfEpic,
       next_id: getNextIdOfArray(currentIndex, data),
     };
-    console.log(dataOfObject);
     dispatch(createEpic({ paths: pathObject, dataForCreate: dataOfObject }))
       .unwrap()
       .then(() => {
@@ -183,6 +191,7 @@ export default function SliderMapOfEpicsForTheClient() {
       </div>
     );
   }
+  const displayedData = isElementDragged ? draggedData : data;
   return (
     <>
       <SliderControls
@@ -203,13 +212,9 @@ export default function SliderMapOfEpicsForTheClient() {
         handleNextToDragged={handleNextToDragged}
         draggedIndex={draggedIndex}
       >
-        {isElementDragged
-          ? draggedData.map((item) => (
-              <CardForEpic key={item.id} dataOfObject={item} />
-            ))
-          : data.map((item) => (
-              <CardForEpic key={item.id} dataOfObject={item} />
-            ))}
+        {displayedData.map((item, index) => (
+          <CardForEpic key={index} dataOfObject={item} />
+        ))}
       </SliderControls>
       <EpicCreationalModal
         isModalOpen={openCreationModal}

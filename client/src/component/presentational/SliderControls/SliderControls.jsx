@@ -45,11 +45,10 @@ export default function SliderControls({
       )}
       {isElementDragged ? (
         <ButtonMoveSlider
-        handleNext={handleNextToDragged}
-        handlePrev={handlePrevToDragged}
-        draggedIndex={draggedIndex}
-        emptyCardComponent={emptyCardComponent}
-
+          handleNext={handleNextToDragged}
+          handlePrev={handlePrevToDragged}
+          draggedIndex={draggedIndex}
+          emptyCardComponent={emptyCardComponent}
         >
           {children}
         </ButtonMoveSlider>
@@ -65,6 +64,7 @@ export default function SliderControls({
           alphaInactiveOnEmptyElement={alphaInactiveOnEmptyElement}
           emptyCardComponent={emptyCardComponent}
           isElementDragged={isElementDragged}
+          
         >
           {children}
         </ButtonNavigationSlider>

@@ -72,7 +72,6 @@ class CustomerInformationController {
 
   updateEpicsOrder = async (req, res, next) => {
     try {
-      console.log("TESTTTES")
       const { projectId, customerId } = this.getParamsIdFromReq(req);
       const { userIdFromToken } = req;
       const dataOfBodyRequest = new EpicsOrderUpdateDto(req.body);

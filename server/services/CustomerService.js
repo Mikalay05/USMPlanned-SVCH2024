@@ -47,9 +47,6 @@ class CustomerService {
       if(!epicId) {
         throw ApiError.badRequest("Epic id is request", {epicIdErr: "Epic id is request"})
       }
-      if(!nextEpicId) {
-        throw ApiError.badRequest("Next epic id is request", {nextEpicIdErr: "Next epic id is request"})
-      }
       const params = [epicId, nextEpicId, customerId, projectId, userIdFromToken];
       const result = await dbQuery(QUERIES.REOREDR_EPICS, params);
       return result;
