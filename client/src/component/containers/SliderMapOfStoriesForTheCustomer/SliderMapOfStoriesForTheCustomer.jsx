@@ -125,7 +125,9 @@ export default function SliderMapOfStoriesForTheCustomer({
       </div>
     );
   }
-
+  const handleOnClearInCreationModal = (propertyName) => {
+    handleOnInputInCreationModal(propertyName, "");
+  };
   const displayedData = isElementDragged ? draggedData : data;
 
   return (
@@ -158,6 +160,8 @@ export default function SliderMapOfStoriesForTheCustomer({
         onCloseModal={handleOnCloseInCreationalModal}
         onInputChange={handleOnInputInCreationModal}
         onCreateCustomer={handleCreateStory}
+        onClear={handleOnClearInCreationModal}
+
       />
     </>
   );
