@@ -33,9 +33,14 @@ export const getCurrentEpic = createAsyncThunk(
 export const getChainForSelectionInTheEpic = createAsyncThunk(
   "project/getChainForSelectionInTheEpic",
   async ({ paths }) => {
+    console.log(paths)
+    alert("TEST IN EPIC SLICE")
+    
     const response = await EpicService.getChainForSelectionInTheEpic(paths);
     //TODO DTO
     const result = response;
+    console.log(result)
+    alert("TEST IN EPIC SLICE result")
     return result;
   }
 );
@@ -80,6 +85,17 @@ const epicSlice = createSlice({
       })
       .addCase(getCurrentEpic.rejected, (state) => {
         state.currentEpic.isLoading = false;
+      })
+      //GROUP getChainForSelectionInTheEpic
+      .addCase(getChainForSelectionInTheEpic.pending, (state) => {
+        state.storiesForSelectInTheEpic.isLoading = true;
+      })
+      .addCase(getChainForSelectionInTheEpic.fulfilled, (state, action) => {
+        state.storiesForSelectInTheEpic.storiesData = action.payload;
+        state.storiesForSelectInTheEpic.isLoading = false;
+      })
+      .addCase(getChainForSelectionInTheEpic.rejected, (state) => {
+        state.storiesForSelectInTheEpic.isLoading = false;
       });
   },
 });

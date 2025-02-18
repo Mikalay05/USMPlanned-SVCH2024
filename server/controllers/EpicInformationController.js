@@ -1,6 +1,7 @@
 const EpicService = require('../services/EpicService')
 const EpicActionsDto = require('../DTOs/Data/Actions/EpicActionsDto');
 const InformationEpicDto = require('../DTOs/Data/Information/InformationEpicDto');
+const ChainForSelectionInTheEpic = require('../DTOs/Data/ChainForSelect/ChainForSelectionInTheEpic');
 
 
 class EpicInformationController {
@@ -90,11 +91,12 @@ class EpicInformationController {
     getChainForSelect = async (req, res, next) => {
         try {
             // Получаем projectId из параметров
-            const {epicId} = this.getParamsIdFromReq(req);
+            const {epicId, customerId, projectId} = this.getParamsIdFromReq(req);
             // Получаем данные о проекте
-            const data = await ProjectService.getChainForSelect(projectId); 
+            //TODO test this
+            const data = await EpicService.getChainForSelect(epicId); 
             // Создаем DTO для результата
-            const resultDto = data.map((item)=>new ChainForSelectionInTheProject(item));
+            const resultDto = data.map((item)=>new ChainForSelectionInTheEpic(item));
             return res.status(200).json(resultDto);
         } catch (err) {
             console.error("Error in catch", err); // Логирование ошибки

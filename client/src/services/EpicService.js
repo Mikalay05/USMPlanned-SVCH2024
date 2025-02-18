@@ -1,30 +1,41 @@
 import $api from "../http/index";
 import { API_ENDPOINTS } from "../http/apiEnpoints";
 import BaseService from "./BaseService";
-
+const replaceParamsInUrl = (path, params) => {
+  return path
+    .replace(":projectId", params.projectId)
+    .replace(":customerId", params.customerId)
+    .replace(":epicId", params.epicId);
+};
 class EpicService extends BaseService {
   async getEpicActions(paths) {
-    const endpoint = API_ENDPOINTS.EPIC.GET_EPIC_ACTIONS_BY_ID.replace(
-      ":projectId",
-      paths.projectId
-    )
-      .replace(":customerId", paths.customerId)
-      .replace(":epicId", paths.epicId);
+    const endpoint = replaceParamsInUrl(
+      API_ENDPOINTS.EPIC.GET_EPIC_ACTIONS_BY_ID,
+      paths
+    );
     const response = await BaseService.request("get", endpoint);
     return response;
   }
   async getCurrentEpic(paths) {
-    const endpoint = API_ENDPOINTS.EPIC.GET_EPIC_DATA_BY_ID.replace(
-      ":projectId",
-      paths.projectId
-    )
-      .replace(":customerId", paths.customerId)
-      .replace(":epicId", paths.epicId);
+    const endpoint = replaceParamsInUrl(
+      API_ENDPOINTS.EPIC.GET_EPIC_DATA_BY_ID,
+      paths
+    );
+
     const response = await BaseService.request("get", endpoint);
     return response;
   }
   async getChainForSelectionInTheEpic(paths) {
-    //TODO
+
+    const endpoint = replaceParamsInUrl(
+      API_ENDPOINTS.EPIC.GET_CHAIN_FOR_SELECT,
+      paths
+    );
+    alert(endpoint)
+    const response = await BaseService.request("get", endpoint);
+    console.log(response)
+    alert("result")
+    return response;
   }
 }
 

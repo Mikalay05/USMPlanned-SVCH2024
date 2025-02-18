@@ -1,9 +1,14 @@
 import $api from "../http/index";
 import { API_ENDPOINTS } from "../http/apiEnpoints";
 import BaseService from "./BaseService";
-
+const replaceParamsInUrl = (path, params) => {
+  return path
+    .replace(":projectId", params.projectId)
+    .replace(":customerId", params.customerId);
+};
 class CustomerService extends BaseService {
   async getCustomerActions(customerId) {
+
     const endpoint = API_ENDPOINTS.CUSTOMER.GET_CUSTOMER_ACTIONS_BY_ID.replace(
       ":customerId",
       customerId
@@ -28,15 +33,7 @@ class CustomerService extends BaseService {
     return response;
   }
   async createEpic(paths, dataForCreate) {
-    const endpoint = API_ENDPOINTS.CUSTOMER.CREATE_EPIC
-    .replace(
-      ":projectId",
-      paths.projectId
-    )
-    .replace(
-      ":customerId",
-      paths.customerId
-    );
+    const endpoint = replaceParamsInUrl(API_ENDPOINTS.CUSTOMER.CREATE_EPIC, paths);
     const response = await BaseService.request("post", endpoint, dataForCreate);
     return response;
   }

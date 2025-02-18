@@ -34,6 +34,21 @@ class EpicService {
       });
     }
   }
+  async getChainForSelect(epicId) {
+    const NAME_OF_OBJECT_FROM_RESULT_OF_DB = "get_chain_of_stories_for_epic";
+    try {
+      const params = [epicId];
+      const rows = await dbQuery(
+        QUERIES.GET_CHAIN_OF_STORIES_FOR_EPIC,
+        params
+      );
+      const dataResult = rows[0][NAME_OF_OBJECT_FROM_RESULT_OF_DB];
+      return dataResult;
+    } catch (err) {
+      console.error("Error executing query:", err);
+      throw err;
+    }
+  }
 }
 
 module.exports = new EpicService();
