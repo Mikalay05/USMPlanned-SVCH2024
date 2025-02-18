@@ -6,15 +6,18 @@ import { createStory, reorderStories } from "../../../store/slices/epicSlice";
 import SliderControls from "../../presentational/SliderControls/SliderControls";
 import CardForStory from "../../presentational/CardForStory/CardForStory";
 import LoadingDots from "../../presentational/LoadingDots/LoadingDots";
-import StoryCreationalModal from "../StoryCreationalModal/StoryCreationalModal";
+import StoryCreationalModal from "../../presentational/StoryCreationalModal/StoryCreationalModal";
 
 export default function SliderMapOfStoriesForTheCustomer({
   epicLocalStorage = "currentStoryIndex",
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { projectId: projectIdString, customerId: customerIdString, epicId: epicIdString } =
-    useParams();
+  const {
+    projectId: projectIdString,
+    customerId: customerIdString,
+    epicId: epicIdString,
+  } = useParams();
   const projectId = Number(projectIdString);
   const customerId = Number(customerIdString);
   const epicId = Number(epicIdString);
@@ -85,11 +88,14 @@ export default function SliderMapOfStoriesForTheCustomer({
         handleSetCurrentIndex(draggedIndex);
         setIsElementDragged(false);
       })
-      .catch((error) => console.error("Ошибка при обновлении порядка историй:", error));
+      .catch((error) =>
+        console.error("Ошибка при обновлении порядка историй:", error)
+      );
   };
 
   const [openCreationModal, setOpenCreationModal] = useState(false);
   const storyNameField = "nameOfStory";
+  const storyDescriptionField = "nameOfDescription";
   const [creationData, setCreationData] = useState({ [storyNameField]: "" });
 
   const handleOnCloseInCreationalModal = () => {
@@ -105,9 +111,10 @@ export default function SliderMapOfStoriesForTheCustomer({
     const pathObject = { projectId, customerId, epicId };
     const dataOfObject = {
       name: creationData[storyNameField],
+      description: creationData[storyDescriptionField],
       next_id: getNextIdOfArray(currentIndex, data),
     };
-
+    //TODO request for create story
     dispatch(createStory({ paths: pathObject, dataForCreate: dataOfObject }))
       .unwrap()
       .then(() => {
@@ -135,7 +142,11 @@ export default function SliderMapOfStoriesForTheCustomer({
       <SliderControls
         currentIndex={currentIndex}
         handleOpenModalForCreationCustomer={() => setOpenCreationModal(true)}
-        handleDecomposition={() => navigate(`/information/${projectId}/${customerId}/${epicId}/${data[currentIndex].id}`)}
+        handleDecomposition={() =>
+          navigate(
+            `/information/${projectId}/${customerId}/${epicId}/${data[currentIndex].id}`
+          )
+        }
         onSetIsElementDragged={() => {
           setDraggedIndex(currentIndex);
           setIsElementDragged(true);
@@ -155,13 +166,13 @@ export default function SliderMapOfStoriesForTheCustomer({
       </SliderControls>
       <StoryCreationalModal
         isModalOpen={openCreationModal}
-        customerNameField={storyNameField}
+        storyNameField={storyNameField}
+        storyDescriptionField={storyDescriptionField}
         dataOfValues={creationData}
         onCloseModal={handleOnCloseInCreationalModal}
         onInputChange={handleOnInputInCreationModal}
-        onCreateCustomer={handleCreateStory}
+        onCreateStory={handleCreateStory}
         onClear={handleOnClearInCreationModal}
-
       />
     </>
   );
