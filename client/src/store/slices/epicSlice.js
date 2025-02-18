@@ -8,6 +8,8 @@ import EpicService from "../../services/EpicService";
  */
 import EpicActionsDto from "../../DTOs/Data/Actions/EpicActionsDto";
 import InformationEpicDto from "../../DTOs/Data/Information/InformationEpicDto";
+import StoryForCreationDTO from "../../DTOs/ForCreation/StoryForCreationDTO";
+import ReorderStoriesUpdateDto from "../../DTOs/ForUpdate/ReorderStoriesUpdateDto";
 
 // Получение всех actions
 export const getEpicActions = createAsyncThunk(
@@ -42,6 +44,24 @@ export const getChainForSelectionInTheEpic = createAsyncThunk(
     console.log(result)
     alert("TEST IN EPIC SLICE result")
     return result;
+  }
+);
+export const createStory = createAsyncThunk(
+  "customer/createStory",
+  async ({ paths, dataForCreate }) => {
+    //TODO Add implamitation
+    const dataDto = new StoryForCreationDTO(dataForCreate);
+    const response = await EpicService.createStory(paths, dataDto);
+    return response;
+  }
+);
+
+export const reorderStories = createAsyncThunk(
+  "customer/reorderStories",
+  async ({ paths, data }) => {
+    const dataDto = new ReorderStoriesUpdateDto(data);
+    const response = await EpicService.reorderStories(paths, dataDto);
+    return response;
   }
 );
 const epicSlice = createSlice({

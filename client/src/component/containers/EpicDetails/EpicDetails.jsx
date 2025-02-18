@@ -1,6 +1,6 @@
 import './EpicDetails.css'
 
-import CustomerButton from "../CustomerButton/CustomerButton";
+import CustomerButton from "../../CustomerButton/CustomerButton";
 
 
 export default function EpicDetails({

@@ -9,8 +9,6 @@ export default function CardForEpic({
   isEmpty = false,
   key,
 }) {
-  console.log("TEST")
-  console.log("TEST",dataOfObject)
   if (isEmpty) {
     return (
       <CustomerCard
