@@ -7,18 +7,38 @@ import EpicService from "../../services/EpicService";
  * ===============
  */
 import EpicActionsDto from "../../DTOs/Data/Actions/EpicActionsDto";
-
+import InformationEpicDto from "../../DTOs/Data/Information/InformationEpicDto";
 
 // Получение всех actions
 export const getEpicActions = createAsyncThunk(
-    "project/getEpicActions",
-    async ({paths}) => {
-      const response = await EpicService.getEpicActions(paths);
-      console.log(response);
-      const result = response.epicActions.map((action) => new EpicActionsDto(action));
-      return result;
-    }
-  );
+  "project/getEpicActions",
+  async ({ paths }) => {
+    const response = await EpicService.getEpicActions(paths);
+    const result = response.epicActions.map(
+      (action) => new EpicActionsDto(action)
+    );
+    return result;
+  }
+);
+export const getCurrentEpic = createAsyncThunk(
+  "project/getCurrentEpic",
+  async ({ paths }) => {
+    const response = await EpicService.getCurrentEpic(paths);
+
+    const result = new InformationEpicDto(response);
+    return result;
+  }
+);
+
+export const getChainForSelectionInTheEpic = createAsyncThunk(
+  "project/getChainForSelectionInTheEpic",
+  async ({ paths }) => {
+    const response = await EpicService.getChainForSelectionInTheEpic(paths);
+    //TODO DTO
+    const result = response;
+    return result;
+  }
+);
 const epicSlice = createSlice({
   name: "epic",
   initialState: {
@@ -35,12 +55,10 @@ const epicSlice = createSlice({
       isLoading: false,
     },
   },
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getEpicActions.pending, (state) => {
-
         state.epicActions.isLoading = true;
       })
       .addCase(getEpicActions.fulfilled, (state, action) => {
@@ -50,11 +68,20 @@ const epicSlice = createSlice({
         state.epicActions.isLoading = false;
       })
       .addCase(getEpicActions.rejected, (state) => {
-
         state.epicActions.isLoading = false;
+      })
+      //GROUP getCurrentEpic
+      .addCase(getCurrentEpic.pending, (state) => {
+        state.currentEpic.isLoading = true;
+      })
+      .addCase(getCurrentEpic.fulfilled, (state, action) => {
+        state.currentEpic.epicData = action.payload;
+        state.currentEpic.isLoading = false;
+      })
+      .addCase(getCurrentEpic.rejected, (state) => {
+        state.currentEpic.isLoading = false;
       });
   },
 });
-
 
 export default epicSlice.reducer;

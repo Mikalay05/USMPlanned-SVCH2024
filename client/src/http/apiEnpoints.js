@@ -18,9 +18,10 @@ export const API_ENDPOINTS = {
     },
     EPIC: {
         GET_EPIC_ACTIONS_BY_ID: 'information/:projectId/:customerId/:epicId/actions',
-        GET_EPIC_DATA_BY_ID: 'information/:projectId/:customerId/:epic/data',
-        GET_CHAIN_FOR_SELECT: 'information/:projectId/:customerId/:epic/getChainForSelect',
-        
+        GET_EPIC_DATA_BY_ID: 'information/:projectId/:customerId/:epicId/data',
+        GET_CHAIN_FOR_SELECT: 'information/:projectId/:customerId/:epicId/getChainForSelect',
+        GET_EPIC_DATA_BY_ID: 'information/:projectId/:customerId/:epicId/data',
+
     },
     STORY: {
         GET_STORY_ACTIONS_BY_ID: 'information/:projectId/:customerId/:epic/:storyId/actions',

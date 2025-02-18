@@ -15,7 +15,7 @@ epicInformationRouter.use((req, res, next) => {
   });
 
 //Возращает данные о epic согласно первичному ключу
-epicInformationRouter.get(`/`, authMiddleware, epicInformationController.getEpicById);
+epicInformationRouter.get(`/data`, authMiddleware, epicInformationController.getEpicById);
 // Возвращает данные о epic (действия) согласно первичному ключу
 epicInformationRouter.get(`/actions`, authMiddleware, epicInformationController.getEpicActionById);
 epicInformationRouter.get('/getChainForSelect', authMiddleware, epicInformationController.getChainForSelect);

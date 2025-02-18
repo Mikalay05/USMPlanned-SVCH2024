@@ -1,5 +1,6 @@
 const EpicService = require('../services/EpicService')
-const EpicActionsDto = require('../DTOs/Data/Actions/EpicActionsDto')
+const EpicActionsDto = require('../DTOs/Data/Actions/EpicActionsDto');
+const InformationEpicDto = require('../DTOs/Data/Information/InformationEpicDto');
 
 
 class EpicInformationController {
@@ -12,16 +13,17 @@ class EpicInformationController {
         this.CUSTOMER_ID_PROPERTY = customerIdProperty;
         this.EPIC_ID_PROPERTY = epicIdProperty;
       }
-    getEpicIdFromReqParams = (req) => {
-        const epicId = req.params[this.EPIC_ID_PROPERTY];
-        console.log("para", req.params)
-        console.log("epicId", epicId)
-        return epicId;
+
+      getParamsIdFromReq = (req) => {
+        const projectId =Number(req.params[this.PROJECT_ID_PROPERTY]);
+        const customerId = Number(req.params[this.CUSTOMER_ID_PROPERTY]);
+        const epicId = Number(req.params[this.EPIC_ID_PROPERTY]);
+        return { customerId, projectId,epicId };
       };
     getEpicActionById = async (req, res, next) => {
         try {
           // Получаем projectId из параметров
-          const epicId = this.getEpicIdFromReqParams(req);
+          const {epicId} = this.getParamsIdFromReq(req);
           // Получаем данные о проекте
           const data = await EpicService.getEpicActionById(epicId);
           // Создаем DTO для результата
@@ -29,16 +31,18 @@ class EpicInformationController {
     
           return res.status(200).json({ epicActions: resultDto });
         } catch (err) {
-          console.log("Error in catch", err); // Логирование ошибки
+          console.error("Error in catch", err); // Логирование ошибки
           next(err); // Передаем ошибку дальше
         }
       };
-    async getEpicById(req, res, next) {
+    getEpicById = async(req, res, next)=> {
         try {
-            //TODO Add a method implementation
-            throw new Error("Not implemented");
+            const { customerId, epicId } = this.getParamsIdFromReq(req);
+            const data = await EpicService.getEpicDataById(epicId);
+            const resultDto = new InformationEpicDto(data);
+            return res.status(200).json(resultDto);
         } catch (err) {
-            console.log("Error in getEpicById:", err);
+            console.error("Error in getEpicById:", err);
             next(err);
         }
     }
@@ -48,7 +52,7 @@ class EpicInformationController {
             //TODO Add a method implementation
             throw new Error("Not implemented");
         } catch (err) {
-            console.log("Error in createStoryForEpic:", err);
+            console.error("Error in createStoryForEpic:", err);
             next(err);
         }
     }
@@ -58,7 +62,7 @@ class EpicInformationController {
             //TODO Add a method implementation
             throw new Error("Not implemented");
         } catch (err) {
-            console.log("Error in updateEpicData:", err);
+            console.error("Error in updateEpicData:", err);
             next(err);
         }
     }
@@ -69,7 +73,7 @@ class EpicInformationController {
             const { storyId, nextId } = req.query;
             throw new Error(`Not implemented. Params: storyId=${storyId}, nextId=${nextId}`);
         } catch (err) {
-            console.log("Error in updateStoriesOrder:", err);
+            console.error("Error in updateStoriesOrder:", err);
             next(err);
         }
     }
@@ -79,21 +83,21 @@ class EpicInformationController {
             //TODO Add a method implementation
             throw new Error("Not implemented");
         } catch (err) {
-            console.log("Error in deleteEpicById:", err);
+            console.error("Error in deleteEpicById:", err);
             next(err);
         }
     }
     getChainForSelect = async (req, res, next) => {
         try {
             // Получаем projectId из параметров
-            const epicId = this.getEpicIdFromReqParams(req);
+            const {epicId} = this.getParamsIdFromReq(req);
             // Получаем данные о проекте
             const data = await ProjectService.getChainForSelect(projectId); 
             // Создаем DTO для результата
             const resultDto = data.map((item)=>new ChainForSelectionInTheProject(item));
             return res.status(200).json(resultDto);
         } catch (err) {
-            console.log("Error in catch", err); // Логирование ошибки
+            console.error("Error in catch", err); // Логирование ошибки
             next(err); // Передаем ошибку дальше
         }
     };

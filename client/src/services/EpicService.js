@@ -10,9 +10,21 @@ class EpicService extends BaseService {
     )
       .replace(":customerId", paths.customerId)
       .replace(":epicId", paths.epicId);
-      alert(endpoint)
     const response = await BaseService.request("get", endpoint);
     return response;
+  }
+  async getCurrentEpic(paths) {
+    const endpoint = API_ENDPOINTS.EPIC.GET_EPIC_DATA_BY_ID.replace(
+      ":projectId",
+      paths.projectId
+    )
+      .replace(":customerId", paths.customerId)
+      .replace(":epicId", paths.epicId);
+    const response = await BaseService.request("get", endpoint);
+    return response;
+  }
+  async getChainForSelectionInTheEpic(paths) {
+    //TODO
   }
 }
 

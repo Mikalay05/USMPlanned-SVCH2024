@@ -20,6 +20,20 @@ class EpicService {
       });
     }
   }
+  async getEpicDataById(epicId) {
+    try {
+      const params = [epicId];
+      const rows = await dbQuery(QUERIES.GET_EPIC_DATA_BY_ID, params);
+      const data = rows[0].process_epic;  // Извлекаем внутренний массив
+      return data;
+    } catch (err) {
+      console.error("Error executing query:", err);
+      throw ApiError.internal("Ошибка получения actions для customer", {
+        epicId,
+        error: err.message
+      });
+    }
+  }
 }
 
 module.exports = new EpicService();

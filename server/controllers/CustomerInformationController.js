@@ -23,7 +23,6 @@ class CustomerInformationController {
     try {
       const { customerId } = this.getParamsIdFromReq(req);
       const data = await CustomerService.getCustomerDataById(customerId);
-      console.log(data);
       const resultDto = new InformationCustomerDto(data);
       return res.status(200).json(resultDto);
     } catch (err) {
