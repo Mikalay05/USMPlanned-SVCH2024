@@ -26,7 +26,6 @@ class EpicService extends BaseService {
     return response;
   }
   async getChainForSelectionInTheEpic(paths) {
-
     const endpoint = replaceParamsInUrl(
       API_ENDPOINTS.EPIC.GET_CHAIN_FOR_SELECT,
       paths
@@ -35,15 +34,26 @@ class EpicService extends BaseService {
     return response;
   }
   async createStory(paths, data) {
-
-    const endpoint = replaceParamsInUrl(
-      API_ENDPOINTS.EPIC.CREATE_STORY,
-      paths
-    );
-    const response = await BaseService.request("post", endpoint,data );
+    const endpoint = replaceParamsInUrl(API_ENDPOINTS.EPIC.CREATE_STORY, paths);
+    const response = await BaseService.request("post", endpoint, data);
     return response;
   }
-  
+  async updateDataOfEpic(paths, data) {
+    const endpoint = replaceParamsInUrl(
+      API_ENDPOINTS.EPIC.UPDATE_EPIC_DATA,
+      paths
+    );
+    const response = await BaseService.request("put", endpoint, data);
+    return response;
+  }
+  async deleteEpic(paths) {
+    const endpoint = replaceParamsInUrl(
+      API_ENDPOINTS.EPIC.DELETE_EPIC,
+      paths
+    );
+    const response = await BaseService.request("delete", endpoint);
+    return response;
+  }
 }
 
 const epicServiceInstance = new EpicService();

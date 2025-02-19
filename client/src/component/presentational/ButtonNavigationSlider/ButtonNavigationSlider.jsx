@@ -16,7 +16,6 @@ export default function ButtonNavigationSlider({
 
 
 }) {
-  console.log("CURRENT INDEX", currentIndex)
   const isPrevDisabled = currentIndex === 0;
   const isNextDisabled = currentIndex === children.length - 1;
   const createEmptyCard = () => {

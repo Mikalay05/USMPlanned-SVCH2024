@@ -10,7 +10,23 @@ import EpicActionsDto from "../../DTOs/Data/Actions/EpicActionsDto";
 import InformationEpicDto from "../../DTOs/Data/Information/InformationEpicDto";
 import StoryForCreationDTO from "../../DTOs/ForCreation/StoryForCreationDTO";
 import ReorderStoriesUpdateDto from "../../DTOs/ForUpdate/ReorderStoriesUpdateDto";
+import EpicDataForUpdateDto from "../../DTOs/ForUpdate/EpicDataForUpdateDto";
 
+export const updateDataOfEpic = createAsyncThunk(
+  "project/updateDataOfEpic",
+  async ({ paths, objectForBody }) => {
+    const dataDto = new EpicDataForUpdateDto(objectForBody);
+    const response = await EpicService.updateDataOfEpic(paths, dataDto);
+    return response;
+  }
+);
+export const deleteEpic = createAsyncThunk(
+  "project/deleteEpic",
+  async ({ paths }) => {
+    const response = await EpicService.deleteEpic(paths);
+    return response;
+  }
+);
 // Получение всех actions
 export const getEpicActions = createAsyncThunk(
   "project/getEpicActions",
@@ -121,6 +137,17 @@ const epicSlice = createSlice({
       })
       .addCase(createStory.rejected, (state) => {
         state.storiesForSelectInTheEpic.isLoading = false;
+      })
+      //GROUP updateDataOfEpic
+      .addCase(updateDataOfEpic.pending, (state) => {
+        state.currentEpic.isLoading = true;
+      })
+      .addCase(updateDataOfEpic.fulfilled, (state, action) => {
+        state.currentEpic.epicData = action.payload;
+        state.currentEpic.isLoading = false;
+      })
+      .addCase(updateDataOfEpic.rejected, (state) => {
+        state.currentEpic.isLoading = false;
       });
   },
 });

@@ -22,7 +22,8 @@ export const API_ENDPOINTS = {
         GET_CHAIN_FOR_SELECT: 'information/:projectId/:customerId/:epicId/getChainForSelect',
         GET_EPIC_DATA_BY_ID: 'information/:projectId/:customerId/:epicId/data',
         CREATE_STORY: 'information/:projectId/:customerId/:epicId/',
-
+        UPDATE_EPIC_DATA: 'information/:projectId/:customerId/:epicId/',
+        DELETE_EPIC: 'information/:projectId/:customerId/:epicId/',
     },
     STORY: {
         GET_STORY_ACTIONS_BY_ID: 'information/:projectId/:customerId/:epic/:storyId/actions',

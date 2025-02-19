@@ -25,10 +25,11 @@ const QUERIES = {
   REOREDR_EPICS: "SELECT * FROM reorder_epics_with_log_action($1,$2,$3,$4,$5);",
   CREATE_CUSTOMER:
     "SELECT * FROM create_customer_and_log_action($1,$2,$3, $4,$5);",
-  CREATE_EPIC:
-    "SELECT * FROM create_epic_and_log_action($1,$2,$3, $4,$5, $6);",
-    CREATE_STORY: 
-    "SELECT * FROM create_story_and_log_action($1,$2,$3, $4,$5, $6, $7,$8);"
+  CREATE_EPIC: "SELECT * FROM create_epic_and_log_action($1,$2,$3, $4,$5, $6);",
+  CREATE_STORY:
+    "SELECT * FROM create_story_and_log_action($1,$2,$3, $4,$5, $6, $7,$8);",
+  UPDATE_EPIC_DATA:
+    "SELECT * FROM update_epic_with_log($1,$2,$3, $4,$5);",
 };
 
 module.exports = QUERIES;

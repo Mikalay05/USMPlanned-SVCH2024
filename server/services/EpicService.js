@@ -44,7 +44,7 @@ class EpicService {
       throw err;
     }
   }
-  async createStoryForEpic(data,paths,byUserId) {
+  async createStoryForEpic(data, paths, byUserId) {
     const NAME_OF_OBJECT_FROM_RESULT_OF_DB = "create_story_and_log_action";
     try {
       /*
@@ -57,7 +57,7 @@ class EpicService {
     p_user_id INT,                  -- ID пользователя
     p_next_id INT DEFAULT NULL      -- ID следующего элемента, на который будет ссылаться новая Story
     */
-   const actionDescription = "Create story";
+      const actionDescription = "Create story";
       const params = [
         data.name,
         data.description,
@@ -66,10 +66,34 @@ class EpicService {
         paths.epicId,
         actionDescription,
         byUserId,
-        data.nextId
+        data.nextId,
       ];
-      console.log("params",params)
       const rows = await dbQuery(QUERIES.CREATE_STORY, params);
+      const dataResult = rows[0][NAME_OF_OBJECT_FROM_RESULT_OF_DB];
+      return dataResult;
+    } catch (err) {
+      console.error("Error executing query:", err);
+      throw err;
+    }
+  }
+  async updateEpicData(data, paths, byUserId) {
+    const NAME_OF_OBJECT_FROM_RESULT_OF_DB = "update_epic_with_log";
+    try {
+      /*
+    p_project_id INT,      -- ID проекта
+    p_customer_id INT,     -- ID заказчика
+    p_epic_id INT,         -- ID эпика
+    p_new_name TEXT,       -- Новое имя эпика
+    p_user_id INT          -- ID пользователя, совершающего действие
+    */
+      const params = [
+        paths.projectId,
+        paths.customerId,
+        paths.epicId,
+        data.name,
+        byUserId,
+      ];
+      const rows = await dbQuery(QUERIES.UPDATE_EPIC_DATA, params);
       const dataResult = rows[0][NAME_OF_OBJECT_FROM_RESULT_OF_DB];
       return dataResult;
     } catch (err) {

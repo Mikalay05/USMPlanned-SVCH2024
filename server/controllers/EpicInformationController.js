@@ -3,6 +3,7 @@ const EpicActionsDto = require('../DTOs/Data/Actions/EpicActionsDto');
 const InformationEpicDto = require('../DTOs/Data/Information/InformationEpicDto');
 const ChainForSelectionInTheEpic = require('../DTOs/Data/ChainForSelect/ChainForSelectionInTheEpic');
 const StoryForCreationDTO = require('../DTOs/ForCreation/StoryForCreationDTO');
+const EpicDataForUpdateDto = require('../DTOs/ForUpdate/EpicDataForUpdateDto');
 
 
 class EpicInformationController {
@@ -52,7 +53,6 @@ class EpicInformationController {
     createStoryForEpic = async(req, res, next)=> {
         try {
             const paths = this.getParamsIdFromReq(req);
-            console.log("TEST",req.body)
             const dataFromDto = new StoryForCreationDTO(req.body);
             const userId = req.userIdFromToken;
             
@@ -64,10 +64,14 @@ class EpicInformationController {
         }
     }
 
-    async updateEpicData(req, res, next) {
+    updateEpicData = async(req, res, next)=> {
         try {
-            //TODO Add a method implementation
-            throw new Error("Not implemented");
+            const paths = this.getParamsIdFromReq(req);
+            const dataFromDto = new EpicDataForUpdateDto(req.body);
+            const userId = req.userIdFromToken;
+            
+            const result = await EpicService.updateEpicData(dataFromDto, paths, userId);
+            return await this.getEpicById(req,res,next);
         } catch (err) {
             console.error("Error in updateEpicData:", err);
             next(err);
