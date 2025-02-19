@@ -1,32 +1,36 @@
+.card-wrapper {
+  display: inline-block;
+  perspective: 1200px; /* Глубина для 3D */
+}
+
 .card-container {
-    position: relative;
-    width: 200px;
-    height: 300px;
-    perspective: 1000px;
-  }
-  
-  .card-front,
-  .card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    transition: transform 0.6s;
-  }
-  
-  .card-front {
-    transform: rotateY(0deg);
-  }
-  
-  .card-back {
-    transform: rotateY(180deg);
-  }
-  
-  .card-container.flipped .card-front {
-    transform: rotateY(-180deg);
-  }
-  
-  .card-container.flipped .card-back {
-    transform: rotateY(0deg);
-  }
-  
+  position: relative;
+  width: 400px;
+  height: 150px;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease;
+}
+
+/* Эффект переворота при наведении */
+.card-wrapper:hover .card-container {
+  transform: rotateY(180deg) scale(1.05); /* Переворот и легкое увеличение */
+}
+
+/* Стили передней и задней стороны */
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden; /* Скрываем обратную сторону */
+}
+
+/* Лицевая сторона */
+.card-front {
+  transform: rotateY(0deg);
+}
+
+/* Обратная сторона */
+.card-back {
+  transform: rotateY(180deg);
+}

@@ -31,12 +31,19 @@ class EpicService extends BaseService {
       API_ENDPOINTS.EPIC.GET_CHAIN_FOR_SELECT,
       paths
     );
-    alert(endpoint)
     const response = await BaseService.request("get", endpoint);
-    console.log(response)
-    alert("result")
     return response;
   }
+  async createStory(paths, data) {
+
+    const endpoint = replaceParamsInUrl(
+      API_ENDPOINTS.EPIC.CREATE_STORY,
+      paths
+    );
+    const response = await BaseService.request("post", endpoint,data );
+    return response;
+  }
+  
 }
 
 const epicServiceInstance = new EpicService();

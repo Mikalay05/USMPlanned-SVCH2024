@@ -27,6 +27,8 @@ const QUERIES = {
     "SELECT * FROM create_customer_and_log_action($1,$2,$3, $4,$5);",
   CREATE_EPIC:
     "SELECT * FROM create_epic_and_log_action($1,$2,$3, $4,$5, $6);",
+    CREATE_STORY: 
+    "SELECT * FROM create_story_and_log_action($1,$2,$3, $4,$5, $6, $7,$8);"
 };
 
 module.exports = QUERIES;

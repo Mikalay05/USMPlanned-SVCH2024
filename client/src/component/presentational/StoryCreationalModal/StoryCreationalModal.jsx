@@ -8,7 +8,7 @@ export default function StoryCreationalModal({
   storyDescriptionField = "nameOfDescription",
   placeholderValues = {
     [storyNameField]: "Story name...",
-    [storyDescriptionField]: "Story description...",
+    [storyDescriptionField]: "Story result...",
   },
   dataOfValues = {
     [storyNameField]: "",

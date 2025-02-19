@@ -2,6 +2,7 @@ const EpicService = require('../services/EpicService')
 const EpicActionsDto = require('../DTOs/Data/Actions/EpicActionsDto');
 const InformationEpicDto = require('../DTOs/Data/Information/InformationEpicDto');
 const ChainForSelectionInTheEpic = require('../DTOs/Data/ChainForSelect/ChainForSelectionInTheEpic');
+const StoryForCreationDTO = require('../DTOs/ForCreation/StoryForCreationDTO');
 
 
 class EpicInformationController {
@@ -48,10 +49,15 @@ class EpicInformationController {
         }
     }
 
-    async createStoryForEpic(req, res, next) {
+    createStoryForEpic = async(req, res, next)=> {
         try {
-            //TODO Add a method implementation
-            throw new Error("Not implemented");
+            const paths = this.getParamsIdFromReq(req);
+            console.log("TEST",req.body)
+            const dataFromDto = new StoryForCreationDTO(req.body);
+            const userId = req.userIdFromToken;
+            
+            const result = await EpicService.createStoryForEpic(dataFromDto, paths, userId);
+            return await this.getChainForSelect(req,res,next);
         } catch (err) {
             console.error("Error in createStoryForEpic:", err);
             next(err);

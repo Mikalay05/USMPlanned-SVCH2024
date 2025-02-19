@@ -25,6 +25,11 @@ export default function SliderMapOfStoriesForTheCustomer({
   const storiesForSelectInTheEpic = useSelector(
     (state) => state.epic.storiesForSelectInTheEpic
   );
+  const currentCustomer = useSelector(
+    (state) => state.customer.currentCustomer
+  );
+  const dataCurrentCustomer = currentCustomer?.customerData || [];
+
   const data = storiesForSelectInTheEpic?.storiesData || [];
   const [isElementDragged, setIsElementDragged] = useState(false);
 
@@ -114,7 +119,7 @@ export default function SliderMapOfStoriesForTheCustomer({
       description: creationData[storyDescriptionField],
       next_id: getNextIdOfArray(currentIndex, data),
     };
-    //TODO request for create story
+
     dispatch(createStory({ paths: pathObject, dataForCreate: dataOfObject }))
       .unwrap()
       .then(() => {
@@ -161,7 +166,7 @@ export default function SliderMapOfStoriesForTheCustomer({
         draggedIndex={draggedIndex}
       >
         {displayedData.map((item, index) => (
-          <CardForStory key={index} dataOfObject={item} />
+          <CardForStory key={index} dataOfObject={item} nameOfUser={dataCurrentCustomer.name}/>
         ))}
       </SliderControls>
       <StoryCreationalModal
