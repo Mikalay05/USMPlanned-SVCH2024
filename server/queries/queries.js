@@ -30,6 +30,8 @@ const QUERIES = {
     "SELECT * FROM create_story_and_log_action($1,$2,$3, $4,$5, $6, $7,$8);",
   UPDATE_EPIC_DATA:
     "SELECT * FROM update_epic_with_log($1,$2,$3, $4,$5);",
+    DELETE_EPIC: 
+    "SELECT * FROM delete_epic($1,$2,$3, $4);"
 };
 
 module.exports = QUERIES;

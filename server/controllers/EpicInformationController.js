@@ -89,10 +89,12 @@ class EpicInformationController {
         }
     }
 
-    async deleteEpicById(req, res, next) {
+     deleteEpicById = async(req, res, next)=> {
         try {
-            //TODO Add a method implementation
-            throw new Error("Not implemented");
+            const paths = this.getParamsIdFromReq(req);
+            const userId = req.userIdFromToken; 
+            const result = await EpicService.deleteEpicById(paths, userId);
+            return res.status(200).json({message: "epic deleted"})
         } catch (err) {
             console.error("Error in deleteEpicById:", err);
             next(err);

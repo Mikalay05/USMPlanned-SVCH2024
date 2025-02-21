@@ -23,6 +23,9 @@ export const updateDataOfEpic = createAsyncThunk(
 export const deleteEpic = createAsyncThunk(
   "project/deleteEpic",
   async ({ paths }) => {
+    console.log(paths)
+    alert("TEST 1")
+
     const response = await EpicService.deleteEpic(paths);
     return response;
   }

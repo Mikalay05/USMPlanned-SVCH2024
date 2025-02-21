@@ -101,6 +101,28 @@ class EpicService {
       throw err;
     }
   }
+  async deleteEpicById(paths,byUserId) {
+    try {
+      /*
+    p_project_id INT,
+    p_customer_id INT,
+    p_epic_id INT,
+    p_user_id INT
+    */
+      const params = [
+        paths.projectId,
+        paths.customerId,
+        paths.epicId,
+        byUserId,
+      ];
+      const rows = await dbQuery(QUERIES.DELETE_EPIC, params);
+      const dataResult = rows;
+      return dataResult;
+    } catch (err) {
+      console.error("Error executing query:", err);
+      throw ApiError.badRequest("err mess") ;
+    }
+  }
 }
 
 module.exports = new EpicService();

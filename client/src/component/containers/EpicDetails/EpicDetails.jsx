@@ -76,7 +76,7 @@ export default function EpicDetails() {
     };
     try {
       
-      await dispatch(deleteEpic(paths)).unwrap();
+      await dispatch(deleteEpic({paths})).unwrap();
       alert("Epic deleted");
       navigate(`/information/${projectId}/${customerId}/`);
     } catch (err) {

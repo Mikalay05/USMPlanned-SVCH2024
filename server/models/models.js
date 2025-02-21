@@ -200,60 +200,51 @@ User.hasMany(Action, { foreignKey: perentUser });
 
 //========== Token ==========
 Token.belongsTo(User, { foreignKey: perentUser });
-
-//========== Action ==========
+//========== Action ========== 
 Action.belongsTo(User, { foreignKey: perentUser });
 Action.belongsTo(Project, { foreignKey: perentProject, onDelete: "CASCADE" });
 Action.belongsTo(Customer, { foreignKey: perentCustomer });
-Action.belongsTo(Epic, { foreignKey: perentEpic });
+Action.belongsTo(Epic, { foreignKey: perentEpic, onDelete: "CASCADE" });
 Action.belongsTo(Story, { foreignKey: perentStory });
 Action.belongsTo(Task, { foreignKey: perentTask });
 
-
-//========== ProjectStatus ==========
+//========== ProjectStatus ========== 
 ProjectStatus.hasMany(Project, { foreignKey: perentProjectStatus });
 
-//========== Project ==========
+//========== Project ========== 
 Project.belongsTo(ProjectStatus, { foreignKey: perentProjectStatus });
 
 Project.hasMany(Customer, { foreignKey: perentProject, onDelete: "CASCADE" });
 Project.hasMany(Action, { foreignKey: perentProject, onDelete: "CASCADE" });
-//========== Customer ==========
+
+//========== Customer ========== 
 Customer.belongsTo(Project, { foreignKey: perentProject, onDelete: "CASCADE" });
 
+Customer.hasMany(Epic, { foreignKey: perentCustomer, onDelete: "CASCADE" });
+Customer.hasMany(Action, { foreignKey: perentCustomer, onDelete: "CASCADE" });
 
-Customer.hasMany(Epic, { foreignKey: perentCustomer });
-Customer.hasMany(Action, { foreignKey: perentCustomer });
+//========== Epic ========== 
+Epic.belongsTo(Customer, { foreignKey: perentCustomer, onDelete: "CASCADE" });
 
+Epic.hasMany(Story, { foreignKey: perentEpic, onDelete: "CASCADE" });
+Epic.hasMany(Action, { foreignKey: perentEpic, onDelete: "CASCADE" });
 
-//========== Epic ==========
-Epic.belongsTo(Customer, { foreignKey: perentCustomer });
+//========== Story ========== 
+Story.belongsTo(Epic, { foreignKey: perentEpic, onDelete: "CASCADE" });
 
+Story.hasMany(Task, { foreignKey: perentStory, onDelete: "CASCADE" });
+Story.hasMany(Action, { foreignKey: perentStory, onDelete: "CASCADE" });
 
-Epic.hasMany(Story, { foreignKey: perentEpic });
-Epic.hasMany(Action, { foreignKey: perentEpic });
-
-
-//========== Story ==========
-Story.belongsTo(Epic, { foreignKey: perentEpic });
-
-
-Story.hasMany(Task, { foreignKey: perentStory });
-Story.hasMany(Action, { foreignKey: perentStory });
-
-
-//========== UrgencyStatus ==========
-
-//========== TaskStatus ==========
+//========== TaskStatus ========== 
 TaskStatus.hasMany(Task, { foreignKey: perentTaskStatus });
 
+//========== Task ========== 
+Task.belongsTo(TaskStatus, { foreignKey: perentTaskStatus, onDelete: "CASCADE" });
+Task.belongsTo(UrgencyStatus, { foreignKey: perentUrgencyStatus, onDelete: "CASCADE" });
+Task.belongsTo(Story, { foreignKey: perentStory, onDelete: "CASCADE" });
 
-//========== Task ==========
-Task.belongsTo(TaskStatus, { foreignKey: perentTaskStatus });
-Task.belongsTo(UrgencyStatus, { foreignKey: perentUrgencyStatus });
-Task.belongsTo(Story, { foreignKey: perentStory });
+Task.hasMany(Action, { foreignKey: perentTask, onDelete: "CASCADE" });
 
-Task.hasMany(Action, { foreignKey: perentTask });
 
 
 module.exports = {
