@@ -19,7 +19,8 @@ Function:
 13.	Управление приоритетами
 14.	Показ task`s на исполнение и в прогрессе
 15.	Фильтрация проектов
-
+netstat -ano | findstr :5000
+taskkill /PID <PID> /F
 Install:
 
 Backend:
