@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import PathForStory from "../../presentational/PathForStory/PathForStory";
 import CustomerButton from "../../CustomerButton/CustomerButton";
 import TaskFilterButtons from "../../presentational/TaskFilterButtons/TaskFilterButtons";
+import CustomerSelect from "../../CustomerSelect/CustomerSelect";
+import SelectItems from "../../presentational/SelectItems/SelectItems";
+
 //TODO get from server
 const urgencyStatuses = [
   { id: 1, name: "Высокая" },
@@ -22,6 +25,7 @@ export default function InformationForStory({
   filterKeyForCustomers = "name",
   filterKeyForEpics = "name",
   filterKeyForStories = "name",
+  filterKeyForTasks = "name",
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -63,7 +67,74 @@ export default function InformationForStory({
       );
     }
   };
+  const selectedProject = useSelector(
+    (state) => state.project.customersForSelectInTheProject
+  );
+  const selectedCustomer = useSelector(
+    (state) => state.customer.epicsForSelectInTheCustomer
+  );
+  const selectedEpic = useSelector(
+    (state) => state.epic.storiesForSelectInTheEpic
+  );
+  const selectedStory = useSelector(
+    (state) => state.story.tasksForSelectInTheStory
+  );
 
+  const customersArray = Array.isArray(selectedProject?.customersData)
+    ? selectedProject.customersData
+    : [];
+
+  const epicsArray = Array.isArray(selectedCustomer?.epicsData)
+    ? selectedCustomer.epicsData
+    : [];
+  const storiesArray = Array.isArray(selectedEpic?.storiesData)
+    ? selectedEpic.storiesData
+    : [];
+  const tasksArray = Array.isArray(selectedStory?.tasksData)
+    ? selectedStory.tasksData
+    : [];
+
+  const defaultValueOfCustomer = customersArray.find(
+    (customer) => customer.id === customerId
+  );
+  const defaultValueOfEpic = epicsArray.find((epic) => epic.id === epicId);
+  const defaultValueOfStory = storiesArray.find(
+    (story) => story.id === storyId
+  );
+
+  const handleSelectCustomer = (selectedCustomer) => {
+    if (selectedCustomer) {
+      navigate(`/information/${projectId}/${selectedCustomer.id}`);
+    } else {
+      navigate(`/information/${projectId}`);
+    }
+  };
+  const handleSelectEpic = (selectedEpic) => {
+    if (selectedEpic) {
+      navigate(`/information/${projectId}/${customerId}/${selectedEpic.id}`);
+    } else {
+      navigate(`/information/${projectId}/${customerId}`);
+    }
+  };
+  const handleSelectStory = (selectedStory) => {
+    if (selectedStory) {
+      navigate(
+        `/information/${projectId}/${customerId}/${epicId}/${selectedStory.id}`
+      );
+    } else {
+      navigate(`/information/${projectId}/${customerId}/${epicId}`);
+    }
+  };
+  const handleSelectTask = (selectedTask) => {
+    if (selectedTask) {
+      navigate(
+        `/information/${projectId}/${customerId}/${epicId}/${storyId}/${selectedTask.id}`
+      );
+    } else {
+      navigate(
+        `/information/${projectId}/${customerId}/${epicId}/${storyId}`
+      );    }
+  };
   return (
     <div className="container-InformationForStory">
       <h1>{projectData?.projectName || "Project Name Not Available"}</h1>
@@ -75,6 +146,24 @@ export default function InformationForStory({
         arrUrgencyStatuses={urgencyStatuses}
         onClickElement={handleOnClickFilterButton}
       />
+      <SelectItems
+        defaultValueOfCustomer={defaultValueOfCustomer}
+        defaultValueOfEpic={defaultValueOfEpic}
+        defaultValueOfStory={defaultValueOfStory}
+        customersArray={customersArray}
+        epicsArray={epicsArray}
+        storiesArray={storiesArray}
+        tasksArray={tasksArray}
+        filterKeyForCustomers={filterKeyForCustomers}
+        filterKeyForEpics={filterKeyForEpics}
+        filterKeyForStories={filterKeyForStories}
+        filterKeyForTasks={filterKeyForTasks}
+        handleSelectCustomer={handleSelectCustomer}
+        handleSelectEpic={handleSelectEpic}
+        handleSelectStory={handleSelectStory}
+        handleSelectTask={handleSelectTask}
+      />
+
       <PathForStory
         customerData={customerData}
         epicData={epicData}
