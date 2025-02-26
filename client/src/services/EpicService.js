@@ -21,7 +21,6 @@ class EpicService extends BaseService {
       API_ENDPOINTS.EPIC.GET_EPIC_DATA_BY_ID,
       paths
     );
-
     const response = await BaseService.request("get", endpoint);
     return response;
   }

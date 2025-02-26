@@ -1,5 +1,7 @@
 const StoryService = require('../services/StoryService')
-const StoryActionsDto = require('../DTOs/Data/Actions/StoryActionsDto')
+const StoryActionsDto = require('../DTOs/Data/Actions/StoryActionsDto');
+const InformationStoryDto = require('../DTOs/Data/Information/InformationStoryDto');
+const { response } = require('express');
 
 class StoryInformationController {
     constructor(
@@ -13,6 +15,13 @@ class StoryInformationController {
         this.EPIC_ID_PROPERTY = epicIdProperty;
         this.STORY_ID_PROPERTY = storyIdProperty;
       }
+      getParamsIdFromReq = (req) => {
+        const projectId =Number(req.params[this.PROJECT_ID_PROPERTY]);
+        const customerId = Number(req.params[this.CUSTOMER_ID_PROPERTY]);
+        const epicId = Number(req.params[this.EPIC_ID_PROPERTY]);
+        const storyId = Number(req.params[this.STORY_ID_PROPERTY]);
+        return { customerId, projectId,epicId, storyId };
+      };
     getStoryIdFromReqParams = (req) => {
         const storyId = req.params[this.STORY_ID_PROPERTY];
         return storyId;
@@ -32,10 +41,12 @@ class StoryInformationController {
           next(err); // Передаем ошибку дальше
         }
       };
-    async getStoryById(req, res, next) {
+    getStoryById = async(req, res, next)=> {
         try {
-            //TODO Add a method implementation
-            throw new Error("Not implemented");
+            const paths = this.getParamsIdFromReq(req);
+            const response = await StoryService.getStoryData(paths);
+            const result = new InformationStoryDto(response);
+            return res.status(200).json(result);
         } catch (err) {
             console.log("Error in getStoryById:", err);
             next(err);

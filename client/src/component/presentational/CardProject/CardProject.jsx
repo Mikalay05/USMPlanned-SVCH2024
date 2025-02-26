@@ -16,7 +16,7 @@ export default function CardProject({
       onClickOnEmptyElement();
       return;
     }
-
+    
   }
   if (isEmpty) {
     return (

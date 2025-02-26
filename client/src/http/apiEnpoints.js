@@ -26,9 +26,9 @@ export const API_ENDPOINTS = {
         DELETE_EPIC: 'information/:projectId/:customerId/:epicId/',
     },
     STORY: {
-        GET_STORY_ACTIONS_BY_ID: 'information/:projectId/:customerId/:epic/:storyId/actions',
-        GET_STORY_DATA_BY_ID: 'information/:projectId/:customerId/:epic/:storyId/data',
-        GET_CHAIN_FOR_SELECT: 'information/:projectId/:customerId/:epic/:storyId/getChainForSelect',
+        GET_STORY_ACTIONS_BY_ID: 'information/:projectId/:customerId/:epicId/:storyId/actions',
+        GET_STORY_DATA_BY_ID: 'information/:projectId/:customerId/:epicId/:storyId/data',
+        GET_CHAIN_FOR_SELECT: 'information/:projectId/:customerId/:epicId/:storyId/getChainForSelect',
 
     },
     TASK: {
