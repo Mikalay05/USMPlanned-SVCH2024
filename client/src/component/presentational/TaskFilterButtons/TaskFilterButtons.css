@@ -1,0 +1,10 @@
+.container-buttons-TaskStatuses {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+.container-buttons-UrgencyStatuses {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px; 
+}
