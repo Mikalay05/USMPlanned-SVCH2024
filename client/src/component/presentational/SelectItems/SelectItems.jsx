@@ -1,7 +1,6 @@
-// SelectItems.js
 import React from "react";
 import CustomerSelect from "../../CustomerSelect/CustomerSelect";
-
+import './SelectItems.css'
 const SelectItems = ({
   defaultValueOfCustomer,
   defaultValueOfEpic,
