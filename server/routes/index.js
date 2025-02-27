@@ -22,5 +22,6 @@ initializeRoute('user', 'user');
 initializeRoute('projectStatus', 'projectStatus');
 initializeRoute('information', 'information');
 initializeRoute('project', 'project');
+initializeRoute('taskStatus', 'taskStatus');
 
 module.exports = router;

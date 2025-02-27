@@ -7,6 +7,7 @@ import customerReducer from './slices/customerSlice';
 import epicReducer from './slices/epicSlice';
 import storyReducer from './slices/storySlice';
 import taskReducer from './slices/taskSlice';
+import taskStatusReducer from './slices/taskStatusSlice';
 
 
 const store = configureStore({
@@ -19,6 +20,7 @@ const store = configureStore({
         epic: epicReducer,
         story: storyReducer,
         task: taskReducer,
+        taskStatus: taskStatusReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({ serializableCheck: false }),

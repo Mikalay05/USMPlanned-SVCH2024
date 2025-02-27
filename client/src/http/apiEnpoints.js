@@ -53,5 +53,8 @@ export const API_ENDPOINTS = {
         PATCH_CHANGE_PASSWORD_USER: '/user/changePassword/:userId',
         GET_USER_DATA_BY_ID: '/user/data/:userId',
         UPDATE_USER_DATA_BY_ID: 'user/data/:userId'
+    },
+    TASK_STATUS: {
+        GET_TASK_STATUS: 'taskStatus/',
     }
 };

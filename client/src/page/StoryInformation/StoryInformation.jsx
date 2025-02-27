@@ -3,8 +3,9 @@ import "./StoryInformation.css";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getCurrentUserData } from "../../store/slices/userSlice";
 
+import { getCurrentUserData } from "../../store/slices/userSlice";
+import { getTaskStatuses } from "../../store/slices/taskStatusSlice";
 import {
   getProjectDataById,
   getChainForSelectionInTheProject,
@@ -31,6 +32,7 @@ export default function StoryInformation({}) {
   const { projectId, customerId, epicId, storyId } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(getTaskStatuses());
     dispatch(getCurrentUserData());
     const paths = { projectId, customerId, epicId, storyId };
     if (storyId) {
