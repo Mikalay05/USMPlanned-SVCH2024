@@ -34,6 +34,20 @@ class StoryService {
       });
     }
   }
+  async getChainForSelect(storyId) {
+    try {
+      const params = [storyId];
+      const rows = await dbQuery(QUERIES.GET_CHAIN_OF_TASKS_FOR_STORY, params);
+      const actions = rows[0].get_chain_of_tasks_for_story;  // Извлекаем внутренний массив
+      return actions;
+    } catch (err) {
+      console.error("Error executing query:", err);
+      throw ApiError.internal("Ошибка получения chain для story", {
+        paths,
+        error: err.message
+      });
+    }
+  }
 }
 
 module.exports = new StoryService();

@@ -52,7 +52,6 @@ export const getChainForSelectionInTheEpic = createAsyncThunk(
   "project/getChainForSelectionInTheEpic",
   async ({ paths }) => {
     const response = await EpicService.getChainForSelectionInTheEpic(paths);
-    //TODO DTO
     const result = response;
     return result;
   }

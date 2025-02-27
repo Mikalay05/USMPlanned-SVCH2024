@@ -3,16 +3,16 @@ const storyInformationRouter = express.Router({ mergeParams: true });
 const storyInformationController = require("../controllers/StoryInformationController");
 const authMiddleware = require('../middleware/AuthMiddleware')
 
-storyInformationRouter.use((req, res, next) => {
-    console.log("STORY Request Info:");
-    console.log("Method:", req.method); // Метод запроса (GET, POST, и т.д.)
-    console.log("URL:", req.originalUrl); // Полный URL запроса
-    console.log("Params:", req.params); // Параметры маршрута
-    console.log("Query:", req.query); // Параметры строки запроса
-    console.log("Body:", req.body); // Тело запроса, если есть (для POST, PUT и т.д.)
+// storyInformationRouter.use((req, res, next) => {
+//     console.log("STORY Request Info:");
+//     console.log("Method:", req.method); // Метод запроса (GET, POST, и т.д.)
+//     console.log("URL:", req.originalUrl); // Полный URL запроса
+//     console.log("Params:", req.params); // Параметры маршрута
+//     console.log("Query:", req.query); // Параметры строки запроса
+//     console.log("Body:", req.body); // Тело запроса, если есть (для POST, PUT и т.д.)
   
-    next(); // Передаем управление следующему middleware или обработчику
-  });
+//     next(); // Передаем управление следующему middleware или обработчику
+//   });
 
 
 //Возращает данные о story согласно первичному ключу

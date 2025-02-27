@@ -8,6 +8,14 @@ import StoryService from "../../services/StoryService";
  */
 import StoryActionsDto from "../../DTOs/Data/Actions/StoryActionsDto";
 import InformationStoryDto from "../../DTOs/Data/Information/InformationStoryDto";
+export const getChainForSelectionInTheStory = createAsyncThunk(
+  "project/getChainForSelectionInTheStory",
+  async ({paths}) => {
+    const response = await StoryService.getChainForSelectionInTheStory(paths);
+    const result = response;
+    return result;
+  }
+);
 
 // Получение всех actions для story
 export const getStoryActions = createAsyncThunk(
@@ -26,8 +34,6 @@ export const getCurrentStory = createAsyncThunk(
   async ({ paths }) => {
     const response = await StoryService.getCurrentStory({ paths });
     const result = new InformationStoryDto(response);
-    console.log("TES", result);
-    alert(1);
     return result;
   }
 );
@@ -74,6 +80,17 @@ const storySlice = createSlice({
       })
       .addCase(getCurrentStory.rejected, (state) => {
         state.currentStory.isLoading = false;
+      }) 
+      //GROUP getChainForSelectionInTheStory
+      .addCase(getChainForSelectionInTheStory.pending, (state) => {
+        state.tasksForSelectInTheStory.isLoading = true;
+      })
+      .addCase(getChainForSelectionInTheStory.fulfilled, (state, action) => {
+        state.tasksForSelectInTheStory.storiesData = action.payload;
+        state.tasksForSelectInTheStory.isLoading = false;
+      })
+      .addCase(getChainForSelectionInTheStory.rejected, (state) => {
+        state.tasksForSelectInTheStory.isLoading = false;
       });
   },
 });

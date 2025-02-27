@@ -20,6 +20,7 @@ import {
 import {
   getStoryActions,
   getCurrentStory,
+  getChainForSelectionInTheStory,
 } from "../../store/slices/storySlice";
 
 import Header from "../../component/containers/Header/Header";
@@ -35,7 +36,7 @@ export default function StoryInformation({}) {
     if (storyId) {
       dispatch(getStoryActions(storyId));
       dispatch(getCurrentStory({ paths }));
-      //   dispatch(getChainForSelectionInTheEpic({ paths }));
+      dispatch(getChainForSelectionInTheStory({ paths }));
     }
     if (projectId) {
       dispatch(getProjectDataById(projectId));

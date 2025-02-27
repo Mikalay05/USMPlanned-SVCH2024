@@ -2,17 +2,17 @@ const express = require("express");
 const epicInformationRouter  = express.Router({ mergeParams: true });
 const epicInformationController = require("../controllers/EpicInformationController");
 const authMiddleware = require('../middleware/AuthMiddleware')
-// Middleware для логирования данных запроса
-epicInformationRouter.use((req, res, next) => {
-    console.log("EPIC Request Info:");
-    console.log("Method:", req.method); // Метод запроса (GET, POST, и т.д.)
-    console.log("URL:", req.originalUrl); // Полный URL запроса
-    console.log("Params:", req.params); // Параметры маршрута
-    console.log("Query:", req.query); // Параметры строки запроса
-    console.log("Body:", req.body); // Тело запроса, если есть (для POST, PUT и т.д.)
+// // Middleware для логирования данных запроса
+// epicInformationRouter.use((req, res, next) => {
+//     console.log("EPIC Request Info:");
+//     console.log("Method:", req.method); // Метод запроса (GET, POST, и т.д.)
+//     console.log("URL:", req.originalUrl); // Полный URL запроса
+//     console.log("Params:", req.params); // Параметры маршрута
+//     console.log("Query:", req.query); // Параметры строки запроса
+//     console.log("Body:", req.body); // Тело запроса, если есть (для POST, PUT и т.д.)
   
-    next(); // Передаем управление следующему middleware или обработчику
-  });
+//     next(); // Передаем управление следующему middleware или обработчику
+//   });
 
 //Возращает данные о epic согласно первичному ключу
 epicInformationRouter.get(`/data`, authMiddleware, epicInformationController.getEpicById);
